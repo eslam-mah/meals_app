@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/home/view/widgets/delivery_location.dart';
 import 'package:meals_app/features/home/view/widgets/hot_offer_card.dart';
 import 'package:meals_app/features/home/view/widgets/meal_card.dart';
+import 'package:meals_app/features/home/view/widgets/recommended_item.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class HomeView extends StatelessWidget {
@@ -54,15 +55,15 @@ class HomeView extends StatelessWidget {
                     
                     SizedBox(height: 24.h),
                     
-                    // Hot deals section
-                    _buildSectionTitle(localization.hotDeals),
+                    // Recommended section
+                    _buildSectionTitle(localization.recommended),
                     
                     SizedBox(height: 8.h),
                     
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
-                        localization.hotDealsDescription,
+                        localization.recommendedDescription,
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: Colors.grey.shade600,
@@ -72,7 +73,7 @@ class HomeView extends StatelessWidget {
                     
                     SizedBox(height: 16.h),
                     
-                    // Hot deals list
+                    // Recommended meals list
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -81,7 +82,7 @@ class HomeView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(bottom: 12.h),
-                          child: const MealCard(),
+                          child:  RecommendedItem(),
                         );
                       },
                     ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
-import 'package:meals_app/features/home/router/main_router.dart';
+import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/features/home/main_router.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class MainView extends StatefulWidget {

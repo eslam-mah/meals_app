@@ -41,6 +41,14 @@
   "streetAndBuildingHint": "Street name and building number",
   "pleaseEnterArea": "Please enter your area",
   
+  "pleaseEnterYourName": "Please enter your name",
+  "pleaseEnterYourEmail": "Please enter your email",
+  "pleaseEnterValidEmail": "Please enter a valid email address",
+  "pleaseEnterPassword": "Please enter a password",
+  "passwordMustBeAtLeast8": "Password must be at least 8 characters",
+  "formSubmittedSuccessfully": "Form submitted successfully!",
+  "emailExample": "meals@example.com",
+  
   "cairo": "Cairo",
   "giza": "Giza",
   "alexandria": "Alexandria",
@@ -72,6 +80,8 @@
   "hotDeals": "Hot Deals",
   "deliveryTo": "Delivery to",
   "hotDealsDescription": "These items are available for a limited time only. Take advantage of these wonderful deals before it is too late. Try it now!",
+  "recommended": "Recommended",
+  "recommendedDescription": "Dishes our customers love the most. Try our most popular options that are sure to satisfy your cravings!",
   "home": "Home",
   "menu": "Menu"
 }

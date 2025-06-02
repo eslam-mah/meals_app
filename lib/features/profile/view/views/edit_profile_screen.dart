@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
-import 'package:meals_app/features/home/view/views/home_view.dart';
 import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/features/profile/view/widgets/city_selector.dart';
 import 'package:meals_app/features/profile/view/widgets/profile_input_field.dart';
 import 'package:meals_app/generated/l10n.dart';
 
-class ProfileScreen extends StatefulWidget {
-  static const String routeName = '/profile';
+class EditProfileScreen extends StatefulWidget {
+  static const String routeName = '/edit_profile';
 
-  const ProfileScreen({Key? key}) : super(key: key);
+  const EditProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -45,19 +44,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your name';
+      return S.of(context).pleaseEnterYourName;
     }
     return null;
   }
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return S.of(context).pleaseEnterYourEmail;
     }
 
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return S.of(context).pleaseEnterValidEmail;
     }
 
     return null;
@@ -65,11 +64,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return S.of(context).pleaseEnterPassword;
     }
 
     if (value.length < 8) {
-      return 'Password must be at least 8 characters';
+      return S.of(context).passwordMustBeAtLeast8;
     }
 
     return null;
@@ -180,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(height: 8.h),
 
                       ProfileInputField(
-                        hintText: "meals@example.com",
+                        hintText: localization.emailExample,
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
                         validator: _validateEmail,
@@ -256,7 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             // Form is valid, proceed with submission
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Form submitted successfully!'),
+                                content: Text(localization.formSubmittedSuccessfully),
                               ),
                             );
                             GoRouter.of(context).push(MainView.mainPath);

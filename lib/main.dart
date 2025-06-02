@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meals_app/core/responsive/responsive_manager.dart';
 import 'package:meals_app/core/router/app_router.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/utils/shared_prefs.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_state.dart';

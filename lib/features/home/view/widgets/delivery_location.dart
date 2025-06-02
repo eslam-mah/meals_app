@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/generated/l10n.dart';
 
 class DeliveryLocation extends StatelessWidget {
   
@@ -10,6 +11,8 @@ class DeliveryLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = S.of(context);
+    
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
       decoration: BoxDecoration(
@@ -27,7 +30,7 @@ class DeliveryLocation extends StatelessWidget {
           Icon(
             Icons.location_on,
             color: ColorsBox.primaryColor,
-            size: 24.r,
+            size: 40.r,
           ),
           SizedBox(width: 8.w),
           
@@ -36,9 +39,9 @@ class DeliveryLocation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Delivery to',
+                localization.deliveryTo,
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 16.sp,
                   color: ColorsBox.primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
@@ -49,7 +52,7 @@ class DeliveryLocation extends StatelessWidget {
                   Text(
                     'location',
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -57,7 +60,7 @@ class DeliveryLocation extends StatelessWidget {
                   SizedBox(width: 4.w),
                   Icon(
                     Icons.keyboard_arrow_down,
-                    size: 20.r,
+                    size: 25.r,
                     color: Colors.black,
                   ),
                 ],

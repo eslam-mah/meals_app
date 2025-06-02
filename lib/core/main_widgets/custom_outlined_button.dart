@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/core/responsive/responsive_manager.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final String title;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/core/responsive/responsive_manager.dart';
-import 'package:meals_app/core/utils/assets_box.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/features/onboarding/models/onboarding_page_model.dart';
 import 'package:meals_app/generated/l10n.dart';
 

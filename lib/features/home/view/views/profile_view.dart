@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileView extends StatelessWidget {
-    static const String profilePath = '/profile_Bottom_Navigation_Bar';
+    static const String profilePath = '/profile';
 
   const ProfileView({super.key});
 

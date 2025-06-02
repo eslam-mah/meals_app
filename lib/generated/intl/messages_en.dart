@@ -47,11 +47,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "Didn\'t receive the code?",
     ),
     "emailAddress": MessageLookupByLibrary.simpleMessage("Email Address"),
+    "emailExample": MessageLookupByLibrary.simpleMessage("meals@example.com"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterYourFullName": MessageLookupByLibrary.simpleMessage(
       "Enter your full name",
     ),
     "faiyum": MessageLookupByLibrary.simpleMessage("Faiyum"),
+    "formSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Form submitted successfully!",
+    ),
     "fullName": MessageLookupByLibrary.simpleMessage("Full name"),
     "getStarted": MessageLookupByLibrary.simpleMessage("GET STARTED"),
     "gharbia": MessageLookupByLibrary.simpleMessage("Gharbia"),
@@ -97,6 +101,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Free delivery offers",
     ),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordMustBeAtLeast8": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters",
+    ),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
       "Please enter your phone number",
@@ -107,10 +114,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterArea": MessageLookupByLibrary.simpleMessage(
       "Please enter your area",
     ),
+    "pleaseEnterPassword": MessageLookupByLibrary.simpleMessage(
+      "Please enter a password",
+    ),
+    "pleaseEnterValidEmail": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid email address",
+    ),
+    "pleaseEnterYourEmail": MessageLookupByLibrary.simpleMessage(
+      "Please enter your email",
+    ),
+    "pleaseEnterYourName": MessageLookupByLibrary.simpleMessage(
+      "Please enter your name",
+    ),
     "portSaid": MessageLookupByLibrary.simpleMessage("Port Said"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "qalyubia": MessageLookupByLibrary.simpleMessage("Qalyubia"),
     "qena": MessageLookupByLibrary.simpleMessage("Qena"),
+    "recommended": MessageLookupByLibrary.simpleMessage("Recommended"),
+    "recommendedDescription": MessageLookupByLibrary.simpleMessage(
+      "Dishes our customers love the most. Try our most popular options that are sure to satisfy your cravings!",
+    ),
     "redSea": MessageLookupByLibrary.simpleMessage("Red Sea"),
     "selectYourCity": MessageLookupByLibrary.simpleMessage("Select your city"),
     "sharqia": MessageLookupByLibrary.simpleMessage("Sharqia"),

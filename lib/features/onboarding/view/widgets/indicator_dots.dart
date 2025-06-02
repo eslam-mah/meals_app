@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 
 class IndicatorDots extends StatelessWidget {
   final int dotsCount;

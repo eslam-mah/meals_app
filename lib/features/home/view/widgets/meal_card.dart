@@ -22,14 +22,14 @@ class MealCard extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
           ),
-          padding: EdgeInsets.all(16.r),
+          padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 20.r),
           child: Row(
             children: [
               // Logo image
               Image.asset(
                 'assets/icons/logo.png',
                 width: 80.w,
-                height: 80.h,
+                height: 90.h,
                 fit: BoxFit.contain,
               ),
               SizedBox(width: 16.w),
@@ -48,7 +48,7 @@ class MealCard extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 6.h),
                     
                     // Description
                     Text(
@@ -77,7 +77,7 @@ class MealCard extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 13.h),
                   Container(
                     width: 40.w,
                     height: 40.h,

@@ -47,11 +47,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "لم تتلق رمز التحقق؟",
     ),
     "emailAddress": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+    "emailExample": MessageLookupByLibrary.simpleMessage("meals@example.com"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterYourFullName": MessageLookupByLibrary.simpleMessage(
       "أدخل اسمك الكامل",
     ),
     "faiyum": MessageLookupByLibrary.simpleMessage("الفيوم"),
+    "formSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم تقديم النموذج بنجاح!",
+    ),
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
     "getStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
     "gharbia": MessageLookupByLibrary.simpleMessage("الغربية"),
@@ -95,6 +99,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "عروض توصيل مجانية",
     ),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "passwordMustBeAtLeast8": MessageLookupByLibrary.simpleMessage(
+      "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+    ),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال رقم الهاتف",
@@ -105,10 +112,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterArea": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال المنطقة",
     ),
+    "pleaseEnterPassword": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال كلمة المرور",
+    ),
+    "pleaseEnterValidEmail": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال بريد إلكتروني صحيح",
+    ),
+    "pleaseEnterYourEmail": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال بريدك الإلكتروني",
+    ),
+    "pleaseEnterYourName": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال اسمك",
+    ),
     "portSaid": MessageLookupByLibrary.simpleMessage("بورسعيد"),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "qalyubia": MessageLookupByLibrary.simpleMessage("القليوبية"),
     "qena": MessageLookupByLibrary.simpleMessage("قنا"),
+    "recommended": MessageLookupByLibrary.simpleMessage("موصى به"),
+    "recommendedDescription": MessageLookupByLibrary.simpleMessage(
+      "الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!",
+    ),
     "redSea": MessageLookupByLibrary.simpleMessage("البحر الأحمر"),
     "selectYourCity": MessageLookupByLibrary.simpleMessage("اختر مدينتك"),
     "sharqia": MessageLookupByLibrary.simpleMessage("الشرقية"),

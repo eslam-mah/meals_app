@@ -41,6 +41,14 @@
   "streetAndBuildingHint": "اسم الشارع ورقم المبنى",
   "pleaseEnterArea": "الرجاء إدخال المنطقة",
   
+  "pleaseEnterYourName": "الرجاء إدخال اسمك",
+  "pleaseEnterYourEmail": "الرجاء إدخال بريدك الإلكتروني",
+  "pleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح",
+  "pleaseEnterPassword": "الرجاء إدخال كلمة المرور",
+  "passwordMustBeAtLeast8": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+  "formSubmittedSuccessfully": "تم تقديم النموذج بنجاح!",
+  "emailExample": "meals@example.com",
+  
   "cairo": "القاهرة",
   "giza": "الجيزة",
   "alexandria": "الإسكندرية",
@@ -72,6 +80,8 @@
   "hotDeals": "عروض ساخنة",
   "deliveryTo": "التوصيل إلى",
   "hotDealsDescription": "هذه العناصر متاحة لفترة محدودة فقط. استفد من هذه العروض الرائعة قبل فوات الأوان. جربها الآن!",
+  "recommended": "موصى به",
+  "recommendedDescription": "الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!",
   "home": "الرئيسية",
   "menu": "القائمة",
   "profile": "الملف الشخصي"

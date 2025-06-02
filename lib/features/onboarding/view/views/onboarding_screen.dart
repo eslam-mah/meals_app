@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/authentication/view/views/phone_auth_screen.dart';
 import 'package:meals_app/features/onboarding/models/onboarding_page_model.dart';
 import 'package:meals_app/features/onboarding/view/widgets/indicator_dots.dart';

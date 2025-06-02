@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
-import 'package:meals_app/core/utils/colors_box.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/authentication/view/views/otp_verification_screen.dart';
 import 'package:meals_app/features/authentication/view/widgets/phone_input_field.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';

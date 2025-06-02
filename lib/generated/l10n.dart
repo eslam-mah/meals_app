@@ -385,6 +385,76 @@ class S {
     );
   }
 
+  /// `الرجاء إدخال اسمك`
+  String get pleaseEnterYourName {
+    return Intl.message(
+      'الرجاء إدخال اسمك',
+      name: 'pleaseEnterYourName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء إدخال بريدك الإلكتروني`
+  String get pleaseEnterYourEmail {
+    return Intl.message(
+      'الرجاء إدخال بريدك الإلكتروني',
+      name: 'pleaseEnterYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء إدخال بريد إلكتروني صحيح`
+  String get pleaseEnterValidEmail {
+    return Intl.message(
+      'الرجاء إدخال بريد إلكتروني صحيح',
+      name: 'pleaseEnterValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء إدخال كلمة المرور`
+  String get pleaseEnterPassword {
+    return Intl.message(
+      'الرجاء إدخال كلمة المرور',
+      name: 'pleaseEnterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يجب أن تكون كلمة المرور 8 أحرف على الأقل`
+  String get passwordMustBeAtLeast8 {
+    return Intl.message(
+      'يجب أن تكون كلمة المرور 8 أحرف على الأقل',
+      name: 'passwordMustBeAtLeast8',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم تقديم النموذج بنجاح!`
+  String get formSubmittedSuccessfully {
+    return Intl.message(
+      'تم تقديم النموذج بنجاح!',
+      name: 'formSubmittedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `meals@example.com`
+  String get emailExample {
+    return Intl.message(
+      'meals@example.com',
+      name: 'emailExample',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `القاهرة`
   String get cairo {
     return Intl.message('القاهرة', name: 'cairo', desc: '', args: []);
@@ -540,6 +610,21 @@ class S {
     return Intl.message(
       'هذه العناصر متاحة لفترة محدودة فقط. استفد من هذه العروض الرائعة قبل فوات الأوان. جربها الآن!',
       name: 'hotDealsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `موصى به`
+  String get recommended {
+    return Intl.message('موصى به', name: 'recommended', desc: '', args: []);
+  }
+
+  /// `الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!`
+  String get recommendedDescription {
+    return Intl.message(
+      'الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!',
+      name: 'recommendedDescription',
       desc: '',
       args: [],
     );
