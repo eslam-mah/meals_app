@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meals_app/core/config/colors_box.dart';
 
 class MealCard extends StatelessWidget {
   const MealCard({
@@ -82,7 +83,7 @@ class MealCard extends StatelessWidget {
                     width: 40.w,
                     height: 40.h,
                     decoration: BoxDecoration(
-                      color: Colors.orange,
+                      color: ColorsBox.primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

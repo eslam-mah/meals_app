@@ -195,10 +195,10 @@ class S {
     );
   }
 
-  /// `الشروط والاتفاقيات`
+  /// `الشروط والأحكام`
   String get termsAndConditions {
     return Intl.message(
-      'الشروط والاتفاقيات',
+      'الشروط والأحكام',
       name: 'termsAndConditions',
       desc: '',
       args: [],
@@ -638,6 +638,116 @@ class S {
   /// `القائمة`
   String get menu {
     return Intl.message('القائمة', name: 'menu', desc: '', args: []);
+  }
+
+  /// `طلباتي`
+  String get myOrders {
+    return Intl.message('طلباتي', name: 'myOrders', desc: '', args: []);
+  }
+
+  /// `العناوين المحفوظة`
+  String get savedAddresses {
+    return Intl.message(
+      'العناوين المحفوظة',
+      name: 'savedAddresses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عربة التسوق`
+  String get cart {
+    return Intl.message('عربة التسوق', name: 'cart', desc: '', args: []);
+  }
+
+  /// `نقاط الولاء`
+  String get loyaltyPoints {
+    return Intl.message(
+      'نقاط الولاء',
+      name: 'loyaltyPoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ملاحظات`
+  String get feedback {
+    return Intl.message('ملاحظات', name: 'feedback', desc: '', args: []);
+  }
+
+  /// `اتصل بالدعم`
+  String get callSupport {
+    return Intl.message('اتصل بالدعم', name: 'callSupport', desc: '', args: []);
+  }
+
+  /// `الإعدادات`
+  String get settings {
+    return Intl.message('الإعدادات', name: 'settings', desc: '', args: []);
+  }
+
+  /// `تفاصيل الحساب`
+  String get accountDetails {
+    return Intl.message(
+      'تفاصيل الحساب',
+      name: 'accountDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `معلومات الحساب`
+  String get accountInfo {
+    return Intl.message(
+      'معلومات الحساب',
+      name: 'accountInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تغيير كلمة المرور`
+  String get changePassword {
+    return Intl.message(
+      'تغيير كلمة المرور',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `التفضيلات`
+  String get preferences {
+    return Intl.message('التفضيلات', name: 'preferences', desc: '', args: []);
+  }
+
+  /// `اللغة`
+  String get language {
+    return Intl.message('اللغة', name: 'language', desc: '', args: []);
+  }
+
+  /// `سياسة الخصوصية`
+  String get privacyPolicy {
+    return Intl.message(
+      'سياسة الخصوصية',
+      name: 'privacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إصدار التطبيق`
+  String get appVersion {
+    return Intl.message(
+      'إصدار التطبيق',
+      name: 'appVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تسجيل الخروج`
+  String get logout {
+    return Intl.message('تسجيل الخروج', name: 'logout', desc: '', args: []);
   }
 }
 

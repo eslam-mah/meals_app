@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/features/home/view/widgets/profile_header.dart';
+import 'package:meals_app/generated/l10n.dart';
 
 class ProfileView extends StatelessWidget {
     static const String profilePath = '/profile';
@@ -8,40 +11,69 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = S.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 60.r,
-                backgroundColor: Colors.orange.withOpacity(0.2),
-                child: Icon(
-                  Icons.person,
-                  size: 80.r,
-                  color: Colors.orange,
-                ),
-              ),
-              SizedBox(height: 24.h),
-              Text(
-                'Profile Coming Soon',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 20.w, top: 24.h, bottom: 8.h),
+              child: Text(
+                localization.profile,
                 style: TextStyle(
-                  fontSize: 24.sp,
+                  fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-              SizedBox(height: 16.h),
-              Text(
-                'Your profile is under construction',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.grey,
-                ),
+            ),
+            ProfileHeader(
+            
+            ),
+            Divider(height: 1, color: Colors.grey.shade300),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.shopping_bag, color: ColorsBox.primaryColor, size: 28.r),
+                    title: Text(localization.myOrders, style: TextStyle(fontSize: 17.sp)),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.home, color: ColorsBox.primaryColor, size: 28.r),
+                    title: Text(localization.savedAddresses, style: TextStyle(fontSize: 17.sp)),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.shopping_cart, color: ColorsBox.primaryColor, size: 28.r),
+                    title: Text(localization.cart, style: TextStyle(fontSize: 17.sp)),
+                    onTap: () {},
+                  ),
+              
+                  ListTile(
+                    leading: Icon(Icons.feedback, color: ColorsBox.primaryColor, size: 28.r),
+                    title: Text(localization.feedback, style: TextStyle(fontSize: 17.sp)),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.phone, color: ColorsBox.primaryColor, size: 28.r),
+                    title: Text(localization.callSupport, style: TextStyle(fontSize: 17.sp)),
+                    trailing: Text(
+                      '19914',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

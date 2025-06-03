@@ -83,5 +83,21 @@
   "recommended": "Recommended",
   "recommendedDescription": "Dishes our customers love the most. Try our most popular options that are sure to satisfy your cravings!",
   "home": "Home",
-  "menu": "Menu"
+  "menu": "Menu",
+  "myOrders": "My orders",
+  "savedAddresses": "Saved Addresses",
+  "cart": "Cart",
+  "loyaltyPoints": "Loyalty Points",
+  "feedback": "Feedback",
+  "callSupport": "Call support",
+  "settings": "Settings",
+  "accountDetails": "Account details",
+  "accountInfo": "Account info",
+  "changePassword": "Change password",
+  "preferences": "Preferences",
+  "language": "Language",
+  "termsAndConditions": "Terms and conditions",
+  "privacyPolicy": "Privacy Policy",
+  "appVersion": "App Version",
+  "logout": "Logout"
 }

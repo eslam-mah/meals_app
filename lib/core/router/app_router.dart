@@ -5,6 +5,7 @@ import 'package:meals_app/features/home/main_router.dart';
 import 'package:meals_app/features/location/location_router.dart';
 import 'package:meals_app/features/profile/profile_router.dart';
 import 'package:meals_app/features/onboarding/view/views/onboarding_screen.dart';
+import 'package:meals_app/features/settings/settings_router.dart';
 
 class AppRouter {
   static Map<String, WidgetBuilder> routes = {
@@ -24,6 +25,7 @@ class AppRouter {
       ...AuthenticationRouter.goRoutes,
       ...LocationRouter.goRoutes,
       ...ProfileRouter.goRoutes,
+      ...SettingsRouter.goRoutes,
     ],
   );
 } 

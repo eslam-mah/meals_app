@@ -7,16 +7,16 @@ import 'package:meals_app/features/profile/view/widgets/city_selector.dart';
 import 'package:meals_app/features/profile/view/widgets/profile_input_field.dart';
 import 'package:meals_app/generated/l10n.dart';
 
-class EditProfileScreen extends StatefulWidget {
-  static const String routeName = '/edit_profile';
+class AddProfileDetailsScreen extends StatefulWidget {
+  static const String routeName = '/add_profile_details';
 
-  const EditProfileScreen({super.key});
+  const AddProfileDetailsScreen({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  State<AddProfileDetailsScreen> createState() => _AddProfileDetailsScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();

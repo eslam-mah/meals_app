@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
-import 'package:meals_app/features/profile/view/views/edit_profile_screen.dart';
+import 'package:meals_app/features/profile/view/views/add_profile_details_screen.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class LocationAccessScreen extends StatelessWidget {
@@ -44,7 +44,7 @@ class LocationAccessScreen extends StatelessWidget {
                 color: theme.colorScheme.primary,
                 width: double.infinity,
                 onTap: () {
-                  GoRouter.of(context).go(EditProfileScreen.routeName);
+                  GoRouter.of(context).go(AddProfileDetailsScreen.routeName);
                 },
               ),
               
