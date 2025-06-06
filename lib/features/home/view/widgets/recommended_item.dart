@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
 
 class RecommendedItem extends StatelessWidget {
-  const RecommendedItem({
-    super.key,
-  });
+  const RecommendedItem({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,9 @@ class RecommendedItem extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: (){},
+              onTap: () {
+                GoRouter.of(context).push(FoodDetailsScreen.routeName);
+              },
               borderRadius: BorderRadius.circular(16.r),
               child: Padding(
                 padding: EdgeInsets.all(16.r),
@@ -122,14 +124,11 @@ class RecommendedItem extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
-              child: Image.asset(
-                'assets/icons/logo.png',
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset('assets/icons/logo.png', fit: BoxFit.cover),
             ),
           ),
         ),
       ],
     );
   }
-} 
+}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/home/view/widgets/delivery_location.dart';
 import 'package:meals_app/features/home/view/widgets/meal_card.dart';
 import 'package:meals_app/generated/l10n.dart';
@@ -98,7 +100,7 @@ Widget _buildHeader(BuildContext context, S localization) {
               child: InkWell(
                 borderRadius: BorderRadius.circular(50.r),
                 onTap: () {
-                  // TODO: Add cart functionality
+                    GoRouter.of(context).push(CartView.cartPath);
                 },
                 child: Ink(
                   width: 45.w,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
 
 class HotOfferCard extends StatelessWidget {
   
@@ -17,7 +19,7 @@ class HotOfferCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           
           onTap: () {
-            // TODO: Add card functionality
+            GoRouter.of(context).push(FoodDetailsScreen.routeName);
           },
           child: Ink(
             width: 300.w,

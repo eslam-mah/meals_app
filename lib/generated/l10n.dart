@@ -749,6 +749,351 @@ class S {
   String get logout {
     return Intl.message('تسجيل الخروج', name: 'logout', desc: '', args: []);
   }
+
+  /// `العناوين المحفوظة`
+  String get savedAddressesScreen {
+    return Intl.message(
+      'العناوين المحفوظة',
+      name: 'savedAddressesScreen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعيين كعنوان رئيسي`
+  String get markAsPrimary {
+    return Intl.message(
+      'تعيين كعنوان رئيسي',
+      name: 'markAsPrimary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعديل`
+  String get edit {
+    return Intl.message('تعديل', name: 'edit', desc: '', args: []);
+  }
+
+  /// `إضافة عنوان جديد`
+  String get addNewAddress {
+    return Intl.message(
+      'إضافة عنوان جديد',
+      name: 'addNewAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عربة التسوق`
+  String get myCart {
+    return Intl.message('عربة التسوق', name: 'myCart', desc: '', args: []);
+  }
+
+  /// `العناصر`
+  String get items {
+    return Intl.message('العناصر', name: 'items', desc: '', args: []);
+  }
+
+  /// `طلبات خاصة`
+  String get specialRequests {
+    return Intl.message(
+      'طلبات خاصة',
+      name: 'specialRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اختياري`
+  String get optional {
+    return Intl.message('اختياري', name: 'optional', desc: '', args: []);
+  }
+
+  /// `لا يسمح بإضافات كطلب خاص.`
+  String get noExtrasAllowed {
+    return Intl.message(
+      'لا يسمح بإضافات كطلب خاص.',
+      name: 'noExtrasAllowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اكتب طلباتك الخاصة هنا...`
+  String get typeYourSpecialRequestsHere {
+    return Intl.message(
+      'اكتب طلباتك الخاصة هنا...',
+      name: 'typeYourSpecialRequestsHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `المجموع الفرعي`
+  String get subTotal {
+    return Intl.message('المجموع الفرعي', name: 'subTotal', desc: '', args: []);
+  }
+
+  /// `ضريبة القيمة المضافة`
+  String get vat {
+    return Intl.message(
+      'ضريبة القيمة المضافة',
+      name: 'vat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الإجمالي`
+  String get total {
+    return Intl.message('الإجمالي', name: 'total', desc: '', args: []);
+  }
+
+  /// `إضافة المزيد من العناصر`
+  String get addMoreItems {
+    return Intl.message(
+      'إضافة المزيد من العناصر',
+      name: 'addMoreItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إتمام الطلب`
+  String get checkout {
+    return Intl.message('إتمام الطلب', name: 'checkout', desc: '', args: []);
+  }
+
+  /// `البيانات الشخصية`
+  String get personalDetails {
+    return Intl.message(
+      'البيانات الشخصية',
+      name: 'personalDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `التقييم`
+  String get rating {
+    return Intl.message('التقييم', name: 'rating', desc: '', args: []);
+  }
+
+  /// `ما مدى رضاك عن جودة الطعام؟`
+  String get howSatisfiedAreYouWithFoodQuality {
+    return Intl.message(
+      'ما مدى رضاك عن جودة الطعام؟',
+      name: 'howSatisfiedAreYouWithFoodQuality',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ما مدى رضاك عن سرعة الخدمة؟`
+  String get howSatisfiedAreYouWithServiceSpeed {
+    return Intl.message(
+      'ما مدى رضاك عن سرعة الخدمة؟',
+      name: 'howSatisfiedAreYouWithServiceSpeed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ما مدى سهولة تقديم طلبك من موقعنا؟`
+  String get howEasyToMakeOrder {
+    return Intl.message(
+      'ما مدى سهولة تقديم طلبك من موقعنا؟',
+      name: 'howEasyToMakeOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `التقييم العام`
+  String get overall {
+    return Intl.message('التقييم العام', name: 'overall', desc: '', args: []);
+  }
+
+  /// `ما مدى رضاك عن الخدمة بشكل عام؟`
+  String get howSatisfiedWithOverallService {
+    return Intl.message(
+      'ما مدى رضاك عن الخدمة بشكل عام؟',
+      name: 'howSatisfiedWithOverallService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اترك لنا ملاحظاتك`
+  String get leaveUsFeedback {
+    return Intl.message(
+      'اترك لنا ملاحظاتك',
+      name: 'leaveUsFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اكتب ملاحظاتك هنا...`
+  String get typeYourFeedback {
+    return Intl.message(
+      'اكتب ملاحظاتك هنا...',
+      name: 'typeYourFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم إرسال ملاحظاتك بنجاح!`
+  String get feedbackSubmittedSuccessfully {
+    return Intl.message(
+      'تم إرسال ملاحظاتك بنجاح!',
+      name: 'feedbackSubmittedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الحجم`
+  String get size {
+    return Intl.message('الحجم', name: 'size', desc: '', args: []);
+  }
+
+  /// `الإضافات`
+  String get extras {
+    return Intl.message('الإضافات', name: 'extras', desc: '', args: []);
+  }
+
+  /// `المشروبات`
+  String get beverage {
+    return Intl.message('المشروبات', name: 'beverage', desc: '', args: []);
+  }
+
+  /// `أضف إلى السلة`
+  String get addToCart {
+    return Intl.message('أضف إلى السلة', name: 'addToCart', desc: '', args: []);
+  }
+
+  /// `أصابع الدجاج`
+  String get chickenFries {
+    return Intl.message(
+      'أصابع الدجاج',
+      name: 'chickenFries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أصابع دجاج لذيذة مصنوعة من دجاج ذو جودة عالية، تقدم مع صلصتنا الخاصة.`
+  String get foodDescription {
+    return Intl.message(
+      'أصابع دجاج لذيذة مصنوعة من دجاج ذو جودة عالية، تقدم مع صلصتنا الخاصة.',
+      name: 'foodDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تمت الإضافة إلى السلة بنجاح!`
+  String get addedToCart {
+    return Intl.message(
+      'تمت الإضافة إلى السلة بنجاح!',
+      name: 'addedToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عادي`
+  String get regular {
+    return Intl.message('عادي', name: 'regular', desc: '', args: []);
+  }
+
+  /// `متوسط`
+  String get medium {
+    return Intl.message('متوسط', name: 'medium', desc: '', args: []);
+  }
+
+  /// `كبير`
+  String get large {
+    return Intl.message('كبير', name: 'large', desc: '', args: []);
+  }
+
+  /// `تحديث`
+  String get update {
+    return Intl.message('تحديث', name: 'update', desc: '', args: []);
+  }
+
+  /// `حذف حسابي`
+  String get deleteMyAccount {
+    return Intl.message(
+      'حذف حسابي',
+      name: 'deleteMyAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تأكيد حذف الحساب`
+  String get confirmDeleteAccount {
+    return Intl.message(
+      'تأكيد حذف الحساب',
+      name: 'confirmDeleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.`
+  String get deleteAccountWarning {
+    return Intl.message(
+      'هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.',
+      name: 'deleteAccountWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إلغاء`
+  String get cancel {
+    return Intl.message('إلغاء', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `حذف`
+  String get delete {
+    return Intl.message('حذف', name: 'delete', desc: '', args: []);
+  }
+
+  /// `كلمة المرور الحالية`
+  String get currentPassword {
+    return Intl.message(
+      'كلمة المرور الحالية',
+      name: 'currentPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كلمة المرور الجديدة`
+  String get newPassword {
+    return Intl.message(
+      'كلمة المرور الجديدة',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم تحديث كلمة المرور بنجاح!`
+  String get passwordUpdatedSuccessfully {
+    return Intl.message(
+      'تم تحديث كلمة المرور بنجاح!',
+      name: 'passwordUpdatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

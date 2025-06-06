@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/features/cart/view/views/cart_view.dart';
+import 'package:meals_app/features/feedback/view/views/feedback_view.dart';
 import 'package:meals_app/features/home/view/widgets/profile_header.dart';
+import 'package:meals_app/features/saved_addresses/view/views/saved_addresses_view.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class ProfileView extends StatelessWidget {
@@ -44,18 +48,25 @@ class ProfileView extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.home, color: ColorsBox.primaryColor, size: 28.r),
                     title: Text(localization.savedAddresses, style: TextStyle(fontSize: 17.sp)),
-                    onTap: () {},
+                    onTap: () {
+                      GoRouter.of(context).push(SavedAddressesView.savedAddressesPath);
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.shopping_cart, color: ColorsBox.primaryColor, size: 28.r),
                     title: Text(localization.cart, style: TextStyle(fontSize: 17.sp)),
-                    onTap: () {},
+                    onTap: () {
+                      GoRouter.of(context).push(CartView.cartPath);
+
+                    },
                   ),
               
                   ListTile(
                     leading: Icon(Icons.feedback, color: ColorsBox.primaryColor, size: 28.r),
                     title: Text(localization.feedback, style: TextStyle(fontSize: 17.sp)),
-                    onTap: () {},
+                    onTap: () {
+                      GoRouter.of(context).push(FeedbackView.feedbackPath);
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.phone, color: ColorsBox.primaryColor, size: 28.r),

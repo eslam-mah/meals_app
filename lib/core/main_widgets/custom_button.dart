@@ -8,9 +8,11 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final double? height;
   final Color? color;
+  final Color? textColor;
   final Key? key;
   final Function() onTap;
   final Icon? icon;
+  final bool isEnabled;
 
   const CustomButton({
     required this.title,
@@ -18,8 +20,10 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.height,
     this.color,
+    this.textColor,
     this.key,
     this.icon,
+    this.isEnabled = true,
   }) : super(key: key);
 
   @override
@@ -28,17 +32,26 @@ class CustomButton extends StatelessWidget {
     final double defaultWidth = RM.data.setWidth(size: 320);
     final double defaultHeight = 56.h;
     
+    // Colors based on enabled state
+    final buttonColor = isEnabled 
+        ? (color ?? ColorsBox.primaryColor) 
+        : Colors.grey.shade300;
+    
+    final finalTextColor = textColor ?? (isEnabled 
+        ? Colors.white 
+        : Colors.black87);
+    
     return Material(
       borderRadius: BorderRadius.circular(8.r),
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: isEnabled ? onTap : null,
         borderRadius: BorderRadius.circular(8.r),
         child: Ink(
           width: width ?? defaultWidth,
           height: height ?? defaultHeight,
           decoration: BoxDecoration(
-            color: color ?? ColorsBox.primaryColor,
+            color: buttonColor,
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: Center(
@@ -46,13 +59,19 @@ class CustomButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (icon != null) ...[
-                  icon!,
+                  isEnabled
+                      ? icon!
+                      : Icon(
+                          icon!.icon,
+                          color: finalTextColor,
+                          size: icon!.size,
+                        ),
                   SizedBox(width: 8.w),
                 ],
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: finalTextColor,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),

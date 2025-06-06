@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
 
 class MealCard extends StatelessWidget {
   const MealCard({
@@ -15,7 +17,7 @@ class MealCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          // TODO: Add card functionality
+            GoRouter.of(context).push(FoodDetailsScreen.routeName);
         },
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
