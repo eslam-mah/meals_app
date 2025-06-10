@@ -13,6 +13,7 @@ class CustomButton extends StatelessWidget {
   final Function() onTap;
   final Icon? icon;
   final bool isEnabled;
+  final bool isLoading;
 
   const CustomButton({
     required this.title,
@@ -24,6 +25,7 @@ class CustomButton extends StatelessWidget {
     this.key,
     this.icon,
     this.isEnabled = true,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -32,12 +34,15 @@ class CustomButton extends StatelessWidget {
     final double defaultWidth = RM.data.setWidth(size: 320);
     final double defaultHeight = 56.h;
     
+    // Button is disabled when loading or explicitly disabled
+    final bool isButtonEnabled = isEnabled && !isLoading;
+    
     // Colors based on enabled state
-    final buttonColor = isEnabled 
+    final buttonColor = isButtonEnabled 
         ? (color ?? ColorsBox.primaryColor) 
         : Colors.grey.shade300;
     
-    final finalTextColor = textColor ?? (isEnabled 
+    final finalTextColor = textColor ?? (isButtonEnabled 
         ? Colors.white 
         : Colors.black87);
     
@@ -45,7 +50,7 @@ class CustomButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(8.r),
       color: Colors.transparent,
       child: InkWell(
-        onTap: isEnabled ? onTap : null,
+        onTap: isButtonEnabled ? onTap : null,
         borderRadius: BorderRadius.circular(8.r),
         child: Ink(
           width: width ?? defaultWidth,
@@ -55,29 +60,38 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (icon != null) ...[
-                  isEnabled
-                      ? icon!
-                      : Icon(
-                          icon!.icon,
+            child: isLoading
+                ? SizedBox(
+                    width: 24.w,
+                    height: 24.h,
+                    child: CircularProgressIndicator(
+                      color: finalTextColor,
+                      strokeWidth: 2.5,
+                    ),
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (icon != null) ...[
+                        isButtonEnabled
+                            ? icon!
+                            : Icon(
+                                icon!.icon,
+                                color: finalTextColor,
+                                size: icon!.size,
+                              ),
+                        SizedBox(width: 8.w),
+                      ],
+                      Text(
+                        title,
+                        style: TextStyle(
                           color: finalTextColor,
-                          size: icon!.size,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
                         ),
-                  SizedBox(width: 8.w),
-                ],
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: finalTextColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),

@@ -55,7 +55,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmDeleteAccount": MessageLookupByLibrary.simpleMessage(
       "Confirm Account Deletion",
     ),
+    "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
+      "Confirm new password",
+    ),
+    "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
     "continueButton": MessageLookupByLibrary.simpleMessage("Continue"),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
+    "createPassword": MessageLookupByLibrary.simpleMessage("Create Password"),
+    "createPasswordForEmail": MessageLookupByLibrary.simpleMessage(
+      "Create a password for your account",
+    ),
     "currentPassword": MessageLookupByLibrary.simpleMessage("Current password"),
     "dakahlia": MessageLookupByLibrary.simpleMessage("Dakahlia"),
     "damietta": MessageLookupByLibrary.simpleMessage("Damietta"),
@@ -73,10 +82,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "didntReceiveCode": MessageLookupByLibrary.simpleMessage(
       "Didn\'t receive the code?",
     ),
+    "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Don\'t have an account?",
+    ),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
     "emailAddress": MessageLookupByLibrary.simpleMessage("Email Address"),
     "emailExample": MessageLookupByLibrary.simpleMessage("meals@example.com"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
+    "enterNewPassword": MessageLookupByLibrary.simpleMessage(
+      "Enter new password",
+    ),
+    "enterResetToken": MessageLookupByLibrary.simpleMessage(
+      "Enter the reset token from your email",
+    ),
+    "enterResetTokenInstructions": MessageLookupByLibrary.simpleMessage(
+      "Please check your email for a reset token and enter it below along with your new password.",
+    ),
+    "enterYourEmail": MessageLookupByLibrary.simpleMessage(
+      "Enter your email address",
+    ),
     "enterYourFullName": MessageLookupByLibrary.simpleMessage(
       "Enter your full name",
     ),
@@ -89,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "foodDescription": MessageLookupByLibrary.simpleMessage(
       "Delicious chicken fries made with premium quality chicken, served with our special sauce.",
     ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
     "formSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Form submitted successfully!",
     ),
@@ -113,6 +138,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "howSatisfiedWithOverallService": MessageLookupByLibrary.simpleMessage(
       "How satisfied are you with the overall service?",
+    ),
+    "invalidOtp": MessageLookupByLibrary.simpleMessage(
+      "Invalid verification code. Please try again.",
     ),
     "ismailia": MessageLookupByLibrary.simpleMessage("Ismailia"),
     "items": MessageLookupByLibrary.simpleMessage("Items"),
@@ -167,18 +195,45 @@ class MessageLookup extends MessageLookupByLibrary {
       "Free delivery offers",
     ),
     "optional": MessageLookupByLibrary.simpleMessage("Optional"),
+    "otpResent": MessageLookupByLibrary.simpleMessage(
+      "Verification code has been resent",
+    ),
+    "otpSentToEmail": MessageLookupByLibrary.simpleMessage(
+      "A 6-digit verification code has been sent to your email",
+    ),
     "overall": MessageLookupByLibrary.simpleMessage("Overall"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordMustBeAtLeast6": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 6 characters",
+    ),
     "passwordMustBeAtLeast8": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 8 characters",
+    ),
+    "passwordResetEmailSent": MessageLookupByLibrary.simpleMessage(
+      "Password reset email sent successfully!",
+    ),
+    "passwordResetInstructions": MessageLookupByLibrary.simpleMessage(
+      "Password Reset Instructions",
+    ),
+    "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
+      "Password reset successfully!",
     ),
     "passwordUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Password updated successfully!",
     ),
+    "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
+      "Passwords do not match",
+    ),
     "personalDetails": MessageLookupByLibrary.simpleMessage("Personal Details"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "phoneNumberMustBeAtLeast11Digits": MessageLookupByLibrary.simpleMessage(
+      "Phone number must be at least 11 digits",
+    ),
     "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
       "Please enter your phone number",
+    ),
+    "pleaseConfirmPassword": MessageLookupByLibrary.simpleMessage(
+      "Please confirm your password",
     ),
     "pleaseEnterAddress": MessageLookupByLibrary.simpleMessage(
       "Please enter your detailed address",
@@ -211,13 +266,29 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "redSea": MessageLookupByLibrary.simpleMessage("Red Sea"),
     "regular": MessageLookupByLibrary.simpleMessage("Regular"),
+    "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
+    "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
+    "resendResetEmail": MessageLookupByLibrary.simpleMessage(
+      "Send Reset Email",
+    ),
+    "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
+    "resetPasswordFor": MessageLookupByLibrary.simpleMessage(
+      "Reset password for",
+    ),
+    "resetToken": MessageLookupByLibrary.simpleMessage("Reset Token"),
+    "resetTokenRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter the reset token",
+    ),
     "savedAddresses": MessageLookupByLibrary.simpleMessage("Saved Addresses"),
     "savedAddressesScreen": MessageLookupByLibrary.simpleMessage(
       "Saved Addresses",
     ),
+    "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
     "selectYourCity": MessageLookupByLibrary.simpleMessage("Select your city"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "sharqia": MessageLookupByLibrary.simpleMessage("Sharqia"),
+    "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
+    "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "size": MessageLookupByLibrary.simpleMessage("Size"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "sohag": MessageLookupByLibrary.simpleMessage("Sohag"),
@@ -251,6 +322,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "verificationCodeSent": MessageLookupByLibrary.simpleMessage(
       "Verification code has been sent to your mobile phone",
     ),
+    "verify": MessageLookupByLibrary.simpleMessage("Verify"),
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome to the Meals App"),
     "welcomeToMealsApp": MessageLookupByLibrary.simpleMessage(
       "WELCOME TO MEALS APP",

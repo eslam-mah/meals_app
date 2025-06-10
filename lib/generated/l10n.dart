@@ -60,6 +60,26 @@ class S {
     return Intl.message('تطبيق الوجبات', name: 'appTitle', desc: '', args: []);
   }
 
+  /// `تسجيل الدخول`
+  String get signIn {
+    return Intl.message('تسجيل الدخول', name: 'signIn', desc: '', args: []);
+  }
+
+  /// `إنشاء حساب`
+  String get signUp {
+    return Intl.message('إنشاء حساب', name: 'signUp', desc: '', args: []);
+  }
+
+  /// `ليس لديك حساب؟`
+  String get dontHaveAccount {
+    return Intl.message(
+      'ليس لديك حساب؟',
+      name: 'dontHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `مرحباً بك في تطبيق الوجبات`
   String get welcome {
     return Intl.message(
@@ -220,6 +240,96 @@ class S {
     return Intl.message(
       'الرجاء إدخال رقم الهاتف',
       name: 'phoneNumberRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يجب أن يكون رقم الهاتف 11 رقمًا على الأقل`
+  String get phoneNumberMustBeAtLeast11Digits {
+    return Intl.message(
+      'يجب أن يكون رقم الهاتف 11 رقمًا على الأقل',
+      name: 'phoneNumberMustBeAtLeast11Digits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `نسيت كلمة المرور؟`
+  String get forgotPassword {
+    return Intl.message(
+      'نسيت كلمة المرور؟',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يجب أن تكون كلمة المرور 6 أحرف على الأقل`
+  String get passwordMustBeAtLeast6 {
+    return Intl.message(
+      'يجب أن تكون كلمة المرور 6 أحرف على الأقل',
+      name: 'passwordMustBeAtLeast6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم إرسال رمز تحقق مكون من 6 أرقام إلى بريدك الإلكتروني`
+  String get otpSentToEmail {
+    return Intl.message(
+      'تم إرسال رمز تحقق مكون من 6 أرقام إلى بريدك الإلكتروني',
+      name: 'otpSentToEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.`
+  String get invalidOtp {
+    return Intl.message(
+      'رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.',
+      name: 'invalidOtp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة إرسال الرمز خلال`
+  String get resendCodeIn {
+    return Intl.message(
+      'إعادة إرسال الرمز خلال',
+      name: 'resendCodeIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ثانية`
+  String get seconds {
+    return Intl.message('ثانية', name: 'seconds', desc: '', args: []);
+  }
+
+  /// `تحقق`
+  String get verify {
+    return Intl.message('تحقق', name: 'verify', desc: '', args: []);
+  }
+
+  /// `إعادة إرسال الرمز`
+  String get resendCode {
+    return Intl.message(
+      'إعادة إرسال الرمز',
+      name: 'resendCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم إعادة إرسال رمز التحقق`
+  String get otpResent {
+    return Intl.message(
+      'تم إعادة إرسال رمز التحقق',
+      name: 'otpResent',
       desc: '',
       args: [],
     );
@@ -1090,6 +1200,196 @@ class S {
     return Intl.message(
       'تم تحديث كلمة المرور بنجاح!',
       name: 'passwordUpdatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة تعيين كلمة المرور`
+  String get resetPassword {
+    return Intl.message(
+      'إعادة تعيين كلمة المرور',
+      name: 'resetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة تعيين كلمة المرور لـ`
+  String get resetPasswordFor {
+    return Intl.message(
+      'إعادة تعيين كلمة المرور لـ',
+      name: 'resetPasswordFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تأكيد كلمة المرور`
+  String get confirmPassword {
+    return Intl.message(
+      'تأكيد كلمة المرور',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء تأكيد كلمة المرور`
+  String get pleaseConfirmPassword {
+    return Intl.message(
+      'الرجاء تأكيد كلمة المرور',
+      name: 'pleaseConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كلمات المرور غير متطابقة`
+  String get passwordsDoNotMatch {
+    return Intl.message(
+      'كلمات المرور غير متطابقة',
+      name: 'passwordsDoNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل كلمة المرور الجديدة`
+  String get enterNewPassword {
+    return Intl.message(
+      'أدخل كلمة المرور الجديدة',
+      name: 'enterNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تأكيد كلمة المرور الجديدة`
+  String get confirmNewPassword {
+    return Intl.message(
+      'تأكيد كلمة المرور الجديدة',
+      name: 'confirmNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم إعادة تعيين كلمة المرور بنجاح!`
+  String get passwordResetSuccess {
+    return Intl.message(
+      'تم إعادة تعيين كلمة المرور بنجاح!',
+      name: 'passwordResetSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إنشاء كلمة المرور`
+  String get createPassword {
+    return Intl.message(
+      'إنشاء كلمة المرور',
+      name: 'createPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إنشاء كلمة مرور لحسابك`
+  String get createPasswordForEmail {
+    return Intl.message(
+      'إنشاء كلمة مرور لحسابك',
+      name: 'createPasswordForEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إنشاء حساب`
+  String get createAccount {
+    return Intl.message(
+      'إنشاء حساب',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم إرسال بريد إعادة تعيين كلمة المرور بنجاح!`
+  String get passwordResetEmailSent {
+    return Intl.message(
+      'تم إرسال بريد إعادة تعيين كلمة المرور بنجاح!',
+      name: 'passwordResetEmailSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعليمات إعادة تعيين كلمة المرور`
+  String get passwordResetInstructions {
+    return Intl.message(
+      'تعليمات إعادة تعيين كلمة المرور',
+      name: 'passwordResetInstructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يرجى التحقق من بريدك الإلكتروني للحصول على رمز إعادة التعيين وإدخاله أدناه مع كلمة المرور الجديدة.`
+  String get enterResetTokenInstructions {
+    return Intl.message(
+      'يرجى التحقق من بريدك الإلكتروني للحصول على رمز إعادة التعيين وإدخاله أدناه مع كلمة المرور الجديدة.',
+      name: 'enterResetTokenInstructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إرسال بريد إعادة التعيين`
+  String get resendResetEmail {
+    return Intl.message(
+      'إرسال بريد إعادة التعيين',
+      name: 'resendResetEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل بريدك الإلكتروني`
+  String get enterYourEmail {
+    return Intl.message(
+      'أدخل بريدك الإلكتروني',
+      name: 'enterYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `رمز إعادة التعيين`
+  String get resetToken {
+    return Intl.message(
+      'رمز إعادة التعيين',
+      name: 'resetToken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء إدخال رمز إعادة التعيين`
+  String get resetTokenRequired {
+    return Intl.message(
+      'الرجاء إدخال رمز إعادة التعيين',
+      name: 'resetTokenRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل رمز إعادة التعيين من بريدك الإلكتروني`
+  String get enterResetToken {
+    return Intl.message(
+      'أدخل رمز إعادة التعيين من بريدك الإلكتروني',
+      name: 'enterResetToken',
       desc: '',
       args: [],
     );

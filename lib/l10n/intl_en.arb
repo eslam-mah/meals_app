@@ -1,5 +1,8 @@
 {
   "appTitle": "Meals App",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "dontHaveAccount": "Don't have an account?",
   "welcome": "Welcome to the Meals App",
   "onboardingTitle1": "All your favorites",
   "onboardingDesc1": "Get all your loved foods in one place, you just place the order we do the rest",
@@ -20,6 +23,16 @@
   "english": "English",
   "arabic": "العربية",
   "phoneNumberRequired": "Please enter your phone number",
+  "phoneNumberMustBeAtLeast11Digits": "Phone number must be at least 11 digits",
+  "forgotPassword": "Forgot Password?",
+  "passwordMustBeAtLeast6": "Password must be at least 6 characters",
+  "otpSentToEmail": "A 6-digit verification code has been sent to your email",
+  "invalidOtp": "Invalid verification code. Please try again.",
+  "resendCodeIn": "Resend code in",
+  "seconds": "seconds",
+  "verify": "Verify",
+  "resendCode": "Resend Code",
+  "otpResent": "Verification code has been resent",
   "accessLocation": "ACCESS LOCATION",
   "locationAccessDescription": "DFOOD WILL ACCESS YOUR LOCATION\nONLY WHILE USING THE APP",
   
@@ -145,5 +158,27 @@
   "delete": "Delete",
   "currentPassword": "Current password",
   "newPassword": "New password",
-  "passwordUpdatedSuccessfully": "Password updated successfully!"
+  "passwordUpdatedSuccessfully": "Password updated successfully!",
+  
+  "resetPassword": "Reset Password",
+  "resetPasswordFor": "Reset password for",
+  "confirmPassword": "Confirm Password",
+  "pleaseConfirmPassword": "Please confirm your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "enterNewPassword": "Enter new password",
+  "confirmNewPassword": "Confirm new password",
+  "passwordResetSuccess": "Password reset successfully!",
+  
+  "createPassword": "Create Password",
+  "createPasswordForEmail": "Create a password for your account",
+  "createAccount": "Create Account",
+  
+  "passwordResetEmailSent": "Password reset email sent successfully!",
+  "passwordResetInstructions": "Password Reset Instructions",
+  "enterResetTokenInstructions": "Please check your email for a reset token and enter it below along with your new password.",
+  "resendResetEmail": "Send Reset Email",
+  "enterYourEmail": "Enter your email address",
+  "resetToken": "Reset Token",
+  "resetTokenRequired": "Please enter the reset token",
+  "enterResetToken": "Enter the reset token from your email"
 }

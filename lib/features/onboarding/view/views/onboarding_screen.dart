@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/features/authentication/view/views/phone_auth_screen.dart';
+import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/onboarding/models/onboarding_page_model.dart';
 import 'package:meals_app/features/onboarding/view/widgets/indicator_dots.dart';
 import 'package:meals_app/features/onboarding/view/widgets/onboarding_page.dart';
@@ -35,8 +35,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     await prefs.setBool('onboarding_completed', true);
     
     if (mounted) {
-      // Navigate to home screen
-      GoRouter.of(context).push(PhoneAuthScreen.routeName);
+      // Navigate to login screen
+      GoRouter.of(context).push(LoginScreen.routeName);
     }
   }
   

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
@@ -19,8 +20,7 @@ class AddProfileDetailsScreen extends StatefulWidget {
 class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   String? _selectedCity;
   String? _area;
@@ -31,8 +31,7 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -49,26 +48,13 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
     return null;
   }
 
-  String? _validateEmail(String? value) {
+  String? _validatePhone(String? value) {
     if (value == null || value.isEmpty) {
-      return S.of(context).pleaseEnterYourEmail;
+      return S.of(context).phoneNumberRequired;
     }
 
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return S.of(context).pleaseEnterValidEmail;
-    }
-
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).pleaseEnterPassword;
-    }
-
-    if (value.length < 8) {
-      return S.of(context).passwordMustBeAtLeast8;
+    if (value.length < 11) {
+      return S.of(context).phoneNumberMustBeAtLeast11Digits;
     }
 
     return null;
@@ -166,9 +152,9 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
 
                       SizedBox(height: 24.h),
 
-                      // Email Field
+                      // Phone Number Field
                       Text(
-                        localization.emailAddress,
+                        localization.phoneNumber,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -178,32 +164,55 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
 
                       SizedBox(height: 8.h),
 
-                      ProfileInputField(
-                        hintText: localization.emailExample,
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        validator: _validateEmail,
-                      ),
-
-                      SizedBox(height: 24.h),
-
-                      // Password Field
-                      Text(
-                        localization.password,
+                      // Custom phone field with input formatters
+                      TextFormField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        validator: _validatePhone,
                         style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
+                          fontSize: 16.sp,
                         ),
-                      ),
-
-                      SizedBox(height: 8.h),
-
-                      ProfileInputField(
-                        hintText: localization.password,
-                        isPassword: true,
-                        controller: _passwordController,
-                        validator: _validatePassword,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(11),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration: InputDecoration(
+                          hintText: "01xxxxxxxxx",
+                          hintStyle: TextStyle(
+                            color: theme.colorScheme.onSurface.withOpacity(0.5),
+                            fontSize: 16.sp,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
+                          ),
+                          filled: true,
+                          fillColor: Colors.grey.shade200,
+                          errorStyle: TextStyle(
+                            color: Colors.red.shade700,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(
+                              color: theme.colorScheme.primary,
+                              width: 2,
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(
+                              color: Colors.red.shade700,
+                              width: 2,
+                            ),
+                          ),
+                        ),
                       ),
 
                       SizedBox(height: 24.h),
