@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/core/services/storage_service.dart';
+import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
 
 class RecommendedItem extends StatelessWidget {
@@ -9,6 +12,7 @@ class RecommendedItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final StorageService storageService = StorageService();
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -30,7 +34,11 @@ class RecommendedItem extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                GoRouter.of(context).push(FoodDetailsScreen.routeName);
+                if (storageService.isAuthenticated()) {
+                  GoRouter.of(context).push(FoodDetailsScreen.routeName);
+                } else {
+                  GoRouter.of(context).push(LoginScreen.routeName);
+                }
               },
               borderRadius: BorderRadius.circular(16.r),
               child: Padding(
@@ -124,7 +132,7 @@ class RecommendedItem extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
-              child: Image.asset('assets/icons/logo.png', fit: BoxFit.cover),
+              child: Image.asset(AssetsBox.logo, fit: BoxFit.cover),
             ),
           ),
         ),

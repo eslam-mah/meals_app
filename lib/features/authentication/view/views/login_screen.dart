@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/authentication/view/views/sign_up_screen.dart';
+import 'package:meals_app/features/authentication/view/widgets/custom_text_form_field.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
-import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart' as app_auth;
+import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart'
+    as app_auth;
+import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
-import 'package:meals_app/features/location/view/views/location_access_screen.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:meals_app/features/authentication/view/views/forgot_password_screen.dart';
 
@@ -26,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
-  bool _obscurePassword = true;
   bool _showSignupOption = false;
 
   @override
@@ -39,25 +41,25 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
-    
+
     if (email.isEmpty) {
       setState(() {
         _errorMessage = S.of(context).pleaseEnterYourEmail;
       });
       return;
     }
-    
+
     if (password.isEmpty) {
       setState(() {
         _errorMessage = S.of(context).pleaseEnterPassword;
       });
       return;
     }
-    
+
     // Use the auth cubit to sign in
     context.read<AuthCubit>().signInWithPassword(email, password);
   }
-  
+
   void _createAccount() {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
@@ -66,16 +68,16 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
-    
+
     // Navigate to sign up flow
     context.go(SignUpScreen.routeName);
   }
-  
+
   void _goToSignUp() {
     // Navigate to the email auth screen for signup
     context.go(SignUpScreen.routeName);
   }
-  
+
   void _forgotPassword() {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
@@ -84,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
-    
+
     // First send the password reset email
     context.read<AuthCubit>().sendPasswordResetEmail(email);
-    
+
     // Then navigate to the forgot password screen
     GoRouter.of(context).push(ForgotPasswordScreen.routeName, extra: email);
   }
@@ -101,11 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _togglePasswordVisibility() {
-    setState(() {
-      _obscurePassword = !_obscurePassword;
-    });
-  }
 
   void _toggleLanguage() {
     context.read<LanguageCubit>().toggleLanguage();
@@ -115,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final localization = S.of(context);
     final isLTR = Directionality.of(context) == TextDirection.ltr;
-    
+
     return BlocListener<AuthCubit, app_auth.AuthState>(
       listener: (context, state) {
         if (state.status == app_auth.AuthStatus.loading) {
@@ -127,15 +124,16 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             _isLoading = false;
           });
-          
+
           if (state.status == app_auth.AuthStatus.error) {
             setState(() {
               _errorMessage = state.errorMessage;
-              
+
               // If the error message indicates the user doesn't exist, provide a link to signup
               if (_errorMessage?.contains('User does not exist') == true) {
-                _errorMessage = '${state.errorMessage}\n\nDo you want to create an account?';
-                
+                _errorMessage =
+                    '${state.errorMessage}\n\nDo you want to create an account?';
+
                 // Show a signup button after a short delay
                 Future.delayed(Duration(milliseconds: 200), () {
                   if (mounted) {
@@ -150,12 +148,15 @@ class _LoginScreenState extends State<LoginScreen> {
             });
           } else if (state.status == app_auth.AuthStatus.authenticated) {
             // Navigate to the main app after successful login
-            context.go(LocationAccessScreen.routeName);
-          } else if (state.status == app_auth.AuthStatus.passwordResetEmailSent) {
+            context.go(MainView.mainPath);
+          } else if (state.status ==
+              app_auth.AuthStatus.passwordResetEmailSent) {
             // Show a success message about password reset email
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Password reset email sent. Please check your inbox.'),
+                content: Text(
+                  localization.passwordResetEmailSent,
+                ),
                 backgroundColor: Colors.green,
               ),
             );
@@ -176,13 +177,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 40.h, bottom: 40.h),
                       child: Image.asset(
-                        'assets/icons/logo.png',
+                        AssetsBox.logo,
                         width: 200.w,
                         fit: BoxFit.contain,
                       ),
                     ),
                   ),
-                  
+
                   // Title
                   Text(
                     localization.signIn,
@@ -192,62 +193,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.black,
                     ),
                   ),
-                  
+
                   SizedBox(height: 40.h),
-                  
+
                   // Email input
-                  Text(
-                    localization.emailAddress,
-                    style: TextStyle(
-                      color: ColorsBox.primaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  
-                  SizedBox(height: 8.h),
-                  
-                  TextFormField(
+                  CustomTextFormField(
                     controller: _emailController,
+                    labelText: localization.emailAddress,
+                    hintText: localization.emailExample,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: localization.emailExample,
-                      prefixIcon: Icon(Icons.email, color: Colors.grey),
-                    ),
+                    prefixIcon: Icon(Icons.email, color: Colors.grey),
                     onChanged: _onInputChanged,
                   ),
-                  
+
                   SizedBox(height: 24.h),
-                  
+
                   // Password input
-                  Text(
-                    localization.password,
-                    style: TextStyle(
-                      color: ColorsBox.primaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  
-                  SizedBox(height: 8.h),
-                  
-                  TextFormField(
+                  CustomTextFormField(
                     controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      hintText: localization.password,
-                      prefixIcon: Icon(Icons.lock, color: Colors.grey),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: _togglePasswordVisibility,
-                      ),
-                    ),
+                    labelText: localization.password,
+                    hintText: localization.password,
+                    isPassword: true,
+                    prefixIcon: Icon(Icons.lock, color: Colors.grey),
                     onChanged: _onInputChanged,
                   ),
-                  
+
                   // Error message
                   if (_errorMessage != null)
                     Padding(
@@ -262,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.red,
                             ),
                           ),
-                          
+
                           // Show sign up option if the user doesn't exist
                           if (_showSignupOption)
                             Padding(
@@ -277,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                  
+
                   // Forgot password
                   Align(
                     alignment: Alignment.centerRight,
@@ -292,9 +262,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  
+
                   SizedBox(height: 32.h),
-                  
+
                   // Login button
                   CustomButton(
                     title: localization.signIn,
@@ -303,9 +273,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     isLoading: _isLoading,
                   ),
-                  
+
                   SizedBox(height: 20.h),
-                  
+
                   // Sign up button
                   Center(
                     child: Row(
@@ -332,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  
+
                   // Language switch
                   Padding(
                     padding: EdgeInsets.only(top: 32.h, bottom: 24.h),
@@ -357,4 +327,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-} 
+}

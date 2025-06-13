@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
+import 'package:meals_app/features/authentication/view/widgets/custom_text_form_field.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart' as app_auth;
 import 'package:meals_app/generated/l10n.dart';
@@ -28,9 +30,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _tokenController = TextEditingController();
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
   bool _isSubmitting = false;
   bool _resetEmailSent = false;
   String? _errorMessage;
@@ -55,17 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
   
-  void _togglePasswordVisibility() {
-    setState(() {
-      _obscurePassword = !_obscurePassword;
-    });
-  }
-  
-  void _toggleConfirmPasswordVisibility() {
-    setState(() {
-      _obscureConfirmPassword = !_obscureConfirmPassword;
-    });
-  }
+
   
   void _resetPassword() {
     if (_formKey.currentState?.validate() ?? false) {
@@ -132,7 +121,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => GoRouter.of(context).pop(),
           ),
         ),
         body: SafeArea(
@@ -149,7 +138,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
                         child: Image.asset(
-                          'assets/icons/logo.png',
+                          AssetsBox.logo,
                           width: 180.w,
                           fit: BoxFit.contain,
                         ),
@@ -216,20 +205,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     SizedBox(height: 24.h),
                     
                     // Email Field
-                    Text(
-                      "Email",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 8.h),
-                    
-                    TextFormField(
+                    CustomTextFormField(
                       controller: _emailController,
+                      labelText: localization.email,
+                      hintText: localization.enterYourEmail,
                       keyboardType: TextInputType.emailAddress,
+                      prefixIcon: Icon(Icons.email, color: Colors.grey),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return localization.pleaseEnterYourEmail;
@@ -240,89 +221,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         }
                         return null;
                       },
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        hintText: localization.enterYourEmail,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                            color: ColorsBox.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
                     ),
                     
                     SizedBox(height: 24.h),
                     
                     // Token Field
-                    Text(
-                      localization.resetToken,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 8.h),
-                    
-                    TextFormField(
+                    CustomTextFormField(
                       controller: _tokenController,
+                      labelText: localization.resetToken,
+                      hintText: localization.enterResetToken,
+                      prefixIcon: Icon(Icons.vpn_key, color: Colors.grey),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return localization.resetTokenRequired;
                         }
                         return null;
                       },
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        hintText: localization.enterResetToken,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                            color: ColorsBox.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
                     ),
                     
                     SizedBox(height: 24.h),
                     
                     // New Password Field
-                    Text(
-                      localization.newPassword,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 8.h),
-                    
-                    TextFormField(
+                    CustomTextFormField(
                       controller: _passwordController,
-                      obscureText: _obscurePassword,
+                      labelText: localization.newPassword,
+                      hintText: localization.enterNewPassword,
+                      isPassword: true,
+                      prefixIcon: Icon(Icons.lock, color: Colors.grey),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return localization.pleaseEnterPassword;
@@ -332,52 +257,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         }
                         return null;
                       },
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        hintText: localization.enterNewPassword,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                            color: Colors.grey,
-                          ),
-                          onPressed: _togglePasswordVisibility,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                            color: ColorsBox.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
                     ),
                     
                     SizedBox(height: 24.h),
                     
                     // Confirm Password Field
-                    Text(
-                      localization.confirmPassword,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 8.h),
-                    
-                    TextFormField(
+                    CustomTextFormField(
                       controller: _confirmPasswordController,
-                      obscureText: _obscureConfirmPassword,
+                      labelText: localization.confirmPassword,
+                      hintText: localization.confirmNewPassword,
+                      isPassword: true,
+                      prefixIcon: Icon(Icons.lock, color: Colors.grey),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return localization.pleaseConfirmPassword;
@@ -387,33 +277,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         }
                         return null;
                       },
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        hintText: localization.confirmNewPassword,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                            color: Colors.grey,
-                          ),
-                          onPressed: _toggleConfirmPasswordVisibility,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                            color: ColorsBox.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
                     ),
                     
                     // Error message

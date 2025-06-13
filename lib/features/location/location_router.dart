@@ -3,9 +3,9 @@ import 'package:meals_app/features/location/view/views/location_access_screen.da
 
 class LocationRouter {
   static final List<GoRoute> goRoutes = [
-    GoRoute(
-      path: LocationAccessScreen.routeName,
-      builder: (context, state) => const LocationAccessScreen(),
-    ),
+    // GoRoute(
+    //   path: LocationAccessScreen.routeName,
+    //   builder: (context, state) => const LocationAccessScreen(),
+    // ),
   ];
 }

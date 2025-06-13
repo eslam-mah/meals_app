@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
+import 'package:meals_app/features/authentication/view/widgets/custom_text_form_field.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart' as app_auth;
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
-import 'package:meals_app/features/location/view/views/location_access_screen.dart';
+import 'package:meals_app/features/profile/view/views/add_profile_details_screen.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -26,8 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
+
 
   @override
   void dispose() {
@@ -85,17 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  void _togglePasswordVisibility() {
-    setState(() {
-      _obscurePassword = !_obscurePassword;
-    });
-  }
 
-  void _toggleConfirmPasswordVisibility() {
-    setState(() {
-      _obscureConfirmPassword = !_obscureConfirmPassword;
-    });
-  }
 
   void _toggleLanguage() {
     context.read<LanguageCubit>().toggleLanguage();
@@ -124,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             });
           } else if (state.status == app_auth.AuthStatus.authenticated) {
             // Navigate to the main app after successful signup
-            context.go(LocationAccessScreen.routeName);
+            context.go(AddProfileDetailsScreen.routeName);
           }
         }
       },
@@ -142,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 40.h, bottom: 30.h),
                       child: Image.asset(
-                        'assets/icons/logo.png',
+                        AssetsBox.logo,
                         width: 200.w,
                         fit: BoxFit.contain,
                       ),
@@ -162,86 +153,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 30.h),
                   
                   // Email input
-                  Text(
-                    localization.emailAddress,
-                    style: TextStyle(
-                      color: ColorsBox.primaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  
-                  SizedBox(height: 8.h),
-                  
-                  TextFormField(
+                  CustomTextFormField(
                     controller: _emailController,
+                    labelText: localization.emailAddress,
+                    hintText: localization.emailExample,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: localization.emailExample,
-                      prefixIcon: Icon(Icons.email, color: Colors.grey),
-                    ),
+                    prefixIcon: Icon(Icons.email, color: Colors.grey),
                     onChanged: _onInputChanged,
                   ),
                   
                   SizedBox(height: 16.h),
                   
                   // Password input
-                  Text(
-                    localization.password,
-                    style: TextStyle(
-                      color: ColorsBox.primaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  
-                  SizedBox(height: 8.h),
-                  
-                  TextFormField(
+                  CustomTextFormField(
                     controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      hintText: localization.password,
-                      prefixIcon: Icon(Icons.lock, color: Colors.grey),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: _togglePasswordVisibility,
-                      ),
-                    ),
+                    labelText: localization.password,
+                    hintText: localization.password,
+                    isPassword: true,
+                    prefixIcon: Icon(Icons.lock, color: Colors.grey),
                     onChanged: _onInputChanged,
                   ),
                   
                   SizedBox(height: 16.h),
                   
                   // Confirm Password input
-                  Text(
-                    localization.confirmPassword,
-                    style: TextStyle(
-                      color: ColorsBox.primaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  
-                  SizedBox(height: 8.h),
-                  
-                  TextFormField(
+                  CustomTextFormField(
                     controller: _confirmPasswordController,
-                    obscureText: _obscureConfirmPassword,
-                    decoration: InputDecoration(
-                      hintText: localization.confirmPassword,
-                      prefixIcon: Icon(Icons.lock, color: Colors.grey),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: _toggleConfirmPasswordVisibility,
-                      ),
-                    ),
+                    labelText: localization.confirmPassword,
+                    hintText: localization.confirmPassword,
+                    isPassword: true,
+                    prefixIcon: Icon(Icons.lock, color: Colors.grey),
                     onChanged: _onInputChanged,
                   ),
                   
@@ -277,7 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already have an account?",
+                          localization.alreadyHaveAccount,
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: Colors.grey.shade700,

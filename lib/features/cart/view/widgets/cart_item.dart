@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 
 class CartItem extends StatelessWidget {
@@ -27,7 +28,7 @@ class CartItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8.r),
             child: Image.asset(
-              'assets/icons/logo.png',
+              AssetsBox.logo,
               width: 80.w,
               height: 80.h,
               fit: BoxFit.cover,

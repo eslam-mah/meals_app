@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/core/main_widgets/custom_outlined_button.dart';
 import 'package:meals_app/features/profile/view/widgets/profile_input_field.dart';
-import 'package:meals_app/features/authentication/view/widgets/phone_input_field.dart';
+import 'package:meals_app/features/profile/view/widgets/phone_input_field.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -61,7 +62,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => GoRouter.of(context).pop(),
         ),
         title: Text(
           localization.accountInfo,
@@ -153,7 +154,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           content: Text(localization.formSubmittedSuccessfully),
                         ),
                       );
-                      Navigator.of(context).pop();
+                      GoRouter.of(context).pop();
                     }
                   },
                 ),
@@ -175,12 +176,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         content: Text(localization.deleteAccountWarning),
                         actions: [
                           TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
+                            onPressed: () => GoRouter.of(context).pop(),
                             child: Text(localization.cancel),
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              GoRouter.of(context).pop();
                               // Handle account deletion
                             },
                             child: Text(

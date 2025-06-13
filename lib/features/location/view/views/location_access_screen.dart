@@ -6,7 +6,7 @@ import 'package:meals_app/features/profile/view/views/add_profile_details_screen
 import 'package:meals_app/generated/l10n.dart';
 
 class LocationAccessScreen extends StatelessWidget {
-  static const String routeName = '/location-access';
+  // static const String routeName = '/location-access';
 
   const LocationAccessScreen({super.key});
 

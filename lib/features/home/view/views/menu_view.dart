@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/core/services/storage_service.dart';
+import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/home/view/widgets/delivery_location.dart';
 import 'package:meals_app/features/home/view/widgets/meal_card.dart';
@@ -76,6 +78,7 @@ Widget _buildSectionTitle(String title) {
 }
 
 Widget _buildHeader(BuildContext context, S localization) {
+  final StorageService storageService = StorageService();
   return Container(
     padding: EdgeInsets.all(16.r),
     color: Colors.white,
@@ -100,8 +103,11 @@ Widget _buildHeader(BuildContext context, S localization) {
               child: InkWell(
                 borderRadius: BorderRadius.circular(50.r),
                 onTap: () {
-                    GoRouter.of(context).push(CartView.cartPath);
-                },
+   if(storageService.isAuthenticated()){
+                      GoRouter.of(context).push(CartView.cartPath);
+                    }else{
+                      GoRouter.of(context).push(LoginScreen.routeName);
+                    }                },
                 child: Ink(
                   width: 45.w,
                   height: 45.h,

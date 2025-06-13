@@ -10,17 +10,24 @@ import 'package:meals_app/features/profile/profile_router.dart';
 import 'package:meals_app/features/onboarding/view/views/onboarding_screen.dart';
 import 'package:meals_app/features/settings/settings_router.dart';
 import 'package:meals_app/features/saved_addresses/saved_addresses_router.dart';
+import 'package:meals_app/features/splash/view/splash_screen.dart';
 
 class AppRouter {
   static Map<String, WidgetBuilder> routes = {
+    SplashScreen.routeName: (context) => const SplashScreen(),
     OnboardingScreen.routeName: (context) => const OnboardingScreen(),
   };
 
-  static String initialRoute = OnboardingScreen.routeName;
+  static String initialRoute = SplashScreen.routeName;
 
   static final GoRouter router = GoRouter(
-    initialLocation: OnboardingScreen.routeName,
+    initialLocation: SplashScreen.routeName,
     routes: [
+      // splash screen route
+      GoRoute(
+        path: SplashScreen.routeName,
+        builder: (context, state) => const SplashScreen(),
+      ),
       // onboarding routes
       GoRoute(
         path: OnboardingScreen.routeName,

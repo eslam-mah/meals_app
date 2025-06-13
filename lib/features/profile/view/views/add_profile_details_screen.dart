@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/features/home/view/views/main_view.dart';
+import 'package:meals_app/features/profile/data/models/user_form.dart';
+import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/profile/view/widgets/city_selector.dart';
 import 'package:meals_app/features/profile/view/widgets/profile_input_field.dart';
 import 'package:meals_app/generated/l10n.dart';
@@ -14,7 +18,8 @@ class AddProfileDetailsScreen extends StatefulWidget {
   const AddProfileDetailsScreen({super.key});
 
   @override
-  State<AddProfileDetailsScreen> createState() => _AddProfileDetailsScreenState();
+  State<AddProfileDetailsScreen> createState() =>
+      _AddProfileDetailsScreenState();
 }
 
 class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
@@ -27,6 +32,7 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
   String? _detailedAddress;
 
   bool _isFormValid = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -74,6 +80,57 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
     return null;
   }
 
+  // Save user profile data
+  Future<void> _saveProfileData() async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Create a UserForm with the collected data
+      final userForm = UserForm(
+        name: _nameController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
+        city: _selectedCity,
+        isProfileCompleted: true,
+        location: '$_area, $_detailedAddress',
+        userType: 'user', // Setting default user type to 'user'
+      );
+
+      // Update the user with form data
+      await context.read<UserCubit>().updateUserWithForm(userForm);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).formSubmittedSuccessfully),
+            backgroundColor: Colors.green,
+          ),
+        );
+        
+        // Navigate to main screen
+        GoRouter.of(context).go(MainView.mainPath);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving profile: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
@@ -91,7 +148,7 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: Center(
                   child: Image.asset(
-                    'assets/icons/logo.png',
+                    AssetsBox.logo,
                     width: 200.w,
                     fit: BoxFit.contain,
                   ),
@@ -259,15 +316,11 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
                         title: localization.submit,
                         color: theme.colorScheme.primary,
                         width: double.infinity,
+                        isLoading: _isLoading,
+                        isEnabled: _isFormValid,
                         onTap: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            // Form is valid, proceed with submission
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(localization.formSubmittedSuccessfully),
-                              ),
-                            );
-                            GoRouter.of(context).push(MainView.mainPath);
+                          if (_isFormValid) {
+                            _saveProfileData();
                           }
                         },
                       ),

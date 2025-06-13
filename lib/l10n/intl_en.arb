@@ -175,10 +175,16 @@
   
   "passwordResetEmailSent": "Password reset email sent successfully!",
   "passwordResetInstructions": "Password Reset Instructions",
-  "enterResetTokenInstructions": "Please check your email for a reset token and enter it below along with your new password.",
-  "resendResetEmail": "Send Reset Email",
-  "enterYourEmail": "Enter your email address",
+  "enterResetTokenInstructions": "Please check your email for the reset token and enter it below along with your new password.",
+  "resendResetEmail": "Resend Reset Email",
+  "enterYourEmail": "Enter your email",
   "resetToken": "Reset Token",
   "resetTokenRequired": "Please enter the reset token",
-  "enterResetToken": "Enter the reset token from your email"
+  "enterResetToken": "Enter the reset token from your email",
+  "email": "Email",
+  "alreadyHaveAccount": "Already have an account?",
+  
+  "noInternetConnection": "No internet connection. Please check your connection and try again.",
+  "tryAgain": "Try Again",
+  "pleaseSignInToAccessContent": "Please sign in to access this content"
 }

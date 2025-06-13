@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/utils/media_query_values.dart';
 import 'package:meals_app/features/food_details/view/widgets/add_to_cart_button.dart';
 import 'package:meals_app/features/food_details/view/widgets/beverage_selector.dart';
@@ -23,7 +25,7 @@ class FoodDetailsScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => GoRouter.of(context).pop(),
         ),
       ),
       body: SingleChildScrollView(
@@ -39,7 +41,7 @@ class FoodDetailsScreen extends StatelessWidget {
                   width: context.width * 0.6,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
-                      image: AssetImage('assets/icons/logo.png'),
+                      image: AssetImage( AssetsBox.logo),
                       fit: BoxFit.contain,
                     ),
                   ),

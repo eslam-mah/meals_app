@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
-import 'package:meals_app/features/home/view/views/main_view.dart';
-import 'package:meals_app/features/profile/view/widgets/city_selector.dart';
 import 'package:meals_app/features/profile/view/widgets/profile_input_field.dart';
 import 'package:meals_app/generated/l10n.dart';
 
@@ -52,7 +50,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => GoRouter.of(context).pop(),
         ),
         title: Text(
           localization.changePassword,
@@ -126,7 +124,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           content: Text(localization.passwordUpdatedSuccessfully),
                         ),
                       );
-                      Navigator.of(context).pop();
+                      GoRouter.of(context).pop();
                     }
                   },
                 ),

@@ -18,20 +18,17 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(
-      _current != null,
-      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
-    );
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -44,10 +41,8 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(
-      instance != null,
-      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
-    );
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -57,17 +52,32 @@ class S {
 
   /// `تطبيق الوجبات`
   String get appTitle {
-    return Intl.message('تطبيق الوجبات', name: 'appTitle', desc: '', args: []);
+    return Intl.message(
+      'تطبيق الوجبات',
+      name: 'appTitle',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `تسجيل الدخول`
   String get signIn {
-    return Intl.message('تسجيل الدخول', name: 'signIn', desc: '', args: []);
+    return Intl.message(
+      'تسجيل الدخول',
+      name: 'signIn',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `إنشاء حساب`
   String get signUp {
-    return Intl.message('إنشاء حساب', name: 'signUp', desc: '', args: []);
+    return Intl.message(
+      'إنشاء حساب',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `ليس لديك حساب؟`
@@ -152,27 +162,52 @@ class S {
 
   /// `التالي`
   String get next {
-    return Intl.message('التالي', name: 'next', desc: '', args: []);
+    return Intl.message(
+      'التالي',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `تخطي`
   String get skip {
-    return Intl.message('تخطي', name: 'skip', desc: '', args: []);
+    return Intl.message(
+      'تخطي',
+      name: 'skip',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `ابدأ الآن`
   String get getStarted {
-    return Intl.message('ابدأ الآن', name: 'getStarted', desc: '', args: []);
+    return Intl.message(
+      'ابدأ الآن',
+      name: 'getStarted',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `رقم الهاتف`
   String get phoneNumber {
-    return Intl.message('رقم الهاتف', name: 'phoneNumber', desc: '', args: []);
+    return Intl.message(
+      'رقم الهاتف',
+      name: 'phoneNumber',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `متابعة`
   String get continueButton {
-    return Intl.message('متابعة', name: 'continueButton', desc: '', args: []);
+    return Intl.message(
+      'متابعة',
+      name: 'continueButton',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `رمز التحقق`
@@ -227,12 +262,22 @@ class S {
 
   /// `English`
   String get english {
-    return Intl.message('English', name: 'english', desc: '', args: []);
+    return Intl.message(
+      'English',
+      name: 'english',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `العربية`
   String get arabic {
-    return Intl.message('العربية', name: 'arabic', desc: '', args: []);
+    return Intl.message(
+      'العربية',
+      name: 'arabic',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الرجاء إدخال رقم الهاتف`
@@ -307,12 +352,22 @@ class S {
 
   /// `ثانية`
   String get seconds {
-    return Intl.message('ثانية', name: 'seconds', desc: '', args: []);
+    return Intl.message(
+      'ثانية',
+      name: 'seconds',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `تحقق`
   String get verify {
-    return Intl.message('تحقق', name: 'verify', desc: '', args: []);
+    return Intl.message(
+      'تحقق',
+      name: 'verify',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `إعادة إرسال الرمز`
@@ -387,7 +442,12 @@ class S {
 
   /// `الاسم الكامل`
   String get fullName {
-    return Intl.message('الاسم الكامل', name: 'fullName', desc: '', args: []);
+    return Intl.message(
+      'الاسم الكامل',
+      name: 'fullName',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `البريد الإلكتروني`
@@ -402,22 +462,42 @@ class S {
 
   /// `كلمة المرور`
   String get password {
-    return Intl.message('كلمة المرور', name: 'password', desc: '', args: []);
+    return Intl.message(
+      'كلمة المرور',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `إرسال`
   String get submit {
-    return Intl.message('إرسال', name: 'submit', desc: '', args: []);
+    return Intl.message(
+      'إرسال',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الملف الشخصي`
   String get profile {
-    return Intl.message('الملف الشخصي', name: 'profile', desc: '', args: []);
+    return Intl.message(
+      'الملف الشخصي',
+      name: 'profile',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الموقع`
   String get location {
-    return Intl.message('الموقع', name: 'location', desc: '', args: []);
+    return Intl.message(
+      'الموقع',
+      name: 'location',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `اختر مدينتك`
@@ -452,7 +532,12 @@ class S {
 
   /// `المنطقة`
   String get area {
-    return Intl.message('المنطقة', name: 'area', desc: '', args: []);
+    return Intl.message(
+      'المنطقة',
+      name: 'area',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `أدخل منطقتك أو حيك`
@@ -567,152 +652,302 @@ class S {
 
   /// `القاهرة`
   String get cairo {
-    return Intl.message('القاهرة', name: 'cairo', desc: '', args: []);
+    return Intl.message(
+      'القاهرة',
+      name: 'cairo',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الجيزة`
   String get giza {
-    return Intl.message('الجيزة', name: 'giza', desc: '', args: []);
+    return Intl.message(
+      'الجيزة',
+      name: 'giza',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الإسكندرية`
   String get alexandria {
-    return Intl.message('الإسكندرية', name: 'alexandria', desc: '', args: []);
+    return Intl.message(
+      'الإسكندرية',
+      name: 'alexandria',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `القليوبية`
   String get qalyubia {
-    return Intl.message('القليوبية', name: 'qalyubia', desc: '', args: []);
+    return Intl.message(
+      'القليوبية',
+      name: 'qalyubia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `المنوفية`
   String get monufia {
-    return Intl.message('المنوفية', name: 'monufia', desc: '', args: []);
+    return Intl.message(
+      'المنوفية',
+      name: 'monufia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الغربية`
   String get gharbia {
-    return Intl.message('الغربية', name: 'gharbia', desc: '', args: []);
+    return Intl.message(
+      'الغربية',
+      name: 'gharbia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `كفر الشيخ`
   String get kafrElSheikh {
-    return Intl.message('كفر الشيخ', name: 'kafrElSheikh', desc: '', args: []);
+    return Intl.message(
+      'كفر الشيخ',
+      name: 'kafrElSheikh',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الدقهلية`
   String get dakahlia {
-    return Intl.message('الدقهلية', name: 'dakahlia', desc: '', args: []);
+    return Intl.message(
+      'الدقهلية',
+      name: 'dakahlia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الشرقية`
   String get sharqia {
-    return Intl.message('الشرقية', name: 'sharqia', desc: '', args: []);
+    return Intl.message(
+      'الشرقية',
+      name: 'sharqia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `دمياط`
   String get damietta {
-    return Intl.message('دمياط', name: 'damietta', desc: '', args: []);
+    return Intl.message(
+      'دمياط',
+      name: 'damietta',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `بورسعيد`
   String get portSaid {
-    return Intl.message('بورسعيد', name: 'portSaid', desc: '', args: []);
+    return Intl.message(
+      'بورسعيد',
+      name: 'portSaid',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الإسماعيلية`
   String get ismailia {
-    return Intl.message('الإسماعيلية', name: 'ismailia', desc: '', args: []);
+    return Intl.message(
+      'الإسماعيلية',
+      name: 'ismailia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `السويس`
   String get suez {
-    return Intl.message('السويس', name: 'suez', desc: '', args: []);
+    return Intl.message(
+      'السويس',
+      name: 'suez',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `شمال سيناء`
   String get northSinai {
-    return Intl.message('شمال سيناء', name: 'northSinai', desc: '', args: []);
+    return Intl.message(
+      'شمال سيناء',
+      name: 'northSinai',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `جنوب سيناء`
   String get southSinai {
-    return Intl.message('جنوب سيناء', name: 'southSinai', desc: '', args: []);
+    return Intl.message(
+      'جنوب سيناء',
+      name: 'southSinai',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `البحر الأحمر`
   String get redSea {
-    return Intl.message('البحر الأحمر', name: 'redSea', desc: '', args: []);
+    return Intl.message(
+      'البحر الأحمر',
+      name: 'redSea',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الفيوم`
   String get faiyum {
-    return Intl.message('الفيوم', name: 'faiyum', desc: '', args: []);
+    return Intl.message(
+      'الفيوم',
+      name: 'faiyum',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `بني سويف`
   String get beniSuef {
-    return Intl.message('بني سويف', name: 'beniSuef', desc: '', args: []);
+    return Intl.message(
+      'بني سويف',
+      name: 'beniSuef',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `المنيا`
   String get minya {
-    return Intl.message('المنيا', name: 'minya', desc: '', args: []);
+    return Intl.message(
+      'المنيا',
+      name: 'minya',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `أسيوط`
   String get asyut {
-    return Intl.message('أسيوط', name: 'asyut', desc: '', args: []);
+    return Intl.message(
+      'أسيوط',
+      name: 'asyut',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `سوهاج`
   String get sohag {
-    return Intl.message('سوهاج', name: 'sohag', desc: '', args: []);
+    return Intl.message(
+      'سوهاج',
+      name: 'sohag',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `قنا`
   String get qena {
-    return Intl.message('قنا', name: 'qena', desc: '', args: []);
+    return Intl.message(
+      'قنا',
+      name: 'qena',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الأقصر`
   String get luxor {
-    return Intl.message('الأقصر', name: 'luxor', desc: '', args: []);
+    return Intl.message(
+      'الأقصر',
+      name: 'luxor',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `أسوان`
   String get aswan {
-    return Intl.message('أسوان', name: 'aswan', desc: '', args: []);
+    return Intl.message(
+      'أسوان',
+      name: 'aswan',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `مطروح`
   String get matrouh {
-    return Intl.message('مطروح', name: 'matrouh', desc: '', args: []);
+    return Intl.message(
+      'مطروح',
+      name: 'matrouh',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الوادي الجديد`
   String get newValley {
-    return Intl.message('الوادي الجديد', name: 'newValley', desc: '', args: []);
+    return Intl.message(
+      'الوادي الجديد',
+      name: 'newValley',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `مرحباً، {name}`
   String hello(Object name) {
-    return Intl.message('مرحباً، $name', name: 'hello', desc: '', args: [name]);
+    return Intl.message(
+      'مرحباً، $name',
+      name: 'hello',
+      desc: '',
+      args: [name],
+    );
   }
 
   /// `العروض`
   String get offers {
-    return Intl.message('العروض', name: 'offers', desc: '', args: []);
+    return Intl.message(
+      'العروض',
+      name: 'offers',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `عروض ساخنة`
   String get hotDeals {
-    return Intl.message('عروض ساخنة', name: 'hotDeals', desc: '', args: []);
+    return Intl.message(
+      'عروض ساخنة',
+      name: 'hotDeals',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `التوصيل إلى`
   String get deliveryTo {
-    return Intl.message('التوصيل إلى', name: 'deliveryTo', desc: '', args: []);
+    return Intl.message(
+      'التوصيل إلى',
+      name: 'deliveryTo',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `هذه العناصر متاحة لفترة محدودة فقط. استفد من هذه العروض الرائعة قبل فوات الأوان. جربها الآن!`
@@ -727,7 +962,12 @@ class S {
 
   /// `موصى به`
   String get recommended {
-    return Intl.message('موصى به', name: 'recommended', desc: '', args: []);
+    return Intl.message(
+      'موصى به',
+      name: 'recommended',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!`
@@ -742,17 +982,32 @@ class S {
 
   /// `الرئيسية`
   String get home {
-    return Intl.message('الرئيسية', name: 'home', desc: '', args: []);
+    return Intl.message(
+      'الرئيسية',
+      name: 'home',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `القائمة`
   String get menu {
-    return Intl.message('القائمة', name: 'menu', desc: '', args: []);
+    return Intl.message(
+      'القائمة',
+      name: 'menu',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `طلباتي`
   String get myOrders {
-    return Intl.message('طلباتي', name: 'myOrders', desc: '', args: []);
+    return Intl.message(
+      'طلباتي',
+      name: 'myOrders',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `العناوين المحفوظة`
@@ -767,7 +1022,12 @@ class S {
 
   /// `عربة التسوق`
   String get cart {
-    return Intl.message('عربة التسوق', name: 'cart', desc: '', args: []);
+    return Intl.message(
+      'عربة التسوق',
+      name: 'cart',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `نقاط الولاء`
@@ -782,17 +1042,32 @@ class S {
 
   /// `ملاحظات`
   String get feedback {
-    return Intl.message('ملاحظات', name: 'feedback', desc: '', args: []);
+    return Intl.message(
+      'ملاحظات',
+      name: 'feedback',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `اتصل بالدعم`
   String get callSupport {
-    return Intl.message('اتصل بالدعم', name: 'callSupport', desc: '', args: []);
+    return Intl.message(
+      'اتصل بالدعم',
+      name: 'callSupport',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الإعدادات`
   String get settings {
-    return Intl.message('الإعدادات', name: 'settings', desc: '', args: []);
+    return Intl.message(
+      'الإعدادات',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `تفاصيل الحساب`
@@ -827,12 +1102,22 @@ class S {
 
   /// `التفضيلات`
   String get preferences {
-    return Intl.message('التفضيلات', name: 'preferences', desc: '', args: []);
+    return Intl.message(
+      'التفضيلات',
+      name: 'preferences',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `اللغة`
   String get language {
-    return Intl.message('اللغة', name: 'language', desc: '', args: []);
+    return Intl.message(
+      'اللغة',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `سياسة الخصوصية`
@@ -857,7 +1142,12 @@ class S {
 
   /// `تسجيل الخروج`
   String get logout {
-    return Intl.message('تسجيل الخروج', name: 'logout', desc: '', args: []);
+    return Intl.message(
+      'تسجيل الخروج',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `العناوين المحفوظة`
@@ -882,7 +1172,12 @@ class S {
 
   /// `تعديل`
   String get edit {
-    return Intl.message('تعديل', name: 'edit', desc: '', args: []);
+    return Intl.message(
+      'تعديل',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `إضافة عنوان جديد`
@@ -897,12 +1192,22 @@ class S {
 
   /// `عربة التسوق`
   String get myCart {
-    return Intl.message('عربة التسوق', name: 'myCart', desc: '', args: []);
+    return Intl.message(
+      'عربة التسوق',
+      name: 'myCart',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `العناصر`
   String get items {
-    return Intl.message('العناصر', name: 'items', desc: '', args: []);
+    return Intl.message(
+      'العناصر',
+      name: 'items',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `طلبات خاصة`
@@ -917,7 +1222,12 @@ class S {
 
   /// `اختياري`
   String get optional {
-    return Intl.message('اختياري', name: 'optional', desc: '', args: []);
+    return Intl.message(
+      'اختياري',
+      name: 'optional',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `لا يسمح بإضافات كطلب خاص.`
@@ -942,7 +1252,12 @@ class S {
 
   /// `المجموع الفرعي`
   String get subTotal {
-    return Intl.message('المجموع الفرعي', name: 'subTotal', desc: '', args: []);
+    return Intl.message(
+      'المجموع الفرعي',
+      name: 'subTotal',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `ضريبة القيمة المضافة`
@@ -957,7 +1272,12 @@ class S {
 
   /// `الإجمالي`
   String get total {
-    return Intl.message('الإجمالي', name: 'total', desc: '', args: []);
+    return Intl.message(
+      'الإجمالي',
+      name: 'total',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `إضافة المزيد من العناصر`
@@ -972,7 +1292,12 @@ class S {
 
   /// `إتمام الطلب`
   String get checkout {
-    return Intl.message('إتمام الطلب', name: 'checkout', desc: '', args: []);
+    return Intl.message(
+      'إتمام الطلب',
+      name: 'checkout',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `البيانات الشخصية`
@@ -987,7 +1312,12 @@ class S {
 
   /// `التقييم`
   String get rating {
-    return Intl.message('التقييم', name: 'rating', desc: '', args: []);
+    return Intl.message(
+      'التقييم',
+      name: 'rating',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `ما مدى رضاك عن جودة الطعام؟`
@@ -1022,7 +1352,12 @@ class S {
 
   /// `التقييم العام`
   String get overall {
-    return Intl.message('التقييم العام', name: 'overall', desc: '', args: []);
+    return Intl.message(
+      'التقييم العام',
+      name: 'overall',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `ما مدى رضاك عن الخدمة بشكل عام؟`
@@ -1067,22 +1402,42 @@ class S {
 
   /// `الحجم`
   String get size {
-    return Intl.message('الحجم', name: 'size', desc: '', args: []);
+    return Intl.message(
+      'الحجم',
+      name: 'size',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `الإضافات`
   String get extras {
-    return Intl.message('الإضافات', name: 'extras', desc: '', args: []);
+    return Intl.message(
+      'الإضافات',
+      name: 'extras',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `المشروبات`
   String get beverage {
-    return Intl.message('المشروبات', name: 'beverage', desc: '', args: []);
+    return Intl.message(
+      'المشروبات',
+      name: 'beverage',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `أضف إلى السلة`
   String get addToCart {
-    return Intl.message('أضف إلى السلة', name: 'addToCart', desc: '', args: []);
+    return Intl.message(
+      'أضف إلى السلة',
+      name: 'addToCart',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `أصابع الدجاج`
@@ -1117,22 +1472,42 @@ class S {
 
   /// `عادي`
   String get regular {
-    return Intl.message('عادي', name: 'regular', desc: '', args: []);
+    return Intl.message(
+      'عادي',
+      name: 'regular',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `متوسط`
   String get medium {
-    return Intl.message('متوسط', name: 'medium', desc: '', args: []);
+    return Intl.message(
+      'متوسط',
+      name: 'medium',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `كبير`
   String get large {
-    return Intl.message('كبير', name: 'large', desc: '', args: []);
+    return Intl.message(
+      'كبير',
+      name: 'large',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `تحديث`
   String get update {
-    return Intl.message('تحديث', name: 'update', desc: '', args: []);
+    return Intl.message(
+      'تحديث',
+      name: 'update',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `حذف حسابي`
@@ -1167,12 +1542,22 @@ class S {
 
   /// `إلغاء`
   String get cancel {
-    return Intl.message('إلغاء', name: 'cancel', desc: '', args: []);
+    return Intl.message(
+      'إلغاء',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `حذف`
   String get delete {
-    return Intl.message('حذف', name: 'delete', desc: '', args: []);
+    return Intl.message(
+      'حذف',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `كلمة المرور الحالية`
@@ -1390,6 +1775,56 @@ class S {
     return Intl.message(
       'أدخل رمز إعادة التعيين من بريدك الإلكتروني',
       name: 'enterResetToken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `البريد الإلكتروني`
+  String get email {
+    return Intl.message(
+      'البريد الإلكتروني',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لديك حساب بالفعل؟`
+  String get alreadyHaveAccount {
+    return Intl.message(
+      'لديك حساب بالفعل؟',
+      name: 'alreadyHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى.`
+  String get noInternetConnection {
+    return Intl.message(
+      'لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى.',
+      name: 'noInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حاول مرة أخرى`
+  String get tryAgain {
+    return Intl.message(
+      'حاول مرة أخرى',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء تسجيل الدخول للوصول إلى هذا المحتوى`
+  String get pleaseSignInToAccessContent {
+    return Intl.message(
+      'الرجاء تسجيل الدخول للوصول إلى هذا المحتوى',
+      name: 'pleaseSignInToAccessContent',
       desc: '',
       args: [],
     );
