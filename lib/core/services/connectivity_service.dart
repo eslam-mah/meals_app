@@ -1,3 +1,5 @@
+// lib/core/services/connectivity_service.dart
+
 import 'dart:async';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -5,161 +7,136 @@ import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 
 class ConnectivityService {
-  // Singleton pattern
+  // 1. Singleton boilerplate
   static final ConnectivityService _instance = ConnectivityService._internal();
   factory ConnectivityService() => _instance;
   static ConnectivityService get instance => _instance;
-  
+
+  final Logger _log = Logger('ConnectivityService');
+  final StreamController<bool> _connectivityController =
+      StreamController<bool>.broadcast();
+  final Connectivity _connectivity = Connectivity();
+
+  bool _isConnected = true;
+
+  // ← Now listens to List<ConnectivityResult>
+  StreamSubscription<List<ConnectivityResult>>? _networkSubscription;
+  Timer? _periodicTimer;
+  Timer? _retryTimer;
+
   ConnectivityService._internal() {
     debugPrint('ConnectivityService initialized');
   }
 
-  // Stream controller for broadcasting connectivity status
-  final _connectivityController = StreamController<bool>.broadcast();
-  
-  // Public stream to listen for connectivity changes
+  /// Expose a boolean stream of connectivity changes
   Stream<bool> get onConnectivityChanged => _connectivityController.stream;
-  
-  // Current connection status
-  bool _isConnected = true;
   bool get isConnected => _isConnected;
-  
-  // Connectivity plugin
-  final Connectivity _connectivity = Connectivity();
-  
-  // Subscriptions and timers
-  StreamSubscription? _networkSubscription;
-  Timer? _periodicCheckTimer;
-  Timer? _checkConnectionRetryTimer;
 
-  /// Starts monitoring connectivity
+  /// Call once (e.g. in main()) to begin monitoring
   void startMonitoring() {
-    debugPrint('Starting connectivity monitoring');
-    
-    // Clean up existing subscriptions first
-    _stopTimersAndSubscriptions();
-    
-    // Perform an immediate check
+    _log.info('Starting connectivity monitoring');
+    _stopAll();
+
+    // Immediate check
     checkConnection();
-    
-    // Set up a listener for network interface changes
-    _networkSubscription = _connectivity.onConnectivityChanged.listen((results) {
-      debugPrint('Network change detected: $results');
-      
-      // If we have no connectivity at all
-      if (results.every((result) => result == ConnectivityResult.none)) {
-        debugPrint('All network interfaces are down, marking as disconnected');
-        _updateConnectionStatus(false);
-      } else {
-        // We have some network, verify internet
-        checkConnection();
-      }
-    });
-    
-    // Set up periodic check every 5 seconds
-    _periodicCheckTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+
+    // Listen for interface changes (List<ConnectivityResult>)
+    _networkSubscription = _connectivity.onConnectivityChanged.listen((
+      results,
+    ) {
+      _log.fine('Plugin reports interfaces: $results');
+      // Always do a real-world check, even if plugin says none
       checkConnection();
     });
-    
-    debugPrint('Connectivity monitoring started');
+
+    // Poll every 5s as a safety net
+    _periodicTimer = Timer.periodic(
+      const Duration(seconds: 5),
+      (_) => checkConnection(),
+    );
   }
-  
-  /// Check current internet connection 
+
+  /// A true “are we online?” test: DNS socket + HTTP fallback
   Future<bool> checkConnection() async {
-    // First check if device has network connectivity
-    final connectivityResults = await _connectivity.checkConnectivity();
-    final hasNetworkConnection = connectivityResults.any((result) => result != ConnectivityResult.none);
-    
-    if (!hasNetworkConnection) {
-      debugPrint('No network connection, definitely disconnected');
-      _updateConnectionStatus(false);
-      return false;
-    }
-    
-    // Try to connect to Google DNS - this is very fast
+    _log.fine('Running real-world connectivity check…');
+
+    bool connected = false;
+
+    // 1️⃣ DNS socket test
     try {
-      final socket = await Socket.connect('8.8.8.8', 53, timeout: const Duration(seconds: 1));
+      final socket = await Socket.connect(
+        '8.8.8.8',
+        53,
+        timeout: const Duration(seconds: 1),
+      );
       socket.destroy();
-      debugPrint('Socket connection to Google DNS successful - internet is connected');
-      _updateConnectionStatus(true);
-      return true;
+      connected = true;
+      _log.fine('✅ DNS socket succeeded');
     } catch (e) {
-      debugPrint('Socket connection to Google DNS failed, trying HTTP');
-      // Continue to HTTP check
+      _log.fine('⚠️ DNS socket failed: $e');
     }
-    
-    // Try an HTTP request as fallback
-    try {
-      final client = HttpClient();
-      client.connectionTimeout = const Duration(seconds: 2);
-      
-      final request = await client.getUrl(Uri.parse('https://www.google.com'))
-          .timeout(const Duration(seconds: 2));
-          
-      final response = await request.close().timeout(const Duration(seconds: 2));
-      
-      await response.drain<void>();
-      client.close();
-      
-      debugPrint('HTTP request successful - internet is connected');
-      _updateConnectionStatus(true);
-      return true;
-    } catch (e) {
-      debugPrint('HTTP request failed, internet appears to be disconnected: $e');
-      _updateConnectionStatus(false);
-      
-      // Schedule a retry soon to confirm disconnection
-      _scheduleRetryCheck();
-      
-      return false;
+
+    // 2️⃣ HTTP GET fallback
+    if (!connected) {
+      try {
+        final client =
+            HttpClient()..connectionTimeout = const Duration(seconds: 2);
+        final request = await client
+            .getUrl(Uri.parse('https://www.google.com'))
+            .timeout(const Duration(seconds: 2));
+        final response = await request.close().timeout(
+          const Duration(seconds: 2),
+        );
+        await response.drain<void>();
+        client.close();
+        connected = true;
+        _log.fine('✅ HTTP fallback succeeded');
+      } catch (e) {
+        _log.fine('⚠️ HTTP fallback failed: $e');
+      }
     }
+
+    // 3️⃣ Update state & notify if changed
+    _updateStatus(connected);
+
+    // 4️⃣ If still false, schedule a quick retry
+    if (!connected) {
+      _retryTimer?.cancel();
+      _retryTimer = Timer(const Duration(seconds: 2), checkConnection);
+    }
+
+    return connected;
   }
-  
-  // Schedule a quick retry to verify disconnection
-  void _scheduleRetryCheck() {
-    _checkConnectionRetryTimer?.cancel();
-    _checkConnectionRetryTimer = Timer(const Duration(seconds: 2), () {
-      checkConnection();
-    });
-  }
-  
-  // Update connection status and notify listeners if changed
-  void _updateConnectionStatus(bool connected) {
+
+  /// Fire an on-demand check from your UI’s “Try Again”
+  Future<bool> forceCheck() => checkConnection();
+
+  void _updateStatus(bool connected) {
     if (_isConnected != connected) {
-      debugPrint('Connection status changed: $_isConnected -> $connected');
+      _log.info('Connectivity changed: $_isConnected → $connected');
       _isConnected = connected;
       _connectivityController.add(connected);
     }
   }
-  
-  /// Force a connectivity check and return the result
-  Future<bool> forceCheck() async {
-    debugPrint('Forcing connectivity check');
-    return checkConnection();
-  }
-  
-  /// Stop monitoring connectivity
+
+  /// Stop all listeners & timers
   void stopMonitoring() {
-    debugPrint('Stopping connectivity monitoring');
-    _stopTimersAndSubscriptions();
+    _log.info('Stopping connectivity monitoring');
+    _stopAll();
   }
-  
-  /// Clean up timers and subscriptions
-  void _stopTimersAndSubscriptions() {
+
+  void _stopAll() {
     _networkSubscription?.cancel();
+    _periodicTimer?.cancel();
+    _retryTimer?.cancel();
     _networkSubscription = null;
-    
-    _periodicCheckTimer?.cancel();
-    _periodicCheckTimer = null;
-    
-    _checkConnectionRetryTimer?.cancel();
-    _checkConnectionRetryTimer = null;
+    _periodicTimer = null;
+    _retryTimer = null;
   }
-  
-  /// Clean up resources when the service is no longer needed
+
+  /// Clean up when done
   void dispose() {
-    debugPrint('Disposing ConnectivityService');
-    _stopTimersAndSubscriptions();
+    _stopAll();
     _connectivityController.close();
   }
-} 
+}
