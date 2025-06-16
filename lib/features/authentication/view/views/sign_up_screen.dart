@@ -11,6 +11,7 @@ import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.d
 import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart' as app_auth;
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/profile/view/views/add_profile_details_screen.dart';
+import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -114,8 +115,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               _errorMessage = state.errorMessage;
             });
           } else if (state.status == app_auth.AuthStatus.authenticated) {
-            // Navigate to the main app after successful signup
-            context.go(AddProfileDetailsScreen.routeName);
+            // Force a reload of user data with a delay to ensure database operations complete
+            Future.delayed(const Duration(milliseconds: 500), () async {
+              await context.read<UserCubit>().loadUser();
+              if (mounted) {
+                // Navigate to the profile details screen
+                context.go(AddProfileDetailsScreen.routeName);
+              }
+            });
           }
         }
       },

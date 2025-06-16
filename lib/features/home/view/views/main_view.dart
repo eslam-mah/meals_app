@@ -29,6 +29,14 @@ class _MainViewState extends State<MainView> {
   void initState() {
     super.initState();
     _checkAuthStatus();
+    _initializeUserCubit();
+  }
+  
+  void _initializeUserCubit() {
+    // Force refresh user data when entering main view
+    if (_storageService.isAuthenticated()) {
+      context.read<UserCubit>().loadUser();
+    }
   }
   
   Future<void> _checkAuthStatus() async {

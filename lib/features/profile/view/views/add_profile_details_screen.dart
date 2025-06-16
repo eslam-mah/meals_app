@@ -35,6 +35,20 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
   bool _isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    // Make sure user data is loaded
+    _initializeUserCubit();
+  }
+
+  void _initializeUserCubit() {
+    // Ensure UserCubit is initialized and loads user data
+    if (context.read<UserCubit>().state.user == null) {
+      context.read<UserCubit>().loadUser();
+    }
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();

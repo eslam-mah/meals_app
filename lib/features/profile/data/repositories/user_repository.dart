@@ -217,4 +217,23 @@ class UserRepository {
       return false;
     }
   }
+  
+  // Delete user from the database
+  Future<bool> deleteUser(String userId) async {
+    _log.info('Deleting user from database: $userId');
+    
+    try {
+      // Delete the user record from the users table
+      await _supabaseClient
+          .from('users')
+          .delete()
+          .eq('id', userId);
+      
+      _log.info('User deleted successfully from database: $userId');
+      return true;
+    } catch (e) {
+      _log.severe('Error deleting user from database: $e');
+      return false;
+    }
+  }
 } 

@@ -5,13 +5,32 @@ import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/feedback/view/views/feedback_view.dart';
 import 'package:meals_app/features/home/view/widgets/profile_header.dart';
+import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/saved_addresses/view/views/saved_addresses_view.dart';
 import 'package:meals_app/generated/l10n.dart';
 
-class ProfileView extends StatelessWidget {
-    static const String profilePath = '/profile';
+class ProfileView extends StatefulWidget {
+  static const String profilePath = '/profile';
 
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeUserCubit();
+  }
+
+  void _initializeUserCubit() {
+    // Ensure UserCubit is initialized and loads user data
+    if (UserCubit.instance.state.user == null) {
+      UserCubit.instance.loadUser();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +52,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
             ),
-            ProfileHeader(
-            
-            ),
+            ProfileHeader(),
             Divider(height: 1, color: Colors.grey.shade300),
             Expanded(
               child: ListView(

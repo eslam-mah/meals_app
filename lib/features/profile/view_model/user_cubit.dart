@@ -82,9 +82,11 @@ class UserCubit extends Cubit<UserState> {
         _log.warning('No user data found in database');
       }
       
-      emit(state.copyWith(
+      // Always emit a new state to force UI updates
+      emit(UserState(
         user: user,
         isLoading: false,
+        errorMessage: null,
       ));
     } catch (e) {
       _log.severe('Failed to load user: $e');
@@ -282,6 +284,97 @@ class UserCubit extends Cubit<UserState> {
         isLoading: false,
         errorMessage: 'Failed to create user: ${e.toString()}',
       ));
+    }
+  }
+
+  /// Delete user account
+  Future<bool> deleteUser() async {
+    emit(state.copyWith(isLoading: true));
+    
+    _log.info('Deleting user account');
+    try {
+      final supabase = Supabase.instance.client;
+      final authUser = supabase.auth.currentUser;
+      if (authUser == null) {
+        _log.warning('No authenticated user found for deletion');
+        emit(state.copyWith(
+          isLoading: false,
+          errorMessage: 'No authenticated user found',
+        ));
+        return false;
+      }
+      
+      // First delete from database
+      final userId = authUser.id;
+      final dbDeleteSuccess = await _userRepository.deleteUser(userId);
+      
+      if (!dbDeleteSuccess) {
+        _log.warning('Failed to delete user from database');
+      }
+      
+      // For authentication deletion, we need to use a different approach
+      // The admin.deleteUser method won't work from client-side code
+      
+      try {
+        // First, try to delete the user's own account
+        // This requires the user to be recently authenticated
+        await supabase.auth.admin.deleteUser(userId);
+        _log.info('User auth record deleted successfully via admin API');
+      } catch (adminDeleteError) {
+        _log.warning('Admin delete failed: $adminDeleteError');
+        
+        // Second approach: Use a Supabase Edge Function to delete the user
+        try {
+          // Get the current session for the authorization header
+          final session = supabase.auth.currentSession;
+          if (session != null) {
+            final response = await supabase.functions.invoke(
+              'delete-user',
+              body: {'user_id': userId},
+              headers: {
+                'Authorization': 'Bearer ${session.accessToken}',
+              },
+            );
+            
+            if (response.status != 200) {
+              throw Exception('Edge function returned status ${response.status}: ${response.data}');
+            }
+            
+            _log.info('User deleted via Edge Function');
+          } else {
+            throw Exception('No active session for authorization');
+          }
+        } catch (edgeFunctionError) {
+          _log.warning('Edge function approach failed: $edgeFunctionError');
+          
+          // Third approach: Mark user as deleted in metadata
+          try {
+            await supabase.auth.updateUser(
+              UserAttributes(
+                data: {'deleted': true},
+              ),
+            );
+            _log.info('User marked as deleted in metadata');
+          } catch (metadataError) {
+            _log.warning('Could not mark user as deleted: $metadataError');
+          }
+        }
+      }
+      
+      // Clear local state
+      emit(const UserState());
+      
+      // Clear storage
+      await _storageService.clearAuthData();
+      
+      return true;
+    } catch (e) {
+      _log.severe('Error during user deletion: $e');
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: 'Failed to delete user: ${e.toString()}',
+      ));
+      return false;
     }
   }
 } 

@@ -3,7 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class AddToCartButton extends StatelessWidget {
-  const AddToCartButton({super.key});
+  final double price;
+  final VoidCallback onPressed;
+
+  const AddToCartButton({
+    super.key,
+    required this.price,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +25,7 @@ class AddToCartButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            // Add to cart logic
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(l10n.addedToCart),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
+          onTap: onPressed,
           borderRadius: BorderRadius.circular(12.r),
           child: Center(
             child: Row(
@@ -53,7 +52,7 @@ class AddToCartButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Text(
-                    'EGP 90.00',
+                    'EGP ${price.toStringAsFixed(2)}',
                     style: TextStyle(
                       color: Colors.orange,
                       fontSize: 14.sp,

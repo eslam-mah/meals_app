@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,9 +7,15 @@ import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
+import 'package:meals_app/features/home/data/models/food_model.dart';
 
 class RecommendedItem extends StatelessWidget {
-  const RecommendedItem({super.key});
+  final FoodModel food;
+  
+  const RecommendedItem({
+    super.key,
+    required this.food,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,10 @@ class RecommendedItem extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 if (storageService.isAuthenticated()) {
-                  GoRouter.of(context).push(FoodDetailsScreen.routeName);
+                  GoRouter.of(context).push(
+                    FoodDetailsScreen.routeName,
+                    extra: food.id,
+                  );
                 } else {
                   GoRouter.of(context).push(LoginScreen.routeName);
                 }
@@ -55,7 +65,7 @@ class RecommendedItem extends StatelessWidget {
                         children: [
                           // Title
                           Text(
-                            'title',
+                            food.nameEn,
                             style: TextStyle(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
@@ -65,7 +75,7 @@ class RecommendedItem extends StatelessWidget {
                           SizedBox(height: 8.h),
                           // Description
                           Text(
-                            'descrssssssssssssssssssssssssssssssssssssssssssssssssssiption',
+                            food.descriptionEn ?? '',
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: Colors.grey,
@@ -80,7 +90,7 @@ class RecommendedItem extends StatelessWidget {
                             children: [
                               // Price
                               Text(
-                                'EGP price',
+                                'EGP ${food.price.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
@@ -132,7 +142,23 @@ class RecommendedItem extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
-              child: Image.asset(AssetsBox.logo, fit: BoxFit.cover),
+              child: food.photoUrl != null && food.photoUrl!.isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: food.photoUrl!,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            ColorsBox.primaryColor,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        AssetsBox.logo,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Image.asset(AssetsBox.logo, fit: BoxFit.cover),
             ),
           ),
         ),

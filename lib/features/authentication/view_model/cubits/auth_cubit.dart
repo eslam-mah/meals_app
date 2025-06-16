@@ -355,7 +355,7 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
             _log.warning('Failed to verify user record: $fetchError');
           }
           
-          // Update UserCubit state
+          // Update UserCubit state - force a reload and emit a new state
           await UserCubit.instance.loadUser();
 
           // Save authentication state in storage
@@ -443,6 +443,60 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
         status: app_auth.AuthStatus.error,
         errorMessage: 'Failed to sign out. Please try again.',
       ));
+    }
+  }
+
+  // Delete account
+  Future<bool> deleteAccount() async {
+    try {
+      emit(state.copyWith(status: app_auth.AuthStatus.loading));
+      _log.info('Deleting user account');
+      
+      // Get current user
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        _log.warning('No authenticated user found for deletion');
+        emit(state.copyWith(
+          status: app_auth.AuthStatus.error,
+          errorMessage: 'No authenticated user found',
+        ));
+        return false;
+      }
+      
+      // First try calling the Edge Function
+      try {
+        _log.info('Calling delete-user Edge Function');
+        final response = await Supabase.instance.client.functions.invoke(
+          'delete-user',
+          body: {'userId': user.id},
+        );
+        
+        if (response.status != 200) {
+          throw Exception('Edge function error: ${response.data}');
+        }
+        
+        _log.info('User deleted successfully via Edge Function');
+      } catch (e) {
+        _log.severe('Error deleting user via Edge Function: $e');
+        
+        // Try to sign out as a fallback
+        await _authRepository.signOut();
+        _log.info('User signed out as fallback');
+      }
+      
+      // Clear local storage
+      await _storageService.clearAuthData();
+      _log.info('Local authentication data cleared');
+      
+      emit(const app_auth.AuthState(status: app_auth.AuthStatus.unauthenticated));
+      return true;
+    } catch (e) {
+      _log.severe('Error during account deletion: $e');
+      emit(state.copyWith(
+        status: app_auth.AuthStatus.error,
+        errorMessage: 'Failed to delete account: ${e.toString()}',
+      ));
+      return false;
     }
   }
 

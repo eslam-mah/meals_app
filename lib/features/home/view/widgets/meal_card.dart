@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,10 +7,14 @@ import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
+import 'package:meals_app/features/home/data/models/food_model.dart';
 
 class MealCard extends StatelessWidget {
+  final FoodModel food;
+  
   const MealCard({
     super.key,
+    required this.food,
   });
 
   @override
@@ -20,11 +25,15 @@ class MealCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-    if(storageService.isAuthenticated()){
-            GoRouter.of(context).push(FoodDetailsScreen.routeName);
-           }else{
+          if(storageService.isAuthenticated()){
+            GoRouter.of(context).push(
+              FoodDetailsScreen.routeName,
+              extra: food.id,
+            );
+          } else {
             GoRouter.of(context).push(LoginScreen.routeName);
-           }        },
+          }
+        },
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
           decoration: BoxDecoration(
@@ -34,12 +43,33 @@ class MealCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 20.r),
           child: Row(
             children: [
-              // Logo image
-              Image.asset(
-                 AssetsBox.logo,
-                width: 80.w,
-                height: 90.h,
-                fit: BoxFit.contain,
+              // Food image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: SizedBox(
+                  width: 80.w,
+                  height: 90.h,
+                  child: food.photoUrl != null && food.photoUrl!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: food.photoUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              ColorsBox.primaryColor,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Image.asset(
+                          AssetsBox.logo,
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    : Image.asset(
+                        AssetsBox.logo,
+                        fit: BoxFit.contain,
+                      ),
+                ),
               ),
               SizedBox(width: 16.w),
               
@@ -50,7 +80,7 @@ class MealCard extends StatelessWidget {
                   children: [
                     // Title
                     Text(
-                      'Test',
+                      food.nameEn,
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
@@ -61,7 +91,7 @@ class MealCard extends StatelessWidget {
                     
                     // Description
                     Text(
-                      'Test test test test test test test',
+                      food.descriptionEn ?? '',
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: Colors.grey,
@@ -79,7 +109,7 @@ class MealCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'Test 180.00',
+                    'EGP ${food.price.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
