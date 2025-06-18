@@ -114,7 +114,8 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
       );
 
       // Update the user with form data
-      await context.read<UserCubit>().updateUserWithForm(userForm);
+       context.read<UserCubit>().updateUserWithForm(userForm);
+      await context.read<UserCubit>().loadUser();
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

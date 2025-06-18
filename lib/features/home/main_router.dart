@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/home/data/repositories/food_repository.dart';
 import 'package:meals_app/features/home/view/views/home_view.dart';
 import 'package:meals_app/features/home/view/views/main_view.dart';
@@ -18,11 +20,11 @@ class MainRouter {
       routes: [
         GoRoute(
           path: HomeView.homePath,
-          builder: (context, state) => _wrapWithFoodCubit(const HomeView()),
+          builder: (context, state) => _wrapWithProviders(const HomeView()),
         ),
         GoRoute(
           path: MenuView.menuPath,
-          builder: (context, state) => _wrapWithFoodCubit(const MenuView()),
+          builder: (context, state) => _wrapWithProviders(const MenuView()),
         ),
         GoRoute(
           path: ProfileView.profilePath,
@@ -32,21 +34,36 @@ class MainRouter {
     ),
   ];
   
-  // Wrap the view with the FoodCubit provider
-  static Widget _wrapWithFoodCubit(Widget child) {
+  // Wrap views with necessary providers
+  static Widget _wrapWithProviders(Widget child) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<FoodRepository>(
           create: (context) => FoodRepository(),
         ),
+        RepositoryProvider<CartRepository>(
+          create: (context) => CartRepository(),
+        ),
       ],
-      child: BlocProvider<FoodCubit>(
-        create: (context) {
-          final repository = context.read<FoodRepository>();
-          final cubit = FoodCubit(foodRepository: repository);
-          FoodCubit.initialize(repository);
-          return cubit;
-        },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<FoodCubit>(
+            create: (context) {
+              final repository = context.read<FoodRepository>();
+              final cubit = FoodCubit(foodRepository: repository);
+              return cubit;
+            },
+          ),
+          BlocProvider<CartCubit>(
+            create: (context) {
+              final repository = context.read<CartRepository>();
+              // Create a new instance and initialize the static instance
+              final cubit = CartCubit(cartRepository: repository);
+              CartCubit.initialize(repository);
+              return cubit;
+            },
+          ),
+        ],
         child: child,
       ),
     );
@@ -56,13 +73,13 @@ class MainRouter {
   static Widget getViewForIndex(int index) {
     switch (index) {
       case 0:
-        return _wrapWithFoodCubit(const HomeView());
+        return _wrapWithProviders(const HomeView());
       case 1:
-        return _wrapWithFoodCubit(const MenuView());
+        return _wrapWithProviders(const MenuView());
       case 2:
         return const ProfileView();
       default:
-        return _wrapWithFoodCubit(const HomeView());
+        return _wrapWithProviders(const HomeView());
     }
   }
 } 

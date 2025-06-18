@@ -3,16 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/utils/media_query_values.dart';
+import 'package:meals_app/features/cart/data/models/cart_model.dart';
+import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_state.dart';
 import 'package:meals_app/features/food_details/view/widgets/add_to_cart_button.dart';
 import 'package:meals_app/features/food_details/view/widgets/beverage_selector.dart';
 import 'package:meals_app/features/food_details/view/widgets/extras_selector.dart';
 import 'package:meals_app/features/food_details/view/widgets/size_selector.dart';
 import 'package:meals_app/features/food_details/view_model/cubits/food_details_cubit.dart';
 import 'package:meals_app/features/food_details/view_model/cubits/food_details_state.dart';
+import 'package:meals_app/features/home/view/views/main_view.dart';
+import 'package:meals_app/features/profile/data/models/user_model.dart';
+import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
+import 'package:uuid/uuid.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
   static const String routeName = '/food-details';
@@ -25,6 +34,9 @@ class FoodDetailsScreen extends StatefulWidget {
 }
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
+  bool _isAddingToCart = false;
+  final Logger _log = Logger('FoodDetailsScreen');
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +48,103 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
       // Load food details using the BlocProvider
       Future.microtask(() => 
         context.read<FoodDetailsCubit>().loadFoodDetails(widget.foodId!)
+      );
+    }
+  }
+
+  void _addToCart(BuildContext context, FoodDetailsState state) async {
+    if (state.food == null) return;
+    
+    setState(() {
+      _isAddingToCart = true;
+    });
+    
+    _log.info('Adding item to cart: ${state.food!.nameEn}');
+    
+    try {
+      // Get the repository directly
+      final cartRepository = RepositoryProvider.of<CartRepository>(context);
+      
+      // Get current user if authenticated
+      UserModel? user;
+      try {
+        user = UserCubit.instance.state.user;
+      } catch (e) {
+        _log.warning('UserCubit not initialized, proceeding with guest cart');
+      }
+      
+      // Create cart item with a new UUID
+      final cartItem = CartItem.fromFoodModel(
+        food: state.food!,
+        userId: user?.id,
+        quantity: 1,
+        selectedSize: state.selectedSize,
+        selectedExtras: state.selectedExtras,
+        selectedBeverage: state.selectedBeverage,
+      );
+      
+      _log.info('Created cart item with ID: ${cartItem.id}');
+      
+      // Add as new item directly using the repository
+      cartRepository.addNewItemToCart(cartItem, user: user).then((updatedCart) {
+        _log.info('Item added successfully. Cart now has ${updatedCart.items.length} items');
+        
+        // Update the CartCubit state
+        context.read<CartCubit>().refreshCart();
+        
+        setState(() {
+          _isAddingToCart = false;
+        });
+        
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).addedToCart),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            margin: EdgeInsets.all(10.r),
+          ),
+        );
+        
+        // Pop back after a short delay
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            GoRouter.of(context).push(MainView.mainPath);
+          }
+        });
+      }).catchError((error) {
+        _log.severe('Failed to add item to cart: $error');
+        
+        setState(() {
+          _isAddingToCart = false;
+        });
+        
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).failedToAddToCart),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      });
+    } catch (e) {
+      _log.severe('Error in _addToCart: $e');
+      
+      setState(() {
+        _isAddingToCart = false;
+      });
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).failedToAddToCart),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 2),
+        ),
       );
     }
   }
@@ -77,7 +186,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    state.errorMessage ?? "Something went wrong",
+                    state.errorMessage ?? l10n.tryAgain,
                     style: TextStyle(fontSize: 16.sp),
                   ),
                   SizedBox(height: 16.h),
@@ -103,7 +212,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               ),
             ),
             body: Center(
-              child: Text("No data available"),
+              child: Text(l10n.noInternetConnection),
             ),
           );
         }
@@ -117,6 +226,55 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => GoRouter.of(context).pop(),
             ),
+            actions: [
+              // Cart button with indicator
+              BlocBuilder<CartCubit, CartState>(
+                builder: (context, cartState) {
+                  final itemCount = cartState.cart.itemCount;
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          if (cartState.cart.isNotEmpty) {
+                            GoRouter.of(context).push('/cart');
+                          }
+                        },
+                      ),
+                      if (itemCount > 0)
+                        Positioned(
+                          top: 8.h,
+                          right: 8.w,
+                          child: Container(
+                            padding: EdgeInsets.all(4.r),
+                            decoration: BoxDecoration(
+                              color: ColorsBox.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 16.r,
+                              minHeight: 16.r,
+                            ),
+                            child: Text(
+                              itemCount.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -250,7 +408,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total",
+                        l10n.total,
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
@@ -276,12 +434,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             child: AddToCartButton(
               price: state.totalPrice,
-              onPressed: () {
-                // Show a snackbar for now since we're not implementing cart functionality
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.addedToCart)),
-                );
-              },
+              isLoading: _isAddingToCart,
+              onPressed: () => _addToCart(context, state),
             ),
           ),
         );

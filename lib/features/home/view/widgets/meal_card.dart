@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/food_details/view/views/food_details_screen.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 
@@ -29,7 +31,11 @@ class MealCard extends StatelessWidget {
             GoRouter.of(context).push(
               FoodDetailsScreen.routeName,
               extra: food.id,
-            );
+            ).then((_) {
+        // ← when you come back from the cart screen
+        context.read<CartCubit>().refreshCart();
+      });;
+
           } else {
             GoRouter.of(context).push(LoginScreen.routeName);
           }

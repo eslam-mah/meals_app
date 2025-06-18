@@ -7,6 +7,7 @@ import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
+import 'package:meals_app/features/cart/view/widgets/cart_indicator.dart';
 import 'package:meals_app/features/home/view/widgets/delivery_location.dart';
 import 'package:meals_app/features/home/view/widgets/meal_card.dart';
 import 'package:meals_app/features/home/view_model/cubits/food_cubit.dart';
@@ -65,6 +66,7 @@ class _MenuViewState extends State<MenuView> {
 
   @override
   void dispose() {
+    
     _scrollController.dispose();
     super.dispose();
   }
@@ -83,116 +85,128 @@ class _MenuViewState extends State<MenuView> {
             _buildHeader(context, localization),
 
             Expanded(
-              child: RefreshIndicator(
-                key: _refreshIndicatorKey,
-                color: ColorsBox.primaryColor,
-                onRefresh: () async {
-                  final foodCubit = context.read<FoodCubit>();
-                  await foodCubit.loadMenuItems(refresh: true);
-                },
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  controller: _scrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const DeliveryLocation(),
-                      
-                      // Menu section title
-                      _buildSectionTitle(localization.menu),
+              child: Stack(
+                children: [
+                  RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    color: ColorsBox.primaryColor,
+                    onRefresh: () async {
+                      final foodCubit = context.read<FoodCubit>();
+                      await foodCubit.loadMenuItems(refresh: true);
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      controller: _scrollController,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const DeliveryLocation(),
+                          
+                          // Menu section title
+                          _buildSectionTitle(localization.menu),
 
-                      // Menu items list
-                      BlocBuilder<FoodCubit, FoodState>(
-                        buildWhen: (previous, current) => 
-                            previous.menuItems != current.menuItems ||
-                            previous.menuStatus != current.menuStatus,
-                        builder: (context, state) {
-                          if (state.menuStatus == FoodStatus.loading &&
-                              state.menuItems.isEmpty) {
-                            return Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 40.h),
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorsBox.primaryColor,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          
-                          if (state.menuStatus == FoodStatus.error &&
-                              state.menuItems.isEmpty) {
-                            return Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 40.h),
-                                child: Text(
-                                  state.errorMessage ?? 'Error loading menu items',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          
-                          if (state.menuItems.isEmpty) {
-                            return Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 40.h),
-                                child: Text(
-                                  'No menu items available',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          
-                          return Column(
-                            children: [
-                              // Menu items list
-                              ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                itemCount: state.menuItems.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(bottom: 12.h),
-                                    child: MealCard(
-                                      food: state.menuItems[index],
-                                    ),
-                                  );
-                                },
-                              ),
-                              
-                              // Loading indicator at the bottom when loading more
-                              if (state.menuStatus == FoodStatus.loadingMore)
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                                  child: Center(
+                          // Menu items list
+                          BlocBuilder<FoodCubit, FoodState>(
+                            buildWhen: (previous, current) => 
+                                previous.menuItems != current.menuItems ||
+                                previous.menuStatus != current.menuStatus,
+                            builder: (context, state) {
+                              if (state.menuStatus == FoodStatus.loading &&
+                                  state.menuItems.isEmpty) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 40.h),
                                     child: CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation<Color>(
                                         ColorsBox.primaryColor,
                                       ),
                                     ),
                                   ),
-                                ),
+                                );
+                              }
                               
-                              // Add some bottom padding to ensure we can scroll
-                              SizedBox(height: 20.h),
-                            ],
-                          );
-                        },
+                              if (state.menuStatus == FoodStatus.error &&
+                                  state.menuItems.isEmpty) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                                    child: Text(
+                                      state.errorMessage ?? 'Error loading menu items',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              
+                              if (state.menuItems.isEmpty) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                                    child: Text(
+                                      'No menu items available',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              
+                              return Column(
+                                children: [
+                                  // Menu items list
+                                  ListView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    itemCount: state.menuItems.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: EdgeInsets.only(bottom: 12.h),
+                                        child: MealCard(
+                                          food: state.menuItems[index],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  
+                                  // Loading indicator at the bottom when loading more
+                                  if (state.menuStatus == FoodStatus.loadingMore)
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            ColorsBox.primaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  
+                                  // Add some bottom padding to ensure we can scroll
+                                  SizedBox(height: 80.h),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  
+                  // Cart indicator at the bottom
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: const CartIndicator(),
+                  ),
+                ],
               ),
             ),
           ],

@@ -20,14 +20,16 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
-  static String m0(name) => "مرحباً، ${name}";
+  static String m0(name) => "مرحبًا، ${name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accessLocation":
-            MessageLookupByLibrary.simpleMessage("السماح بالوصول للموقع"),
+            MessageLookupByLibrary.simpleMessage("الوصول إلى الموقع"),
         "accountDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الحساب"),
         "accountInfo": MessageLookupByLibrary.simpleMessage("معلومات الحساب"),
+        "addItemsToYourCart":
+            MessageLookupByLibrary.simpleMessage("أضف عناصر إلى سلتك للمتابعة"),
         "addMoreItems":
             MessageLookupByLibrary.simpleMessage("إضافة المزيد من العناصر"),
         "addNewAddress":
@@ -37,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "تمت الإضافة إلى السلة بنجاح!"),
         "alexandria": MessageLookupByLibrary.simpleMessage("الإسكندرية"),
         "alreadyHaveAccount":
-            MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
+            MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
         "appTitle": MessageLookupByLibrary.simpleMessage("تطبيق الوجبات"),
         "appVersion": MessageLookupByLibrary.simpleMessage("إصدار التطبيق"),
         "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
@@ -47,14 +49,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "asyut": MessageLookupByLibrary.simpleMessage("أسيوط"),
         "beniSuef": MessageLookupByLibrary.simpleMessage("بني سويف"),
         "beverage": MessageLookupByLibrary.simpleMessage("المشروبات"),
+        "browseMenu": MessageLookupByLibrary.simpleMessage("تصفح القائمة"),
         "cairo": MessageLookupByLibrary.simpleMessage("القاهرة"),
         "callSupport": MessageLookupByLibrary.simpleMessage("اتصل بالدعم"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-        "cart": MessageLookupByLibrary.simpleMessage("عربة التسوق"),
+        "cart": MessageLookupByLibrary.simpleMessage("السلة"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
-        "checkout": MessageLookupByLibrary.simpleMessage("إتمام الطلب"),
-        "chickenFries": MessageLookupByLibrary.simpleMessage("أصابع الدجاج"),
+        "checkout": MessageLookupByLibrary.simpleMessage("الدفع"),
+        "checkoutNotImplemented": MessageLookupByLibrary.simpleMessage(
+            "وظيفة الدفع غير متاحة حاليًا"),
+        "chickenFries": MessageLookupByLibrary.simpleMessage("بطاطس بالدجاج"),
         "confirmDeleteAccount":
             MessageLookupByLibrary.simpleMessage("تأكيد حذف الحساب"),
         "confirmNewPassword":
@@ -64,7 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "continueButton": MessageLookupByLibrary.simpleMessage("متابعة"),
         "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "createPassword":
-            MessageLookupByLibrary.simpleMessage("إنشاء كلمة المرور"),
+            MessageLookupByLibrary.simpleMessage("إنشاء كلمة مرور"),
         "createPasswordForEmail":
             MessageLookupByLibrary.simpleMessage("إنشاء كلمة مرور لحسابك"),
         "currentPassword":
@@ -75,11 +80,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."),
         "deleteMyAccount": MessageLookupByLibrary.simpleMessage("حذف حسابي"),
+        "delivery": MessageLookupByLibrary.simpleMessage("توصيل"),
         "deliveryTo": MessageLookupByLibrary.simpleMessage("التوصيل إلى"),
+        "deliveryType": MessageLookupByLibrary.simpleMessage("نوع التوصيل"),
         "detailedAddress":
             MessageLookupByLibrary.simpleMessage("المنطقة، الشارع، رقم المبنى"),
         "didntReceiveCode":
-            MessageLookupByLibrary.simpleMessage("لم تتلق رمز التحقق؟"),
+            MessageLookupByLibrary.simpleMessage("لم تستلم الرمز؟"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
@@ -99,17 +106,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل بريدك الإلكتروني"),
         "enterYourFullName":
             MessageLookupByLibrary.simpleMessage("أدخل اسمك الكامل"),
-        "extras": MessageLookupByLibrary.simpleMessage("الإضافات"),
+        "extras": MessageLookupByLibrary.simpleMessage("إضافات"),
+        "failedToAddToCart":
+            MessageLookupByLibrary.simpleMessage("فشلت إضافة العنصر إلى السلة"),
+        "failedToLoadCart":
+            MessageLookupByLibrary.simpleMessage("فشل تحميل السلة"),
         "faiyum": MessageLookupByLibrary.simpleMessage("الفيوم"),
-        "feedback": MessageLookupByLibrary.simpleMessage("ملاحظات"),
+        "feedback": MessageLookupByLibrary.simpleMessage("التعليقات"),
         "feedbackSubmittedSuccessfully":
-            MessageLookupByLibrary.simpleMessage("تم إرسال ملاحظاتك بنجاح!"),
+            MessageLookupByLibrary.simpleMessage("تم إرسال التعليق بنجاح!"),
         "foodDescription": MessageLookupByLibrary.simpleMessage(
-            "أصابع دجاج لذيذة مصنوعة من دجاج ذو جودة عالية، تقدم مع صلصتنا الخاصة."),
+            "بطاطس دجاج لذيذة مصنوعة من دجاج عالي الجودة، تقدم مع صلصتنا الخاصة."),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
         "formSubmittedSuccessfully":
-            MessageLookupByLibrary.simpleMessage("تم تقديم النموذج بنجاح!"),
+            MessageLookupByLibrary.simpleMessage("تم إرسال النموذج بنجاح!"),
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "getStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
         "gharbia": MessageLookupByLibrary.simpleMessage("الغربية"),
@@ -128,18 +139,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "howSatisfiedWithOverallService": MessageLookupByLibrary.simpleMessage(
             "ما مدى رضاك عن الخدمة بشكل عام؟"),
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
-            "رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى."),
+            "رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى."),
         "ismailia": MessageLookupByLibrary.simpleMessage("الإسماعيلية"),
+        "item": MessageLookupByLibrary.simpleMessage("عنصر"),
         "items": MessageLookupByLibrary.simpleMessage("العناصر"),
         "kafrElSheikh": MessageLookupByLibrary.simpleMessage("كفر الشيخ"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "large": MessageLookupByLibrary.simpleMessage("كبير"),
         "leaveUsFeedback":
-            MessageLookupByLibrary.simpleMessage("اترك لنا ملاحظاتك"),
+            MessageLookupByLibrary.simpleMessage("اترك لنا تعليقًا"),
         "letsSignYouUp": MessageLookupByLibrary.simpleMessage("دعنا نسجلك"),
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
         "locationAccessDescription": MessageLookupByLibrary.simpleMessage(
-            "دي فود سيصل إلى موقعك\nفقط أثناء استخدام التطبيق"),
+            "سيصل التطبيق إلى موقعك\nفقط أثناء استخدام التطبيق"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "loyaltyPoints": MessageLookupByLibrary.simpleMessage("نقاط الولاء"),
         "luxor": MessageLookupByLibrary.simpleMessage("الأقصر"),
@@ -150,25 +162,26 @@ class MessageLookup extends MessageLookupByLibrary {
         "menu": MessageLookupByLibrary.simpleMessage("القائمة"),
         "minya": MessageLookupByLibrary.simpleMessage("المنيا"),
         "monufia": MessageLookupByLibrary.simpleMessage("المنوفية"),
-        "myCart": MessageLookupByLibrary.simpleMessage("عربة التسوق"),
+        "myCart": MessageLookupByLibrary.simpleMessage("سلتي"),
         "myOrders": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "newPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "newValley": MessageLookupByLibrary.simpleMessage("الوادي الجديد"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
-        "noExtrasAllowed":
-            MessageLookupByLibrary.simpleMessage("لا يسمح بإضافات كطلب خاص."),
+        "noExtrasAllowed": MessageLookupByLibrary.simpleMessage(
+            "لا يُسمح بإضافات إضافية كطلب خاص."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى."),
         "northSinai": MessageLookupByLibrary.simpleMessage("شمال سيناء"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "onboardingDesc1": MessageLookupByLibrary.simpleMessage(
-            "احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي"),
+            "احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي"),
         "onboardingDesc2": MessageLookupByLibrary.simpleMessage(
-            "احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي"),
+            "احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي"),
         "onboardingDesc3": MessageLookupByLibrary.simpleMessage(
-            "احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي"),
-        "onboardingTitle1": MessageLookupByLibrary.simpleMessage("كل مفضلاتك"),
+            "احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي"),
+        "onboardingTitle1":
+            MessageLookupByLibrary.simpleMessage("كل المفضلات لديك"),
         "onboardingTitle2":
             MessageLookupByLibrary.simpleMessage("اطلب من الشيف المختار"),
         "onboardingTitle3":
@@ -195,29 +208,30 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("كلمات المرور غير متطابقة"),
         "personalDetails":
-            MessageLookupByLibrary.simpleMessage("البيانات الشخصية"),
+            MessageLookupByLibrary.simpleMessage("التفاصيل الشخصية"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "phoneNumberMustBeAtLeast11Digits":
             MessageLookupByLibrary.simpleMessage(
                 "يجب أن يكون رقم الهاتف 11 رقمًا على الأقل"),
         "phoneNumberRequired":
-            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم الهاتف"),
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم هاتفك"),
+        "pickup": MessageLookupByLibrary.simpleMessage("استلام"),
         "pleaseConfirmPassword":
             MessageLookupByLibrary.simpleMessage("الرجاء تأكيد كلمة المرور"),
         "pleaseEnterAddress": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال عنوانك التفصيلي"),
         "pleaseEnterArea":
-            MessageLookupByLibrary.simpleMessage("الرجاء إدخال المنطقة"),
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال منطقتك"),
         "pleaseEnterPassword":
-            MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة المرور"),
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة مرور"),
         "pleaseEnterValidEmail": MessageLookupByLibrary.simpleMessage(
-            "الرجاء إدخال بريد إلكتروني صحيح"),
+            "الرجاء إدخال عنوان بريد إلكتروني صالح"),
         "pleaseEnterYourEmail": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال بريدك الإلكتروني"),
         "pleaseEnterYourName":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسمك"),
         "pleaseSignInToAccessContent": MessageLookupByLibrary.simpleMessage(
-            "الرجاء تسجيل الدخول للوصول إلى هذا المحتوى"),
+            "يرجى تسجيل الدخول للوصول إلى هذا المحتوى"),
         "portSaid": MessageLookupByLibrary.simpleMessage("بورسعيد"),
         "preferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
@@ -227,14 +241,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "rating": MessageLookupByLibrary.simpleMessage("التقييم"),
         "recommended": MessageLookupByLibrary.simpleMessage("موصى به"),
         "recommendedDescription": MessageLookupByLibrary.simpleMessage(
-            "الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!"),
+            "الأطباق التي يحبها عملاؤنا أكثر. جرب أكثر خياراتنا شعبية والتي ستلبي رغباتك بالتأكيد!"),
         "redSea": MessageLookupByLibrary.simpleMessage("البحر الأحمر"),
         "regular": MessageLookupByLibrary.simpleMessage("عادي"),
         "resendCode": MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز"),
         "resendCodeIn":
-            MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز خلال"),
-        "resendResetEmail":
-            MessageLookupByLibrary.simpleMessage("إرسال بريد إعادة التعيين"),
+            MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز في"),
+        "resendResetEmail": MessageLookupByLibrary.simpleMessage(
+            "إعادة إرسال بريد إعادة التعيين"),
         "resetPassword":
             MessageLookupByLibrary.simpleMessage("إعادة تعيين كلمة المرور"),
         "resetPasswordFor":
@@ -267,10 +281,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),
         "theRealThing": MessageLookupByLibrary.simpleMessage("الشيء الحقيقي."),
-        "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
+        "total": MessageLookupByLibrary.simpleMessage("المجموع"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
         "typeYourFeedback":
-            MessageLookupByLibrary.simpleMessage("اكتب ملاحظاتك هنا..."),
+            MessageLookupByLibrary.simpleMessage("اكتب تعليقك..."),
         "typeYourSpecialRequestsHere":
             MessageLookupByLibrary.simpleMessage("اكتب طلباتك الخاصة هنا..."),
         "update": MessageLookupByLibrary.simpleMessage("تحديث"),
@@ -279,9 +293,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "verificationCodeSent": MessageLookupByLibrary.simpleMessage(
             "تم إرسال رمز التحقق إلى هاتفك المحمول"),
         "verify": MessageLookupByLibrary.simpleMessage("تحقق"),
+        "viewCart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
         "welcome":
-            MessageLookupByLibrary.simpleMessage("مرحباً بك في تطبيق الوجبات"),
+            MessageLookupByLibrary.simpleMessage("مرحبًا بك في تطبيق الوجبات"),
         "welcomeToMealsApp":
-            MessageLookupByLibrary.simpleMessage("مرحبا بك في تطبيق الوجبات")
+            MessageLookupByLibrary.simpleMessage("مرحبًا بك في تطبيق الوجبات"),
+        "yourCartIsEmpty":
+            MessageLookupByLibrary.simpleMessage("سلة التسوق فارغة")
       };
 }

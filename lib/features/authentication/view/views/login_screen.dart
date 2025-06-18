@@ -12,6 +12,7 @@ import 'package:meals_app/features/authentication/view_model/cubits/auth_state.d
     as app_auth;
 import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
+import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:meals_app/features/authentication/view/views/forgot_password_screen.dart';
 
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _login() {
+  void _login() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
@@ -55,9 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
+    
 
     // Use the auth cubit to sign in
     context.read<AuthCubit>().signInWithPassword(email, password);
+    await context.read<UserCubit>().loadUser();
   }
 
   void _createAccount() {
@@ -102,7 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-
 
   void _toggleLanguage() {
     context.read<LanguageCubit>().toggleLanguage();
@@ -154,9 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
             // Show a success message about password reset email
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                  localization.passwordResetEmailSent,
-                ),
+                content: Text(localization.passwordResetEmailSent),
                 backgroundColor: Colors.green,
               ),
             );

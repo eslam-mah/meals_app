@@ -90,30 +90,30 @@ class S {
     );
   }
 
-  /// `مرحباً بك في تطبيق الوجبات`
+  /// `مرحبًا بك في تطبيق الوجبات`
   String get welcome {
     return Intl.message(
-      'مرحباً بك في تطبيق الوجبات',
+      'مرحبًا بك في تطبيق الوجبات',
       name: 'welcome',
       desc: '',
       args: [],
     );
   }
 
-  /// `كل مفضلاتك`
+  /// `كل المفضلات لديك`
   String get onboardingTitle1 {
     return Intl.message(
-      'كل مفضلاتك',
+      'كل المفضلات لديك',
       name: 'onboardingTitle1',
       desc: '',
       args: [],
     );
   }
 
-  /// `احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي`
+  /// `احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي`
   String get onboardingDesc1 {
     return Intl.message(
-      'احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي',
+      'احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي',
       name: 'onboardingDesc1',
       desc: '',
       args: [],
@@ -130,10 +130,10 @@ class S {
     );
   }
 
-  /// `احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي`
+  /// `احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي`
   String get onboardingDesc2 {
     return Intl.message(
-      'احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي',
+      'احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي',
       name: 'onboardingDesc2',
       desc: '',
       args: [],
@@ -150,10 +150,10 @@ class S {
     );
   }
 
-  /// `احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي`
+  /// `احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي`
   String get onboardingDesc3 {
     return Intl.message(
-      'احصل على جميع الأطعمة التي تحبها في مكان واحد، فقط قم بتقديم الطلب ونحن نقوم بالباقي',
+      'احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي',
       name: 'onboardingDesc3',
       desc: '',
       args: [],
@@ -230,10 +230,10 @@ class S {
     );
   }
 
-  /// `لم تتلق رمز التحقق؟`
+  /// `لم تستلم الرمز؟`
   String get didntReceiveCode {
     return Intl.message(
-      'لم تتلق رمز التحقق؟',
+      'لم تستلم الرمز؟',
       name: 'didntReceiveCode',
       desc: '',
       args: [],
@@ -280,10 +280,10 @@ class S {
     );
   }
 
-  /// `الرجاء إدخال رقم الهاتف`
+  /// `الرجاء إدخال رقم هاتفك`
   String get phoneNumberRequired {
     return Intl.message(
-      'الرجاء إدخال رقم الهاتف',
+      'الرجاء إدخال رقم هاتفك',
       name: 'phoneNumberRequired',
       desc: '',
       args: [],
@@ -330,20 +330,20 @@ class S {
     );
   }
 
-  /// `رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.`
+  /// `رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى.`
   String get invalidOtp {
     return Intl.message(
-      'رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.',
+      'رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى.',
       name: 'invalidOtp',
       desc: '',
       args: [],
     );
   }
 
-  /// `إعادة إرسال الرمز خلال`
+  /// `إعادة إرسال الرمز في`
   String get resendCodeIn {
     return Intl.message(
-      'إعادة إرسال الرمز خلال',
+      'إعادة إرسال الرمز في',
       name: 'resendCodeIn',
       desc: '',
       args: [],
@@ -390,30 +390,30 @@ class S {
     );
   }
 
-  /// `السماح بالوصول للموقع`
+  /// `الوصول إلى الموقع`
   String get accessLocation {
     return Intl.message(
-      'السماح بالوصول للموقع',
+      'الوصول إلى الموقع',
       name: 'accessLocation',
       desc: '',
       args: [],
     );
   }
 
-  /// `دي فود سيصل إلى موقعك\nفقط أثناء استخدام التطبيق`
+  /// `سيصل التطبيق إلى موقعك\nفقط أثناء استخدام التطبيق`
   String get locationAccessDescription {
     return Intl.message(
-      'دي فود سيصل إلى موقعك\nفقط أثناء استخدام التطبيق',
+      'سيصل التطبيق إلى موقعك\nفقط أثناء استخدام التطبيق',
       name: 'locationAccessDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `مرحبا بك في تطبيق الوجبات`
+  /// `مرحبًا بك في تطبيق الوجبات`
   String get welcomeToMealsApp {
     return Intl.message(
-      'مرحبا بك في تطبيق الوجبات',
+      'مرحبًا بك في تطبيق الوجبات',
       name: 'welcomeToMealsApp',
       desc: '',
       args: [],
@@ -570,10 +570,10 @@ class S {
     );
   }
 
-  /// `الرجاء إدخال المنطقة`
+  /// `الرجاء إدخال منطقتك`
   String get pleaseEnterArea {
     return Intl.message(
-      'الرجاء إدخال المنطقة',
+      'الرجاء إدخال منطقتك',
       name: 'pleaseEnterArea',
       desc: '',
       args: [],
@@ -600,20 +600,20 @@ class S {
     );
   }
 
-  /// `الرجاء إدخال بريد إلكتروني صحيح`
+  /// `الرجاء إدخال عنوان بريد إلكتروني صالح`
   String get pleaseEnterValidEmail {
     return Intl.message(
-      'الرجاء إدخال بريد إلكتروني صحيح',
+      'الرجاء إدخال عنوان بريد إلكتروني صالح',
       name: 'pleaseEnterValidEmail',
       desc: '',
       args: [],
     );
   }
 
-  /// `الرجاء إدخال كلمة المرور`
+  /// `الرجاء إدخال كلمة مرور`
   String get pleaseEnterPassword {
     return Intl.message(
-      'الرجاء إدخال كلمة المرور',
+      'الرجاء إدخال كلمة مرور',
       name: 'pleaseEnterPassword',
       desc: '',
       args: [],
@@ -630,10 +630,10 @@ class S {
     );
   }
 
-  /// `تم تقديم النموذج بنجاح!`
+  /// `تم إرسال النموذج بنجاح!`
   String get formSubmittedSuccessfully {
     return Intl.message(
-      'تم تقديم النموذج بنجاح!',
+      'تم إرسال النموذج بنجاح!',
       name: 'formSubmittedSuccessfully',
       desc: '',
       args: [],
@@ -910,10 +910,10 @@ class S {
     );
   }
 
-  /// `مرحباً، {name}`
+  /// `مرحبًا، {name}`
   String hello(Object name) {
     return Intl.message(
-      'مرحباً، $name',
+      'مرحبًا، $name',
       name: 'hello',
       desc: '',
       args: [name],
@@ -970,10 +970,10 @@ class S {
     );
   }
 
-  /// `الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!`
+  /// `الأطباق التي يحبها عملاؤنا أكثر. جرب أكثر خياراتنا شعبية والتي ستلبي رغباتك بالتأكيد!`
   String get recommendedDescription {
     return Intl.message(
-      'الأطباق التي يحبها عملاؤنا أكثر. جرب خياراتنا الأكثر شعبية والتي ستلبي رغباتك بالتأكيد!',
+      'الأطباق التي يحبها عملاؤنا أكثر. جرب أكثر خياراتنا شعبية والتي ستلبي رغباتك بالتأكيد!',
       name: 'recommendedDescription',
       desc: '',
       args: [],
@@ -1020,10 +1020,10 @@ class S {
     );
   }
 
-  /// `عربة التسوق`
+  /// `السلة`
   String get cart {
     return Intl.message(
-      'عربة التسوق',
+      'السلة',
       name: 'cart',
       desc: '',
       args: [],
@@ -1040,10 +1040,10 @@ class S {
     );
   }
 
-  /// `ملاحظات`
+  /// `التعليقات`
   String get feedback {
     return Intl.message(
-      'ملاحظات',
+      'التعليقات',
       name: 'feedback',
       desc: '',
       args: [],
@@ -1190,10 +1190,10 @@ class S {
     );
   }
 
-  /// `عربة التسوق`
+  /// `سلتي`
   String get myCart {
     return Intl.message(
-      'عربة التسوق',
+      'سلتي',
       name: 'myCart',
       desc: '',
       args: [],
@@ -1230,10 +1230,10 @@ class S {
     );
   }
 
-  /// `لا يسمح بإضافات كطلب خاص.`
+  /// `لا يُسمح بإضافات إضافية كطلب خاص.`
   String get noExtrasAllowed {
     return Intl.message(
-      'لا يسمح بإضافات كطلب خاص.',
+      'لا يُسمح بإضافات إضافية كطلب خاص.',
       name: 'noExtrasAllowed',
       desc: '',
       args: [],
@@ -1270,10 +1270,10 @@ class S {
     );
   }
 
-  /// `الإجمالي`
+  /// `المجموع`
   String get total {
     return Intl.message(
-      'الإجمالي',
+      'المجموع',
       name: 'total',
       desc: '',
       args: [],
@@ -1290,20 +1290,20 @@ class S {
     );
   }
 
-  /// `إتمام الطلب`
+  /// `الدفع`
   String get checkout {
     return Intl.message(
-      'إتمام الطلب',
+      'الدفع',
       name: 'checkout',
       desc: '',
       args: [],
     );
   }
 
-  /// `البيانات الشخصية`
+  /// `التفاصيل الشخصية`
   String get personalDetails {
     return Intl.message(
-      'البيانات الشخصية',
+      'التفاصيل الشخصية',
       name: 'personalDetails',
       desc: '',
       args: [],
@@ -1370,30 +1370,30 @@ class S {
     );
   }
 
-  /// `اترك لنا ملاحظاتك`
+  /// `اترك لنا تعليقًا`
   String get leaveUsFeedback {
     return Intl.message(
-      'اترك لنا ملاحظاتك',
+      'اترك لنا تعليقًا',
       name: 'leaveUsFeedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `اكتب ملاحظاتك هنا...`
+  /// `اكتب تعليقك...`
   String get typeYourFeedback {
     return Intl.message(
-      'اكتب ملاحظاتك هنا...',
+      'اكتب تعليقك...',
       name: 'typeYourFeedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `تم إرسال ملاحظاتك بنجاح!`
+  /// `تم إرسال التعليق بنجاح!`
   String get feedbackSubmittedSuccessfully {
     return Intl.message(
-      'تم إرسال ملاحظاتك بنجاح!',
+      'تم إرسال التعليق بنجاح!',
       name: 'feedbackSubmittedSuccessfully',
       desc: '',
       args: [],
@@ -1410,10 +1410,10 @@ class S {
     );
   }
 
-  /// `الإضافات`
+  /// `إضافات`
   String get extras {
     return Intl.message(
-      'الإضافات',
+      'إضافات',
       name: 'extras',
       desc: '',
       args: [],
@@ -1440,20 +1440,20 @@ class S {
     );
   }
 
-  /// `أصابع الدجاج`
+  /// `بطاطس بالدجاج`
   String get chickenFries {
     return Intl.message(
-      'أصابع الدجاج',
+      'بطاطس بالدجاج',
       name: 'chickenFries',
       desc: '',
       args: [],
     );
   }
 
-  /// `أصابع دجاج لذيذة مصنوعة من دجاج ذو جودة عالية، تقدم مع صلصتنا الخاصة.`
+  /// `بطاطس دجاج لذيذة مصنوعة من دجاج عالي الجودة، تقدم مع صلصتنا الخاصة.`
   String get foodDescription {
     return Intl.message(
-      'أصابع دجاج لذيذة مصنوعة من دجاج ذو جودة عالية، تقدم مع صلصتنا الخاصة.',
+      'بطاطس دجاج لذيذة مصنوعة من دجاج عالي الجودة، تقدم مع صلصتنا الخاصة.',
       name: 'foodDescription',
       desc: '',
       args: [],
@@ -1465,6 +1465,16 @@ class S {
     return Intl.message(
       'تمت الإضافة إلى السلة بنجاح!',
       name: 'addedToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشلت إضافة العنصر إلى السلة`
+  String get failedToAddToCart {
+    return Intl.message(
+      'فشلت إضافة العنصر إلى السلة',
+      name: 'failedToAddToCart',
       desc: '',
       args: [],
     );
@@ -1670,10 +1680,10 @@ class S {
     );
   }
 
-  /// `إنشاء كلمة المرور`
+  /// `إنشاء كلمة مرور`
   String get createPassword {
     return Intl.message(
-      'إنشاء كلمة المرور',
+      'إنشاء كلمة مرور',
       name: 'createPassword',
       desc: '',
       args: [],
@@ -1730,10 +1740,10 @@ class S {
     );
   }
 
-  /// `إرسال بريد إعادة التعيين`
+  /// `إعادة إرسال بريد إعادة التعيين`
   String get resendResetEmail {
     return Intl.message(
-      'إرسال بريد إعادة التعيين',
+      'إعادة إرسال بريد إعادة التعيين',
       name: 'resendResetEmail',
       desc: '',
       args: [],
@@ -1790,10 +1800,10 @@ class S {
     );
   }
 
-  /// `لديك حساب بالفعل؟`
+  /// `هل لديك حساب بالفعل؟`
   String get alreadyHaveAccount {
     return Intl.message(
-      'لديك حساب بالفعل؟',
+      'هل لديك حساب بالفعل؟',
       name: 'alreadyHaveAccount',
       desc: '',
       args: [],
@@ -1820,11 +1830,111 @@ class S {
     );
   }
 
-  /// `الرجاء تسجيل الدخول للوصول إلى هذا المحتوى`
+  /// `يرجى تسجيل الدخول للوصول إلى هذا المحتوى`
   String get pleaseSignInToAccessContent {
     return Intl.message(
-      'الرجاء تسجيل الدخول للوصول إلى هذا المحتوى',
+      'يرجى تسجيل الدخول للوصول إلى هذا المحتوى',
       name: 'pleaseSignInToAccessContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `سلة التسوق فارغة`
+  String get yourCartIsEmpty {
+    return Intl.message(
+      'سلة التسوق فارغة',
+      name: 'yourCartIsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أضف عناصر إلى سلتك للمتابعة`
+  String get addItemsToYourCart {
+    return Intl.message(
+      'أضف عناصر إلى سلتك للمتابعة',
+      name: 'addItemsToYourCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تصفح القائمة`
+  String get browseMenu {
+    return Intl.message(
+      'تصفح القائمة',
+      name: 'browseMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عرض السلة`
+  String get viewCart {
+    return Intl.message(
+      'عرض السلة',
+      name: 'viewCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عنصر`
+  String get item {
+    return Intl.message(
+      'عنصر',
+      name: 'item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `توصيل`
+  String get delivery {
+    return Intl.message(
+      'توصيل',
+      name: 'delivery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `استلام`
+  String get pickup {
+    return Intl.message(
+      'استلام',
+      name: 'pickup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `نوع التوصيل`
+  String get deliveryType {
+    return Intl.message(
+      'نوع التوصيل',
+      name: 'deliveryType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `وظيفة الدفع غير متاحة حاليًا`
+  String get checkoutNotImplemented {
+    return Intl.message(
+      'وظيفة الدفع غير متاحة حاليًا',
+      name: 'checkoutNotImplemented',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل تحميل السلة`
+  String get failedToLoadCart {
+    return Intl.message(
+      'فشل تحميل السلة',
+      name: 'failedToLoadCart',
       desc: '',
       args: [],
     );

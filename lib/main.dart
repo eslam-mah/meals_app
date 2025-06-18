@@ -16,6 +16,8 @@ import 'package:meals_app/core/utils/shared_prefs.dart';
 import 'package:meals_app/core/widgets/connectivity_dialog.dart';
 import 'package:meals_app/features/authentication/data/auth_repository.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
+import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_state.dart';
 import 'package:meals_app/core/config/supabase_options.dart';

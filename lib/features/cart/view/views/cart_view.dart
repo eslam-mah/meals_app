@@ -1,159 +1,256 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
+import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/view/widgets/cart_item.dart';
 import 'package:meals_app/features/cart/view/widgets/delivery_type_selector.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_state.dart';
 import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/generated/l10n.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends StatefulWidget {
   static const String cartPath = '/cart';
 
   const CartView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final localization = S.of(context);
-
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title: Text(
-          '${localization.myCart} (10 ${localization.items})',
-          style: TextStyle(
-            fontSize: 24.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, size: 28.r),
-          onPressed: () => GoRouter.of(context).pop(),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Section Title - Items
-          Padding(
-            padding: EdgeInsets.all(16.r),
-            child: Text(
-              localization.items,
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: ColorsBox.primaryColor,
-              ),
-            ),
-          ),
-
-          // Cart Items List
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16.r),
-              children: [
-                // List of cart items
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return const CartItem();
-                  },
-                ),
-                
-                // Special Requests Section
-                SizedBox(height: 16.h),
-                const SpecialRequestsSection(),
-                SizedBox(height: 16.h),
-                DeliveryTypeSelector(),
-                // Summary Section
-                SizedBox(height: 24.h),
-                const _PriceSummarySection(),
-                
-                // Add more items button
-                SizedBox(height: 16.h),
-                const _AddMoreItemsButton(),
-                
-                SizedBox(height: 100.h), // Bottom padding for checkout button
-              ],
-            ),
-          ),
-        ],
-      ),
-      bottomSheet: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16.r),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 5,
-              offset: const Offset(0, -2),
-            )
-          ],
-        ),
-        child: CustomButton(
-          title: localization.checkout,
-          onTap: () {},
-          color: ColorsBox.primaryColor,
-        ),
-      ),
-    );
-  }
+  State<CartView> createState() => _CartViewState();
 }
 
-class SpecialRequestsSection extends StatelessWidget {
-  const SpecialRequestsSection({super.key});
+class _CartViewState extends State<CartView> {
+  final TextEditingController _specialInstructionsController = TextEditingController();
+
+  // Local cart for instant feedback
+  List<CartItem>? _localCartItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCart();
+  }
+
+  @override
+  void dispose() {
+    _specialInstructionsController.dispose();
+    super.dispose();
+  }
+
+  void _loadCart() {
+    context.read<CartCubit>().refreshCart();
+  }
+
+  void _syncLocalCartItems(List<CartItem> items) {
+    // Initialize or sync local copy
+    if (_localCartItems == null || _localCartItems!.length != items.length) {
+      _localCartItems = items.map((e) => e.copyWith()).toList();
+    } else {
+      for (var i = 0; i < items.length; i++) {
+        _localCartItems![i] = items[i];
+      }
+    }
+  }
+
+  // Handle navigation when back button is pressed
+  void _handlePopInvoked(bool didPop) {
+    if (didPop) return;
+    context.read<CartCubit>().loadCart();
+    GoRouter.of(context).push(MainView.mainPath);
+  }
 
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    
+
+    return BlocConsumer<CartCubit, CartState>(
+      listenWhen: (prev, curr) => prev.cart.items != curr.cart.items,
+      listener: (context, state) {
+        // Always sync local copy after backend changes
+        _syncLocalCartItems(state.cart.items);
+        setState(() {});
+      },
+      builder: (context, state) {
+        // Always initialize local items if needed (fixes null error)
+        _localCartItems ??= state.cart.items.map((e) => e.copyWith()).toList();
+        final cartItems = _localCartItems!;
+
+        // Show loading indicator
+        if (state.status == CartStatus.loading && (state.cart.isEmpty || cartItems.isEmpty)) {
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) => _handlePopInvoked(didPop),
+            child: Scaffold(
+              appBar: _buildAppBar(context, localization, 0),
+              body: const Center(child: CircularProgressIndicator()),
+            ),
+          );
+        }
+
+        // Show empty cart state
+        if (cartItems.isEmpty) {
+          return PopScope(
+            canPop: false,
+            onPopInvoked: _handlePopInvoked,
+            child: Scaffold(
+              appBar: _buildAppBar(context, localization, 0),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shopping_cart_outlined, size: 80.r, color: Colors.grey),
+                    SizedBox(height: 16.h),
+                    Text(localization.yourCartIsEmpty,
+                        style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8.h),
+                    Text(localization.addItemsToYourCart,
+                        style: TextStyle(fontSize: 14.sp, color: Colors.grey)),
+                    SizedBox(height: 24.h),
+                    ElevatedButton(
+                      onPressed: () => GoRouter.of(context).push(MainView.mainPath),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsBox.primaryColor,
+                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                      ),
+                      child: Text(localization.browseMenu),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        // Show cart with items
+        final Cart localCart = state.cart.copyWith(items: cartItems);
+
+        return PopScope(
+          canPop: false,
+          onPopInvoked: _handlePopInvoked,
+          child: Scaffold(
+            backgroundColor: Colors.grey.shade100,
+            appBar: _buildAppBar(context, localization, localCart.itemCount),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16.r),
+                  child: Text(localization.items,
+                      style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: ColorsBox.primaryColor)),
+                ),
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 16.r),
+                    children: [
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: cartItems.length,
+                        itemBuilder: (context, index) {
+                          final item = cartItems[index];
+                          return CartItemWidget(
+                            item: item,
+                            onIncrement: () => _instantIncrement(item, index),
+                            onDecrement: () => _instantDecrement(item, index),
+                            onRemove: () => _instantRemove(item, index),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+                      _buildSpecialRequestsSection(context, localization, state.cart.specialInstructions),
+                      SizedBox(height: 16.h),
+                      DeliveryTypeSelector(
+                        selectedType: state.cart.deliveryType,
+                        onTypeSelected: (type) => _setDeliveryType(type),
+                      ),
+                      SizedBox(height: 24.h),
+                      _buildPriceSummarySection(context, localization, localCart),
+                      SizedBox(height: 16.h),
+                      _buildAddMoreItemsButton(context, localization),
+                      SizedBox(height: 100.h),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            bottomSheet: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 5,
+                    offset: const Offset(0, -2),
+                  )
+                ],
+              ),
+              child: CustomButton(
+                title: localization.checkout,
+                onTap: () => _checkout(context),
+                color: ColorsBox.primaryColor,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context, S localization, int itemCount) {
+    return AppBar(
+      title: Text(
+        '${localization.myCart}${itemCount > 0 ? ' ($itemCount ${itemCount == 1 ? localization.item : localization.items})' : ''}',
+        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+      ),
+      centerTitle: true,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, size: 28.r),
+        onPressed: () {
+          context.read<CartCubit>().loadCart();
+          GoRouter.of(context).push(MainView.mainPath);
+        },
+      ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+    );
+  }
+
+  Widget _buildSpecialRequestsSection(BuildContext context, S localization, String? currentInstructions) {
+    if (currentInstructions != null && _specialInstructionsController.text.isEmpty) {
+      _specialInstructionsController.text = currentInstructions;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section Title
-        Text(
-          '${localization.specialRequests} (${localization.optional})',
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
+        Text('${localization.specialRequests} (${localization.optional})',
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black)),
         SizedBox(height: 4.h),
-        
-        // Note about extras
-        Text(
-          localization.noExtrasAllowed,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.grey,
-          ),
-        ),
+        Text(localization.noExtrasAllowed,
+            style: TextStyle(fontSize: 14.sp, color: Colors.grey)),
         SizedBox(height: 12.h),
-        
-        // Text Field
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: TextField(
+            controller: _specialInstructionsController,
             maxLines: 3,
+            onChanged: (value) {
+              context.read<CartCubit>().setSpecialInstructions(value);
+            },
             decoration: InputDecoration(
               hintText: localization.typeYourSpecialRequestsHere,
-              hintStyle: TextStyle(
-                color: Colors.grey.shade400,
-                fontSize: 14.sp,
-              ),
+              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14.sp),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide: BorderSide.none,
@@ -167,45 +264,28 @@ class SpecialRequestsSection extends StatelessWidget {
       ],
     );
   }
-}
 
-class _PriceSummarySection extends StatelessWidget {
-  const _PriceSummarySection();
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = S.of(context);
-    
+  Widget _buildPriceSummarySection(BuildContext context, S localization, Cart cart) {
     return Column(
       children: [
-        // Subtotal Row
         _buildPriceRow(
           label: localization.subTotal,
-          amount: '140.35EGP',
+          amount: '${cart.subtotal.toStringAsFixed(2)} EGP',
           isBold: false,
         ),
         SizedBox(height: 8.h),
-        
-        // VAT Row
         _buildPriceRow(
           label: localization.vat,
-          amount: '19.65 EGP',
+          amount: '${cart.vat.toStringAsFixed(2)} EGP',
           isBold: false,
         ),
-        
-        // Divider
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.h),
-          child: Divider(
-            height: 1.h,
-            color: Colors.grey.shade300,
-          ),
+          child: Divider(height: 1.h, color: Colors.grey.shade300),
         ),
-        
-        // Total Row
         _buildPriceRow(
           label: localization.total,
-          amount: '160.00 EGP',
+          amount: '${cart.finalTotal.toStringAsFixed(2)} EGP',
           isBold: true,
           isLarge: true,
         ),
@@ -241,39 +321,78 @@ class _PriceSummarySection extends StatelessWidget {
       ],
     );
   }
-}
 
-class _AddMoreItemsButton extends StatelessWidget {
-  const _AddMoreItemsButton();
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = S.of(context);
-    
+  Widget _buildAddMoreItemsButton(BuildContext context, S localization) {
     return TextButton(
       onPressed: () {
-         GoRouter.of(context).push(MainView.mainPath);
+        GoRouter.of(context).push(MainView.mainPath);
       },
-      
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.add,
-            color: ColorsBox.primaryColor,
-            size: 20.r,
-          ),
+          Icon(Icons.add, color: ColorsBox.primaryColor, size: 20.r),
           SizedBox(width: 4.w),
-          Text(
-            localization.addMoreItems,
-            style: TextStyle(
-              color: ColorsBox.primaryColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text(localization.addMoreItems,
+              style: TextStyle(
+                color: ColorsBox.primaryColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              )),
         ],
       ),
     );
   }
-} 
+
+  // Cart item actions with instant UI
+  void _instantIncrement(CartItem item, int index) {
+    if (_localCartItems == null) return;
+    setState(() {
+      final updated = item.copyWith(
+        quantity: item.quantity + 1,
+        totalPrice: item.price * (item.quantity + 1),
+      );
+      _localCartItems![index] = updated;
+    });
+    context.read<CartCubit>().incrementItemQuantity(item.id);
+  }
+
+  void _instantDecrement(CartItem item, int index) {
+    if (_localCartItems == null) return;
+
+    if (item.quantity == 1) {
+      // Remove the item if it's the last one
+      _instantRemove(item, index);
+      return;
+    }
+
+    setState(() {
+      final updated = item.copyWith(
+        quantity: item.quantity - 1,
+        totalPrice: item.price * (item.quantity - 1),
+      );
+      _localCartItems![index] = updated;
+    });
+    context.read<CartCubit>().decrementItemQuantity(item.id);
+  }
+
+  void _instantRemove(CartItem item, int index) {
+    if (_localCartItems == null) return;
+    setState(() {
+      _localCartItems!.removeAt(index);
+    });
+    context.read<CartCubit>().removeItem(item.id);
+  }
+
+  void _setDeliveryType(String type) {
+    context.read<CartCubit>().setDeliveryType(type);
+  }
+
+  void _checkout(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(S.of(context).checkoutNotImplemented),
+        backgroundColor: Colors.orange,
+      ),
+    );
+  }
+}

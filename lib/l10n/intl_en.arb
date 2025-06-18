@@ -35,6 +35,7 @@
   "otpResent": "Verification code has been resent",
   "accessLocation": "ACCESS LOCATION",
   "locationAccessDescription": "DFOOD WILL ACCESS YOUR LOCATION\nONLY WHILE USING THE APP",
+  "noDataAvailable": "No data available",
   
   "welcomeToMealsApp": "WELCOME TO MEALS APP",
   "letsSignYouUp": "Let's sign you up",
@@ -147,6 +148,7 @@
   "chickenFries": "Chicken Fries",
   "foodDescription": "Delicious chicken fries made with premium quality chicken, served with our special sauce.",
   "addedToCart": "Added to cart successfully!",
+  "failedToAddToCart": "Failed to add to cart",
   "regular": "Regular",
   "medium": "Medium",
   "large": "Large",
@@ -186,5 +188,16 @@
   
   "noInternetConnection": "No internet connection. Please check your connection and try again.",
   "tryAgain": "Try Again",
-  "pleaseSignInToAccessContent": "Please sign in to access this content"
+  "pleaseSignInToAccessContent": "Please sign in to access this content",
+  
+  "yourCartIsEmpty": "Your cart is empty",
+  "addItemsToYourCart": "Add items to your cart to continue",
+  "browseMenu": "Browse Menu",
+  "viewCart": "View Cart",
+  "item": "Item",
+  "delivery": "Delivery",
+  "pickup": "Pickup",
+  "deliveryType": "Delivery Type",
+  "checkoutNotImplemented": "Checkout functionality is not implemented yet",
+  "failedToLoadCart": "Failed to load cart"
 }

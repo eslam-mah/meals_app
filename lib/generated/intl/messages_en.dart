@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountDetails":
             MessageLookupByLibrary.simpleMessage("Account details"),
         "accountInfo": MessageLookupByLibrary.simpleMessage("Account info"),
+        "addItemsToYourCart": MessageLookupByLibrary.simpleMessage(
+            "Add items to your cart to continue"),
         "addMoreItems": MessageLookupByLibrary.simpleMessage("Add more items"),
         "addNewAddress":
             MessageLookupByLibrary.simpleMessage("Add new address"),
@@ -48,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "asyut": MessageLookupByLibrary.simpleMessage("Asyut"),
         "beniSuef": MessageLookupByLibrary.simpleMessage("Beni Suef"),
         "beverage": MessageLookupByLibrary.simpleMessage("Beverage"),
+        "browseMenu": MessageLookupByLibrary.simpleMessage("Browse Menu"),
         "cairo": MessageLookupByLibrary.simpleMessage("Cairo"),
         "callSupport": MessageLookupByLibrary.simpleMessage("Call support"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -55,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
         "checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
+        "checkoutNotImplemented": MessageLookupByLibrary.simpleMessage(
+            "Checkout functionality is not implemented yet"),
         "chickenFries": MessageLookupByLibrary.simpleMessage("Chicken Fries"),
         "confirmDeleteAccount":
             MessageLookupByLibrary.simpleMessage("Confirm Account Deletion"),
@@ -77,7 +82,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to delete your account? This action cannot be undone."),
         "deleteMyAccount":
             MessageLookupByLibrary.simpleMessage("Delete My Account"),
+        "delivery": MessageLookupByLibrary.simpleMessage("Delivery"),
         "deliveryTo": MessageLookupByLibrary.simpleMessage("Delivery to"),
+        "deliveryType": MessageLookupByLibrary.simpleMessage("Delivery Type"),
         "detailedAddress": MessageLookupByLibrary.simpleMessage(
             "Area, Street, Building number"),
         "didntReceiveCode":
@@ -101,6 +108,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterYourFullName":
             MessageLookupByLibrary.simpleMessage("Enter your full name"),
         "extras": MessageLookupByLibrary.simpleMessage("Extras"),
+        "failedToAddToCart":
+            MessageLookupByLibrary.simpleMessage("Failed to add to cart"),
+        "failedToLoadCart":
+            MessageLookupByLibrary.simpleMessage("Failed to load cart"),
         "faiyum": MessageLookupByLibrary.simpleMessage("Faiyum"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "feedbackSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -133,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
             "Invalid verification code. Please try again."),
         "ismailia": MessageLookupByLibrary.simpleMessage("Ismailia"),
+        "item": MessageLookupByLibrary.simpleMessage("Item"),
         "items": MessageLookupByLibrary.simpleMessage("Items"),
         "kafrElSheikh": MessageLookupByLibrary.simpleMessage("Kafr El Sheikh"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -206,6 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Phone number must be at least 11 digits"),
         "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
             "Please enter your phone number"),
+        "pickup": MessageLookupByLibrary.simpleMessage("Pickup"),
         "pleaseConfirmPassword": MessageLookupByLibrary.simpleMessage(
             "Please confirm your password"),
         "pleaseEnterAddress": MessageLookupByLibrary.simpleMessage(
@@ -284,9 +297,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "verificationCodeSent": MessageLookupByLibrary.simpleMessage(
             "Verification code has been sent to your mobile phone"),
         "verify": MessageLookupByLibrary.simpleMessage("Verify"),
+        "viewCart": MessageLookupByLibrary.simpleMessage("View Cart"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("Welcome to the Meals App"),
         "welcomeToMealsApp":
-            MessageLookupByLibrary.simpleMessage("WELCOME TO MEALS APP")
+            MessageLookupByLibrary.simpleMessage("WELCOME TO MEALS APP"),
+        "yourCartIsEmpty":
+            MessageLookupByLibrary.simpleMessage("Your cart is empty")
       };
 }
