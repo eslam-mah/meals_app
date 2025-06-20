@@ -226,55 +226,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => GoRouter.of(context).pop(),
             ),
-            actions: [
-              // Cart button with indicator
-              BlocBuilder<CartCubit, CartState>(
-                builder: (context, cartState) {
-                  final itemCount = cartState.cart.itemCount;
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          if (cartState.cart.isNotEmpty) {
-                            GoRouter.of(context).push('/cart');
-                          }
-                        },
-                      ),
-                      if (itemCount > 0)
-                        Positioned(
-                          top: 8.h,
-                          right: 8.w,
-                          child: Container(
-                            padding: EdgeInsets.all(4.r),
-                            decoration: BoxDecoration(
-                              color: ColorsBox.primaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: BoxConstraints(
-                              minWidth: 16.r,
-                              minHeight: 16.r,
-                            ),
-                            child: Text(
-                              itemCount.toString(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              ),
-            ],
+           
           ),
           body: SingleChildScrollView(
             child: Padding(

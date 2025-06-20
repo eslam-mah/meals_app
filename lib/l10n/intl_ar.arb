@@ -198,6 +198,26 @@
   "pickup": "استلام",
   "deliveryType": "نوع التوصيل",
   "checkoutNotImplemented": "وظيفة الدفع غير متاحة حاليًا",
-  "failedToLoadCart": "فشل تحميل السلة"
-}, \ n     " n o D a t a A v a i l a b l e " :   " D'  *H,/  (J'F'*  E*'-)" \ n  
- 
+  "failedToLoadCart": "فشل تحميل السلة",
+
+  "noAddressesFound": "لا توجد عناوين",
+  "addYourFirstAddress": "أضف عنوانك الأول بالنقر على الزر أدناه",
+  "primary": "رئيسي",
+  "primaryAddress": "عنوان رئيسي",
+  "deleteAddress": "حذف العنوان",
+  "areYouSureYouWantToDeleteThisAddress": "هل أنت متأكد من رغبتك في حذف هذا العنوان؟",
+  "addAddress": "إضافة عنوان",
+  "editAddress": "تعديل العنوان",
+  "useCurrentLocation": "استخدام الموقع الحالي",
+  "locationCapturedSuccessfully": "تم التقاط الموقع بنجاح",
+  "yourExactCoordinatesWereCaptured": "تم التقاط إحداثيات موقعك بدقة",
+  "enterYourArea": "أدخل منطقتك",
+  "detailedAddressHint": "الشارع، المبنى، الشقة، الطابق...",
+  "cityLabel": "المدينة",
+  "areaLabel": "المنطقة",
+  "detailedAddressLabel": "العنوان التفصيلي",
+  "saveAddress": "حفظ العنوان",
+  "updateAddress": "تحديث العنوان",
+  "failedToGetLocation": "فشل في الحصول على الموقع: {error}",
+  "failedToSaveAddress": "فشل في حفظ العنوان: {error}"
+}

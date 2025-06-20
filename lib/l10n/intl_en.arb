@@ -199,5 +199,26 @@
   "pickup": "Pickup",
   "deliveryType": "Delivery Type",
   "checkoutNotImplemented": "Checkout functionality is not implemented yet",
-  "failedToLoadCart": "Failed to load cart"
+  "failedToLoadCart": "Failed to load cart",
+
+  "noAddressesFound": "No Addresses Found",
+  "addYourFirstAddress": "Add your first address by clicking the button below",
+  "primary": "Primary",
+  "primaryAddress": "Primary Address",
+  "deleteAddress": "Delete Address",
+  "areYouSureYouWantToDeleteThisAddress": "Are you sure you want to delete this address?",
+  "addAddress": "Add Address",
+  "editAddress": "Edit Address",
+  "useCurrentLocation": "Use Current Location",
+  "locationCapturedSuccessfully": "Location Captured Successfully",
+  "yourExactCoordinatesWereCaptured": "Your exact coordinates were captured",
+  "enterYourArea": "Enter your area",
+  "detailedAddressHint": "Street, building, apartment, floor...",
+  "cityLabel": "City",
+  "areaLabel": "Area",
+  "detailedAddressLabel": "Detailed Address",
+  "saveAddress": "Save Address",
+  "updateAddress": "Update Address",
+  "failedToGetLocation": "Failed to get location: {error}",
+  "failedToSaveAddress": "Failed to save address: {error}"
 }

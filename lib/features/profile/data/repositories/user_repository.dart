@@ -161,6 +161,7 @@ class UserRepository {
     
     try {
       _log.info('Updating user with form data, ID: $userId');
+      _log.info('Form data - city: ${form.city}');
       
       final currentUser = await getCurrentUser();
       if (currentUser == null) {
@@ -179,10 +180,14 @@ class UserRepository {
       );
       
       _log.info('Updating user profile: ${updatedUser.toJson()}');
+      _log.info('City value being saved: ${updatedUser.city}');
+      
+      // Make sure city is included in update data
+      final updateData = updatedUser.toJson();
       
       await _supabaseClient
           .from('users')
-          .update(updatedUser.toJson())
+          .update(updateData)
           .eq('id', userId);
       
       _log.info('User profile updated successfully');

@@ -27,7 +27,7 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
 
-  String? _selectedCity;
+  String? _selectedCity = 'cairo'; // Default to cairo
   String? _area;
   String? _detailedAddress;
 
@@ -103,18 +103,21 @@ class _AddProfileDetailsScreenState extends State<AddProfileDetailsScreen> {
     });
 
     try {
+      // Ensure city value is not null
+      final cityValue = _selectedCity ?? 'cairo';
+      
       // Create a UserForm with the collected data
       final userForm = UserForm(
         name: _nameController.text.trim(),
         phoneNumber: _phoneController.text.trim(),
-        city: _selectedCity,
+        city: cityValue,
         isProfileCompleted: true,
         location: '$_area, $_detailedAddress',
         userType: 'user', // Setting default user type to 'user'
       );
 
       // Update the user with form data
-       context.read<UserCubit>().updateUserWithForm(userForm);
+      await context.read<UserCubit>().updateUserWithForm(userForm);
       await context.read<UserCubit>().loadUser();
 
       if (mounted) {

@@ -20,7 +20,11 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(name) => "Hello, ${name}";
+  static String m0(error) => "Failed to get location: ${error}";
+
+  static String m1(error) => "Failed to save address: ${error}";
+
+  static String m2(name) => "Hello, ${name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -29,12 +33,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountDetails":
             MessageLookupByLibrary.simpleMessage("Account details"),
         "accountInfo": MessageLookupByLibrary.simpleMessage("Account info"),
+        "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addItemsToYourCart": MessageLookupByLibrary.simpleMessage(
             "Add items to your cart to continue"),
         "addMoreItems": MessageLookupByLibrary.simpleMessage("Add more items"),
         "addNewAddress":
             MessageLookupByLibrary.simpleMessage("Add new address"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add to Cart"),
+        "addYourFirstAddress": MessageLookupByLibrary.simpleMessage(
+            "Add your first address by clicking the button below"),
         "addedToCart":
             MessageLookupByLibrary.simpleMessage("Added to cart successfully!"),
         "alexandria": MessageLookupByLibrary.simpleMessage("Alexandria"),
@@ -43,9 +50,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "appTitle": MessageLookupByLibrary.simpleMessage("Meals App"),
         "appVersion": MessageLookupByLibrary.simpleMessage("App Version"),
         "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
+        "areYouSureYouWantToDeleteThisAddress":
+            MessageLookupByLibrary.simpleMessage(
+                "Are you sure you want to delete this address?"),
         "area": MessageLookupByLibrary.simpleMessage("Area"),
         "areaHint":
             MessageLookupByLibrary.simpleMessage("Enter your area or district"),
+        "areaLabel": MessageLookupByLibrary.simpleMessage("Area"),
         "aswan": MessageLookupByLibrary.simpleMessage("Aswan"),
         "asyut": MessageLookupByLibrary.simpleMessage("Asyut"),
         "beniSuef": MessageLookupByLibrary.simpleMessage("Beni Suef"),
@@ -61,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkoutNotImplemented": MessageLookupByLibrary.simpleMessage(
             "Checkout functionality is not implemented yet"),
         "chickenFries": MessageLookupByLibrary.simpleMessage("Chicken Fries"),
+        "cityLabel": MessageLookupByLibrary.simpleMessage("City"),
         "confirmDeleteAccount":
             MessageLookupByLibrary.simpleMessage("Confirm Account Deletion"),
         "confirmNewPassword":
@@ -80,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to delete your account? This action cannot be undone."),
+        "deleteAddress": MessageLookupByLibrary.simpleMessage("Delete Address"),
         "deleteMyAccount":
             MessageLookupByLibrary.simpleMessage("Delete My Account"),
         "delivery": MessageLookupByLibrary.simpleMessage("Delivery"),
@@ -87,11 +100,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "deliveryType": MessageLookupByLibrary.simpleMessage("Delivery Type"),
         "detailedAddress": MessageLookupByLibrary.simpleMessage(
             "Area, Street, Building number"),
+        "detailedAddressHint": MessageLookupByLibrary.simpleMessage(
+            "Street, building, apartment, floor..."),
+        "detailedAddressLabel":
+            MessageLookupByLibrary.simpleMessage("Detailed Address"),
         "didntReceiveCode":
             MessageLookupByLibrary.simpleMessage("Didn\'t receive the code?"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "editAddress": MessageLookupByLibrary.simpleMessage("Edit Address"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "emailAddress": MessageLookupByLibrary.simpleMessage("Email Address"),
         "emailExample":
@@ -103,6 +121,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Enter the reset token from your email"),
         "enterResetTokenInstructions": MessageLookupByLibrary.simpleMessage(
             "Please check your email for the reset token and enter it below along with your new password."),
+        "enterYourArea":
+            MessageLookupByLibrary.simpleMessage("Enter your area"),
         "enterYourEmail":
             MessageLookupByLibrary.simpleMessage("Enter your email"),
         "enterYourFullName":
@@ -110,8 +130,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "extras": MessageLookupByLibrary.simpleMessage("Extras"),
         "failedToAddToCart":
             MessageLookupByLibrary.simpleMessage("Failed to add to cart"),
+        "failedToGetLocation": m0,
         "failedToLoadCart":
             MessageLookupByLibrary.simpleMessage("Failed to load cart"),
+        "failedToSaveAddress": m1,
         "faiyum": MessageLookupByLibrary.simpleMessage("Faiyum"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "feedbackSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -126,7 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "getStarted": MessageLookupByLibrary.simpleMessage("GET STARTED"),
         "gharbia": MessageLookupByLibrary.simpleMessage("Gharbia"),
         "giza": MessageLookupByLibrary.simpleMessage("Giza"),
-        "hello": m0,
+        "hello": m2,
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "hotDeals": MessageLookupByLibrary.simpleMessage("Hot Deals"),
         "hotDealsDescription": MessageLookupByLibrary.simpleMessage(
@@ -156,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "locationAccessDescription": MessageLookupByLibrary.simpleMessage(
             "DFOOD WILL ACCESS YOUR LOCATION\nONLY WHILE USING THE APP"),
+        "locationCapturedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Location Captured Successfully"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "loyaltyPoints": MessageLookupByLibrary.simpleMessage("Loyalty Points"),
         "luxor": MessageLookupByLibrary.simpleMessage("Luxor"),
@@ -171,6 +195,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "newPassword": MessageLookupByLibrary.simpleMessage("New password"),
         "newValley": MessageLookupByLibrary.simpleMessage("New Valley"),
         "next": MessageLookupByLibrary.simpleMessage("NEXT"),
+        "noAddressesFound":
+            MessageLookupByLibrary.simpleMessage("No Addresses Found"),
         "noExtrasAllowed": MessageLookupByLibrary.simpleMessage(
             "No extras are allowed as a special request."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
@@ -237,6 +263,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please sign in to access this content"),
         "portSaid": MessageLookupByLibrary.simpleMessage("Port Said"),
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
+        "primary": MessageLookupByLibrary.simpleMessage("Primary"),
+        "primaryAddress":
+            MessageLookupByLibrary.simpleMessage("Primary Address"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "qalyubia": MessageLookupByLibrary.simpleMessage("Qalyubia"),
@@ -257,6 +286,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetToken": MessageLookupByLibrary.simpleMessage("Reset Token"),
         "resetTokenRequired": MessageLookupByLibrary.simpleMessage(
             "Please enter the reset token"),
+        "saveAddress": MessageLookupByLibrary.simpleMessage("Save Address"),
         "savedAddresses":
             MessageLookupByLibrary.simpleMessage("Saved Addresses"),
         "savedAddressesScreen":
@@ -291,6 +321,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "typeYourSpecialRequestsHere": MessageLookupByLibrary.simpleMessage(
             "Type your special requests here..."),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
+        "updateAddress": MessageLookupByLibrary.simpleMessage("Update Address"),
+        "useCurrentLocation":
+            MessageLookupByLibrary.simpleMessage("Use Current Location"),
         "vat": MessageLookupByLibrary.simpleMessage("VAT"),
         "verificationCode":
             MessageLookupByLibrary.simpleMessage("Verification Code"),
@@ -303,6 +336,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcomeToMealsApp":
             MessageLookupByLibrary.simpleMessage("WELCOME TO MEALS APP"),
         "yourCartIsEmpty":
-            MessageLookupByLibrary.simpleMessage("Your cart is empty")
+            MessageLookupByLibrary.simpleMessage("Your cart is empty"),
+        "yourExactCoordinatesWereCaptured":
+            MessageLookupByLibrary.simpleMessage(
+                "Your exact coordinates were captured")
       };
 }

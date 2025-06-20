@@ -1939,6 +1939,206 @@ class S {
       args: [],
     );
   }
+
+  /// `لا توجد عناوين`
+  String get noAddressesFound {
+    return Intl.message(
+      'لا توجد عناوين',
+      name: 'noAddressesFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أضف عنوانك الأول بالنقر على الزر أدناه`
+  String get addYourFirstAddress {
+    return Intl.message(
+      'أضف عنوانك الأول بالنقر على الزر أدناه',
+      name: 'addYourFirstAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `رئيسي`
+  String get primary {
+    return Intl.message(
+      'رئيسي',
+      name: 'primary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عنوان رئيسي`
+  String get primaryAddress {
+    return Intl.message(
+      'عنوان رئيسي',
+      name: 'primaryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حذف العنوان`
+  String get deleteAddress {
+    return Intl.message(
+      'حذف العنوان',
+      name: 'deleteAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `هل أنت متأكد من رغبتك في حذف هذا العنوان؟`
+  String get areYouSureYouWantToDeleteThisAddress {
+    return Intl.message(
+      'هل أنت متأكد من رغبتك في حذف هذا العنوان؟',
+      name: 'areYouSureYouWantToDeleteThisAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إضافة عنوان`
+  String get addAddress {
+    return Intl.message(
+      'إضافة عنوان',
+      name: 'addAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعديل العنوان`
+  String get editAddress {
+    return Intl.message(
+      'تعديل العنوان',
+      name: 'editAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `استخدام الموقع الحالي`
+  String get useCurrentLocation {
+    return Intl.message(
+      'استخدام الموقع الحالي',
+      name: 'useCurrentLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم التقاط الموقع بنجاح`
+  String get locationCapturedSuccessfully {
+    return Intl.message(
+      'تم التقاط الموقع بنجاح',
+      name: 'locationCapturedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم التقاط إحداثيات موقعك بدقة`
+  String get yourExactCoordinatesWereCaptured {
+    return Intl.message(
+      'تم التقاط إحداثيات موقعك بدقة',
+      name: 'yourExactCoordinatesWereCaptured',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل منطقتك`
+  String get enterYourArea {
+    return Intl.message(
+      'أدخل منطقتك',
+      name: 'enterYourArea',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الشارع، المبنى، الشقة، الطابق...`
+  String get detailedAddressHint {
+    return Intl.message(
+      'الشارع، المبنى، الشقة، الطابق...',
+      name: 'detailedAddressHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `المدينة`
+  String get cityLabel {
+    return Intl.message(
+      'المدينة',
+      name: 'cityLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `المنطقة`
+  String get areaLabel {
+    return Intl.message(
+      'المنطقة',
+      name: 'areaLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `العنوان التفصيلي`
+  String get detailedAddressLabel {
+    return Intl.message(
+      'العنوان التفصيلي',
+      name: 'detailedAddressLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حفظ العنوان`
+  String get saveAddress {
+    return Intl.message(
+      'حفظ العنوان',
+      name: 'saveAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تحديث العنوان`
+  String get updateAddress {
+    return Intl.message(
+      'تحديث العنوان',
+      name: 'updateAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في الحصول على الموقع: {error}`
+  String failedToGetLocation(Object error) {
+    return Intl.message(
+      'فشل في الحصول على الموقع: $error',
+      name: 'failedToGetLocation',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `فشل في حفظ العنوان: {error}`
+  String failedToSaveAddress(Object error) {
+    return Intl.message(
+      'فشل في حفظ العنوان: $error',
+      name: 'failedToSaveAddress',
+      desc: '',
+      args: [error],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
