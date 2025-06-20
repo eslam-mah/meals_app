@@ -161,13 +161,10 @@ class _CartViewState extends State<CartView> {
                           );
                         },
                       ),
+                      // SizedBox(height: 16.h),
+                      // _buildSpecialRequestsSection(context, localization, state.cart.specialInstructions),
                       SizedBox(height: 16.h),
-                      _buildSpecialRequestsSection(context, localization, state.cart.specialInstructions),
-                      SizedBox(height: 16.h),
-                      DeliveryTypeSelector(
-                        selectedType: state.cart.deliveryType,
-                        onTypeSelected: (type) => _setDeliveryType(type),
-                      ),
+                      _buildDeliveryTypeSelector(context, state),
                       SizedBox(height: 24.h),
                       _buildPriceSummarySection(context, localization, localCart),
                       SizedBox(height: 16.h),
@@ -383,16 +380,95 @@ class _CartViewState extends State<CartView> {
     context.read<CartCubit>().removeItem(item.id);
   }
 
-  void _setDeliveryType(String type) {
-    context.read<CartCubit>().setDeliveryType(type);
+  Widget _buildDeliveryTypeSelector(BuildContext context, CartState state) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            S.of(context).orderType,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _buildDeliveryTypeOption(
+                  context,
+                  title: S.of(context).delivery,
+                  icon: Icons.delivery_dining,
+                  isSelected: state.cart.deliveryType == 'delivery',
+                  onTap: () => context.read<CartCubit>().setDeliveryType('delivery'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildDeliveryTypeOption(
+                  context,
+                  title: S.of(context).pickup,
+                  icon: Icons.store,
+                  isSelected: state.cart.deliveryType == 'pickup',
+                  onTap: () => context.read<CartCubit>().setDeliveryType('pickup'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDeliveryTypeOption(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isSelected ? Theme.of(context).primaryColor : Colors.grey.shade300,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? Theme.of(context).primaryColor : Colors.grey,
+              size: 28,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                color: isSelected ? Theme.of(context).primaryColor : Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _checkout(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(S.of(context).checkoutNotImplemented),
-        backgroundColor: Colors.orange,
-      ),
-    );
+    // Get current cart and delivery type
+    final cart = context.read<CartCubit>().state.cart;
+    // Navigate to checkout screen with delivery type parameter
+    GoRouter.of(context).push('/checkout?orderType=${cart.deliveryType}');
   }
 }

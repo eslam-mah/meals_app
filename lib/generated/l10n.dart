@@ -1920,6 +1920,16 @@ class S {
     );
   }
 
+  /// `نوع الطلب`
+  String get orderType {
+    return Intl.message(
+      'نوع الطلب',
+      name: 'orderType',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `وظيفة الدفع غير متاحة حاليًا`
   String get checkoutNotImplemented {
     return Intl.message(
@@ -2137,6 +2147,326 @@ class S {
       name: 'failedToSaveAddress',
       desc: '',
       args: [error],
+    );
+  }
+
+  /// `تم تقديم الطلب بنجاح`
+  String get orderPlacedSuccessfully {
+    return Intl.message(
+      'تم تقديم الطلب بنجاح',
+      name: 'orderPlacedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `رقم الطلب`
+  String get orderID {
+    return Intl.message(
+      'رقم الطلب',
+      name: 'orderID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `شكرا لطلبك!`
+  String get thankYouForYourOrder {
+    return Intl.message(
+      'شكرا لطلبك!',
+      name: 'thankYouForYourOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يمكنك تتبع حالة طلبك في قسم طلباتي`
+  String get youCanTrackOrderStatus {
+    return Intl.message(
+      'يمكنك تتبع حالة طلبك في قسم طلباتي',
+      name: 'youCanTrackOrderStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `مواصلة التسوق`
+  String get continueShopping {
+    return Intl.message(
+      'مواصلة التسوق',
+      name: 'continueShopping',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تطبق رسوم توصيل بقيمة 50 جنيه مصري`
+  String get deliveryFeeApplied {
+    return Intl.message(
+      'تطبق رسوم توصيل بقيمة 50 جنيه مصري',
+      name: 'deliveryFeeApplied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `استلم طلبك من الفرع المحدد`
+  String get pickupFromBranch {
+    return Intl.message(
+      'استلم طلبك من الفرع المحدد',
+      name: 'pickupFromBranch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ملخص الطلب`
+  String get orderSummary {
+    return Intl.message(
+      'ملخص الطلب',
+      name: 'orderSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عنوان التوصيل`
+  String get deliveryAddress {
+    return Intl.message(
+      'عنوان التوصيل',
+      name: 'deliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حدد عنوان التوصيل`
+  String get selectDeliveryAddress {
+    return Intl.message(
+      'حدد عنوان التوصيل',
+      name: 'selectDeliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ليس لديك أي عناوين محفوظة`
+  String get noSavedAddresses {
+    return Intl.message(
+      'ليس لديك أي عناوين محفوظة',
+      name: 'noSavedAddresses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فرع الاستلام`
+  String get pickupBranch {
+    return Intl.message(
+      'فرع الاستلام',
+      name: 'pickupBranch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اختر فرع للاستلام`
+  String get selectPickupBranch {
+    return Intl.message(
+      'اختر فرع للاستلام',
+      name: 'selectPickupBranch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اختر الفرع`
+  String get selectBranch {
+    return Intl.message(
+      'اختر الفرع',
+      name: 'selectBranch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء تحديد عنوان التوصيل`
+  String get pleaseSelectDeliveryAddress {
+    return Intl.message(
+      'الرجاء تحديد عنوان التوصيل',
+      name: 'pleaseSelectDeliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء تحديد فرع الاستلام`
+  String get pleaseSelectPickupBranch {
+    return Intl.message(
+      'الرجاء تحديد فرع الاستلام',
+      name: 'pleaseSelectPickupBranch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء تسجيل الدخول للمتابعة`
+  String get pleaseLoginToContinue {
+    return Intl.message(
+      'الرجاء تسجيل الدخول للمتابعة',
+      name: 'pleaseLoginToContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `طريقة الدفع`
+  String get paymentMethod {
+    return Intl.message(
+      'طريقة الدفع',
+      name: 'paymentMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الدفع عند الاستلام`
+  String get cashOnDelivery {
+    return Intl.message(
+      'الدفع عند الاستلام',
+      name: 'cashOnDelivery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `بطاقة ائتمان`
+  String get creditCard {
+    return Intl.message(
+      'بطاقة ائتمان',
+      name: 'creditCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `رسوم التوصيل`
+  String get deliveryFee {
+    return Intl.message(
+      'رسوم التوصيل',
+      name: 'deliveryFee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تقديم الطلب`
+  String get placeOrder {
+    return Intl.message(
+      'تقديم الطلب',
+      name: 'placeOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حدث خطأ`
+  String get anErrorOccurred {
+    return Intl.message(
+      'حدث خطأ',
+      name: 'anErrorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `طلب`
+  String get order {
+    return Intl.message(
+      'طلب',
+      name: 'order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خيار التوصيل`
+  String get deliveryOption {
+    return Intl.message(
+      'خيار التوصيل',
+      name: 'deliveryOption',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كود الخصم`
+  String get promoCode {
+    return Intl.message(
+      'كود الخصم',
+      name: 'promoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل كود الخصم`
+  String get enterPromoCode {
+    return Intl.message(
+      'أدخل كود الخصم',
+      name: 'enterPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تطبيق`
+  String get apply {
+    return Intl.message(
+      'تطبيق',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إزالة`
+  String get remove {
+    return Intl.message(
+      'إزالة',
+      name: 'remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كود الخصم غير صالح`
+  String get invalidPromoCode {
+    return Intl.message(
+      'كود الخصم غير صالح',
+      name: 'invalidPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم تطبيق كود الخصم`
+  String get promoCodeApplied {
+    return Intl.message(
+      'تم تطبيق كود الخصم',
+      name: 'promoCodeApplied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الخصم`
+  String get discount {
+    return Intl.message(
+      'الخصم',
+      name: 'discount',
+      desc: '',
+      args: [],
     );
   }
 }

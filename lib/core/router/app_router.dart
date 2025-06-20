@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/features/authentication/authentication_router.dart';
 import 'package:meals_app/features/cart/cart_router.dart';
+import 'package:meals_app/features/checkout/checkout_router.dart';
 import 'package:meals_app/features/feedback/feedback_router.dart';
 import 'package:meals_app/features/food_details/food_details_router.dart';
 import 'package:meals_app/features/home/main_router.dart';
@@ -47,6 +48,8 @@ class AppRouter {
       ...SavedAddressesRouter.goRoutes,
       // cart routes
       ...CartRouter.goRoutes,
+      // checkout routes
+      ...CheckoutRouter.goRoutes,
       // feedback routes
       ...FeedbackRouter.goRoutes,
       // food details routes

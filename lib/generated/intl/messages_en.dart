@@ -47,8 +47,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "alexandria": MessageLookupByLibrary.simpleMessage("Alexandria"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account?"),
+        "anErrorOccurred":
+            MessageLookupByLibrary.simpleMessage("An error occurred"),
         "appTitle": MessageLookupByLibrary.simpleMessage("Meals App"),
         "appVersion": MessageLookupByLibrary.simpleMessage("App Version"),
+        "apply": MessageLookupByLibrary.simpleMessage("Apply"),
         "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
         "areYouSureYouWantToDeleteThisAddress":
             MessageLookupByLibrary.simpleMessage(
@@ -66,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "callSupport": MessageLookupByLibrary.simpleMessage("Call support"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
+        "cashOnDelivery":
+            MessageLookupByLibrary.simpleMessage("Cash on Delivery"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
         "checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
@@ -80,11 +85,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "continueButton": MessageLookupByLibrary.simpleMessage("Continue"),
+        "continueShopping":
+            MessageLookupByLibrary.simpleMessage("Continue Shopping"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "createPassword":
             MessageLookupByLibrary.simpleMessage("Create Password"),
         "createPasswordForEmail": MessageLookupByLibrary.simpleMessage(
             "Create a password for your account"),
+        "creditCard": MessageLookupByLibrary.simpleMessage("Credit Card"),
         "currentPassword":
             MessageLookupByLibrary.simpleMessage("Current password"),
         "dakahlia": MessageLookupByLibrary.simpleMessage("Dakahlia"),
@@ -96,6 +104,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteMyAccount":
             MessageLookupByLibrary.simpleMessage("Delete My Account"),
         "delivery": MessageLookupByLibrary.simpleMessage("Delivery"),
+        "deliveryAddress":
+            MessageLookupByLibrary.simpleMessage("Delivery Address"),
+        "deliveryFee": MessageLookupByLibrary.simpleMessage("Delivery Fee"),
+        "deliveryFeeApplied":
+            MessageLookupByLibrary.simpleMessage("50 EGP delivery fee applied"),
+        "deliveryOption":
+            MessageLookupByLibrary.simpleMessage("Delivery Option"),
         "deliveryTo": MessageLookupByLibrary.simpleMessage("Delivery to"),
         "deliveryType": MessageLookupByLibrary.simpleMessage("Delivery Type"),
         "detailedAddress": MessageLookupByLibrary.simpleMessage(
@@ -106,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Detailed Address"),
         "didntReceiveCode":
             MessageLookupByLibrary.simpleMessage("Didn\'t receive the code?"),
+        "discount": MessageLookupByLibrary.simpleMessage("Discount"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -117,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "enterNewPassword":
             MessageLookupByLibrary.simpleMessage("Enter new password"),
+        "enterPromoCode":
+            MessageLookupByLibrary.simpleMessage("Enter promo code"),
         "enterResetToken": MessageLookupByLibrary.simpleMessage(
             "Enter the reset token from your email"),
         "enterResetTokenInstructions": MessageLookupByLibrary.simpleMessage(
@@ -165,6 +183,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "How satisfied are you with the overall service?"),
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
             "Invalid verification code. Please try again."),
+        "invalidPromoCode":
+            MessageLookupByLibrary.simpleMessage("Invalid promo code"),
         "ismailia": MessageLookupByLibrary.simpleMessage("Ismailia"),
         "item": MessageLookupByLibrary.simpleMessage("Item"),
         "items": MessageLookupByLibrary.simpleMessage("Items"),
@@ -201,6 +221,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No extras are allowed as a special request."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "No internet connection. Please check your connection and try again."),
+        "noSavedAddresses": MessageLookupByLibrary.simpleMessage(
+            "You don\'t have any saved addresses"),
         "northSinai": MessageLookupByLibrary.simpleMessage("North Sinai"),
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "onboardingDesc1": MessageLookupByLibrary.simpleMessage(
@@ -216,6 +238,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "onboardingTitle3":
             MessageLookupByLibrary.simpleMessage("Free delivery offers"),
         "optional": MessageLookupByLibrary.simpleMessage("Optional"),
+        "order": MessageLookupByLibrary.simpleMessage("Order"),
+        "orderID": MessageLookupByLibrary.simpleMessage("Order ID"),
+        "orderPlacedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Order Placed Successfully"),
+        "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
+        "orderType": MessageLookupByLibrary.simpleMessage("Order Type"),
         "otpResent": MessageLookupByLibrary.simpleMessage(
             "Verification code has been resent"),
         "otpSentToEmail": MessageLookupByLibrary.simpleMessage(
@@ -236,6 +264,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Password updated successfully!"),
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
         "personalDetails":
             MessageLookupByLibrary.simpleMessage("Personal Details"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
@@ -245,6 +274,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
             "Please enter your phone number"),
         "pickup": MessageLookupByLibrary.simpleMessage("Pickup"),
+        "pickupBranch": MessageLookupByLibrary.simpleMessage("Pickup Branch"),
+        "pickupFromBranch": MessageLookupByLibrary.simpleMessage(
+            "Pick up your order from selected branch"),
+        "placeOrder": MessageLookupByLibrary.simpleMessage("Place Order"),
         "pleaseConfirmPassword": MessageLookupByLibrary.simpleMessage(
             "Please confirm your password"),
         "pleaseEnterAddress": MessageLookupByLibrary.simpleMessage(
@@ -259,6 +292,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your email"),
         "pleaseEnterYourName":
             MessageLookupByLibrary.simpleMessage("Please enter your name"),
+        "pleaseLoginToContinue":
+            MessageLookupByLibrary.simpleMessage("Please login to continue"),
+        "pleaseSelectDeliveryAddress": MessageLookupByLibrary.simpleMessage(
+            "Please select a delivery address"),
+        "pleaseSelectPickupBranch": MessageLookupByLibrary.simpleMessage(
+            "Please select a pickup branch"),
         "pleaseSignInToAccessContent": MessageLookupByLibrary.simpleMessage(
             "Please sign in to access this content"),
         "portSaid": MessageLookupByLibrary.simpleMessage("Port Said"),
@@ -268,6 +307,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Primary Address"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "promoCode": MessageLookupByLibrary.simpleMessage("Promo Code"),
+        "promoCodeApplied":
+            MessageLookupByLibrary.simpleMessage("Promo code applied"),
         "qalyubia": MessageLookupByLibrary.simpleMessage("Qalyubia"),
         "qena": MessageLookupByLibrary.simpleMessage("Qena"),
         "rating": MessageLookupByLibrary.simpleMessage("Rating"),
@@ -276,6 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Dishes our customers love the most. Try our most popular options that are sure to satisfy your cravings!"),
         "redSea": MessageLookupByLibrary.simpleMessage("Red Sea"),
         "regular": MessageLookupByLibrary.simpleMessage("Regular"),
+        "remove": MessageLookupByLibrary.simpleMessage("Remove"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
         "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
         "resendResetEmail":
@@ -292,6 +335,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedAddressesScreen":
             MessageLookupByLibrary.simpleMessage("Saved Addresses"),
         "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
+        "selectBranch": MessageLookupByLibrary.simpleMessage("Select Branch"),
+        "selectDeliveryAddress": MessageLookupByLibrary.simpleMessage(
+            "Please select a delivery address"),
+        "selectPickupBranch": MessageLookupByLibrary.simpleMessage(
+            "Please select a pickup branch"),
         "selectYourCity":
             MessageLookupByLibrary.simpleMessage("Select your city"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
@@ -313,6 +361,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "suez": MessageLookupByLibrary.simpleMessage("Suez"),
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("Terms and conditions"),
+        "thankYouForYourOrder":
+            MessageLookupByLibrary.simpleMessage("Thank you for your order!"),
         "theRealThing": MessageLookupByLibrary.simpleMessage("The Real Thing."),
         "total": MessageLookupByLibrary.simpleMessage("Total"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
@@ -335,6 +385,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welcome to the Meals App"),
         "welcomeToMealsApp":
             MessageLookupByLibrary.simpleMessage("WELCOME TO MEALS APP"),
+        "youCanTrackOrderStatus": MessageLookupByLibrary.simpleMessage(
+            "You can track your order status in My Orders section"),
         "yourCartIsEmpty":
             MessageLookupByLibrary.simpleMessage("Your cart is empty"),
         "yourExactCoordinatesWereCaptured":

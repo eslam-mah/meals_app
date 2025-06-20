@@ -13,11 +13,9 @@ import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/connectivity_service.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/core/utils/shared_prefs.dart';
-import 'package:meals_app/core/widgets/connectivity_dialog.dart';
+import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
 import 'package:meals_app/features/authentication/data/auth_repository.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
-import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
-import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_state.dart';
 import 'package:meals_app/core/config/supabase_options.dart';
@@ -26,6 +24,17 @@ import 'generated/l10n.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/profile/data/repositories/user_repository.dart';
 
+/// Application entry point that initializes required services and configurations
+/// before launching the app.
+/// 
+/// This function:
+/// 1. Preserves splash screen during initialization
+/// 2. Sets up logging
+/// 3. Initializes shared preferences and storage
+/// 4. Starts connectivity monitoring
+/// 5. Initializes Supabase backend connection
+/// 6. Initializes user data management
+/// 7. Launches the app UI
 void main() async {
   // Keep the splash screen displayed until initialization is complete
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -87,11 +96,22 @@ void main() async {
   runApp(const MyApp());
 }
 
+/// Root application widget that configures the app's theme, localization,
+/// state management providers, and routing.
+/// 
+/// This class:
+/// - Sets up system UI appearance
+/// - Configures BLoC providers for state management
+/// - Applies theme based on the current language
+/// - Sets up localization
+/// - Configures routing
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Configure system UI appearance
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark,
@@ -235,19 +255,39 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// A wrapper widget that provides responsive layout adaptation and
+/// connectivity monitoring for the application.
+/// 
+/// This widget:
+/// - Initializes responsive layout management
+/// - Monitors network connectivity
+/// - Shows connectivity alerts when network is lost
+/// - Adapts UI elements to different device sizes
 class _AppWithResponsive extends StatefulWidget {
+  /// The child widget to display with responsive adaptations.
   final Widget child;
 
+  /// Creates an _AppWithResponsive widget.
+  /// 
+  /// The [child] parameter is required and represents the main app content.
   const _AppWithResponsive({required this.child});
 
   @override
   State<_AppWithResponsive> createState() => _AppWithResponsiveState();
 }
 
+/// State management for the _AppWithResponsive widget.
 class _AppWithResponsiveState extends State<_AppWithResponsive> {
+  /// Logger instance for this class.
   final Logger _log = Logger('AppWithResponsive');
+  
+  /// Subscription to connectivity status updates.
   StreamSubscription<bool>? _connectivitySubscription;
+  
+  /// Tracks the previous connectivity state to detect changes.
   bool _wasConnected = true;
+  
+  /// Flag to prevent showing multiple connectivity dialogs.
   bool _isDialogShowing = false;
   
   @override
@@ -261,6 +301,12 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
     });
   }
   
+  /// Initializes connectivity monitoring and sets up the initial connection status.
+  /// 
+  /// This method:
+  /// - Checks the current connection status
+  /// - Displays a dialog if initially disconnected
+  /// - Sets up a listener for connectivity changes
   Future<void> _initConnectivity() async {
     if (!mounted) return;
     
@@ -282,6 +328,11 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
     _log.info('Connectivity listener set up');
   }
   
+  /// Handles changes in network connectivity status.
+  /// 
+  /// Shows a dialog when connectivity is lost (transitioning from connected to disconnected).
+  /// 
+  /// [isConnected] - The current connection status.
   void _handleConnectivityChange(bool isConnected) {
     _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
     
@@ -299,6 +350,10 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
     _wasConnected = isConnected;
   }
   
+  /// Displays the connectivity alert dialog when network connection is lost.
+  /// 
+  /// The dialog remains visible until connectivity is restored or the user
+  /// dismisses it. It includes retry functionality to check for connectivity.
   void _showConnectivityDialog() {
     if (!mounted || _isDialogShowing) return;
     
@@ -335,9 +390,11 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize responsive manager with current context
     RM.data.init(context);
 
     return ScreenUtilInit(
+      // Set design size based on device type
       designSize:
           RM.data.deviceType == DeviceTypeView.tablet
               ? const Size(992, 1450)

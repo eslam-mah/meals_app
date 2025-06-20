@@ -7,7 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/services/connectivity_service.dart';
 import 'package:meals_app/core/services/storage_service.dart';
-import 'package:meals_app/core/widgets/connectivity_dialog.dart';
+import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart'
@@ -16,7 +16,6 @@ import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/features/onboarding/view/views/onboarding_screen.dart';
 import 'package:meals_app/features/profile/view/views/add_profile_details_screen.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
-import 'package:meals_app/generated/l10n.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
