@@ -35,100 +35,16 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final ScrollController _scrollController = ScrollController();
-  // final Logger _log = Logger('HomeView');
-  bool _isConnected = true;
-  // bool _isDialogShowing = false;
-  // StreamSubscription<bool>? _connectivitySubscription;
-  // final ConnectivityService _connectivityService = ConnectivityService.instance;
 
   @override
   void initState() {
     super.initState();
-    // _initConnectivity();
     _loadInitialData();
     _setupScrollListener();
     _initializeUserCubit();
   }
 
-  // /// Initialize connectivity monitoring
-  // Future<void> _initConnectivity() async {
-  //   if (!mounted) return;
-
-  //   _log.info('Initializing connectivity monitoring');
-
-  //   // Check initial connectivity status
-  //   _isConnected = await _connectivityService.forceCheck();
-  //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
-
-  //   // If initially disconnected, show dialog
-  //   if (!_isConnected && mounted && !_isDialogShowing) {
-  //     _log.info('Initially disconnected, showing dialog');
-  //     _showConnectivityDialog();
-  //   }
-
-  //   // Listen for connectivity changes
-  //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
-  //   _log.info('Connectivity listener set up');
-  // }
-
-  // /// Handle changes in connectivity status
-  // void _handleConnectivityChange(bool isConnected) {
-  //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
-
-  //   if (!mounted) {
-  //     _log.warning('Widget not mounted during connectivity change');
-  //     return;
-  //   }
-
-  //   // Only show dialog if we transition from connected to disconnected
-  //   if (_isConnected && !isConnected && !_isDialogShowing) {
-  //     _log.info('Connection lost, showing dialog immediately');
-  //     _showConnectivityDialog();
-  //   }
-
-  //   setState(() {
-  //     _isConnected = isConnected;
-  //   });
-  // }
-
-  // void _showConnectivityDialog() {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         snackBarAnimationStyle:  AnimationStyle(curve: ElasticInCurve()),
-  //             SnackBar(
-
-  //               content: Text(S.of(context).noInternetConnection),
-  //               backgroundColor: Colors.red,
-  //             ),
-  //           );
-  // }
-  // /// Show connectivity dialog when connection is lost
-  // void _showConnectivityDialog() {
-  //   if (!mounted || _isDialogShowing) return;
-
-  //   _log.info('Showing connectivity dialog');
-  //   _isDialogShowing = true;
-
-  //   ConnectivityDialog.show(
-  //     context,
-  //     onConnected: () {
-  //       _log.info('Connection restored callback from dialog');
-
-  //       if (mounted) {
-  //         setState(() {
-  //           _isDialogShowing = false;
-  //         });
-
-  //         // Reload data when connection is restored
-  //         _loadInitialData();
-  //       } else {
-  //         _isDialogShowing = false;
-  //       }
-  //     },
-  //   ).catchError((error) {
-  //     _log.severe('Error showing dialog: $error');
-  //     _isDialogShowing = false;
-  //   });
-  // }
+ 
 
   void _initializeUserCubit() {
     // Ensure UserCubit is initialized and loads user data
@@ -138,23 +54,24 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _loadInitialData() {
-    // if (!_isConnected) return;
     final foodCubit = context.read<FoodCubit>();
     foodCubit.loadInitialData();
+    UserCubit.instance.loadUser();
   }
 
   void _setupScrollListener() {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
-        // Load more recommended items when nearing the end
-        // if (!_isConnected) return;
+     
         final foodCubit = context.read<FoodCubit>();
         final state = foodCubit.state;
 
         if (state.recommendedStatus != FoodStatus.loadingMore &&
             state.hasMoreRecommended) {
           foodCubit.loadMoreRecommendedItems();
+          UserCubit.instance.loadUser();
+     
         }
       }
     });
@@ -162,8 +79,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void dispose() {
-    // _connectivitySubscription?.cancel();
-    // _connectivitySubscription = null;
     _scrollController.dispose();
     super.dispose();
   }
@@ -407,24 +322,53 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildOfferItemsShimmer() {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.only(left: 16.w),
-      itemCount: 3, // Show 3 shimmer placeholders
-      itemBuilder: (context, index) {
-        return Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Container(
-            margin: EdgeInsets.only(right: 20.w),
-            width: 300.w,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section title shimmer
+        Padding(
+          padding: EdgeInsets.only(left: 18.w),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              width: 100.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4.r),
+              ),
             ),
           ),
-        );
-      },
+        ),
+        
+        SizedBox(height: 12.h),
+        
+        // Offer items shimmer
+        SizedBox(
+          height: 180.h,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.only(left: 16.w),
+            itemCount: 3, // Show 3 shimmer placeholders
+            itemBuilder: (context, index) {
+              return Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
+                  margin: EdgeInsets.only(right: 20.w),
+                  width: 300.w,
+                  height: 180.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 

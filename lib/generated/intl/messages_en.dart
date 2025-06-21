@@ -290,6 +290,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderID": MessageLookupByLibrary.simpleMessage("Order ID"),
         "orderPlacedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Order Placed Successfully"),
+        "orderReadyNotificationBody": MessageLookupByLibrary.simpleMessage(
+            "Your order will be ready in 30 mins"),
+        "orderReadyNotificationTitle":
+            MessageLookupByLibrary.simpleMessage("Order Confirmation"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
         "orderType": MessageLookupByLibrary.simpleMessage("Order Type"),
         "otpResent": MessageLookupByLibrary.simpleMessage(

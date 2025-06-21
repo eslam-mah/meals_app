@@ -2769,6 +2769,26 @@ class S {
       args: [],
     );
   }
+
+  /// `تأكيد الطلب`
+  String get orderReadyNotificationTitle {
+    return Intl.message(
+      'تأكيد الطلب',
+      name: 'orderReadyNotificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `سيكون طلبك جاهزًا خلال 30 دقيقة`
+  String get orderReadyNotificationBody {
+    return Intl.message(
+      'سيكون طلبك جاهزًا خلال 30 دقيقة',
+      name: 'orderReadyNotificationBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

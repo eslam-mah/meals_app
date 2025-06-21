@@ -283,6 +283,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderID": MessageLookupByLibrary.simpleMessage("رقم الطلب"),
         "orderPlacedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تقديم الطلب بنجاح"),
+        "orderReadyNotificationBody": MessageLookupByLibrary.simpleMessage(
+            "سيكون طلبك جاهزًا خلال 30 دقيقة"),
+        "orderReadyNotificationTitle":
+            MessageLookupByLibrary.simpleMessage("تأكيد الطلب"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
         "orderType": MessageLookupByLibrary.simpleMessage("نوع الطلب"),
         "otpResent":

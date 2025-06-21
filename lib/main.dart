@@ -11,6 +11,7 @@ import 'package:meals_app/core/responsive/responsive_manager.dart';
 import 'package:meals_app/core/router/app_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/connectivity_service.dart';
+import 'package:meals_app/core/services/notification_service.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/core/utils/shared_prefs.dart';
 import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
@@ -34,7 +35,8 @@ import 'package:meals_app/features/profile/data/repositories/user_repository.dar
 /// 4. Starts connectivity monitoring
 /// 5. Initializes Supabase backend connection
 /// 6. Initializes user data management
-/// 7. Launches the app UI
+/// 7. Initializes notification service
+/// 8. Launches the app UI
 void main() async {
   // Keep the splash screen displayed until initialization is complete
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +73,10 @@ void main() async {
     // Test connectivity at startup
     final isConnected = await ConnectivityService.instance.checkConnection();
     log.info('Initial connectivity test: ${isConnected ? "Connected" : "Disconnected"}');
+
+    // Initialize notification service
+    await NotificationService().init();
+    log.info('Notification service initialized');
 
     // Initialize Supabase
     await Supabase.initialize(

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_state.dart';
@@ -33,11 +34,11 @@ class _CartIndicatorState extends State<CartIndicator> {
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
-    
+     final StorageService storageService = StorageService();
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         // Don't show if cart is empty
-        if (state.cart.isEmpty) {
+        if (state.cart.isEmpty || storageService.isAuthenticated() == false) {
           _log.info('Cart is empty, hiding indicator');
           return const SizedBox.shrink();
         }

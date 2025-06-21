@@ -282,5 +282,7 @@
   "connectionRestored": "Connection restored",
   "connectionLost": "Connection lost",
   "retryingConnection": "Retrying connection...",
-  "reconnecting": "Reconnecting..."
+  "reconnecting": "Reconnecting...",
+  "orderReadyNotificationTitle": "Order Confirmation",
+  "orderReadyNotificationBody": "Your order will be ready in 30 mins"
 }

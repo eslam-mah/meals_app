@@ -4,10 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
-import 'package:meals_app/core/services/connectivity_service.dart';
-import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
+import 'package:meals_app/core/services/notification_service.dart';
+
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
@@ -515,9 +514,10 @@ class _CheckoutViewState extends State<CheckoutView> {
   }
 
   void _showAddressSelector(BuildContext context) {
- 
-    
+    // Reload addresses every time the bottom sheet is opened
     final addressCubit = context.read<AddressCubit>();
+    addressCubit.loadUserAddresses();
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -981,6 +981,15 @@ class _CheckoutViewState extends State<CheckoutView> {
           ),
         ),
       );
+      
+      // Show notification that order will be ready in 30 minutes
+      _log.info('Attempting to show order confirmation notification');
+      try {
+        await NotificationService().showOrderConfirmationNotification(context);
+        _log.info('Order confirmation notification triggered successfully');
+      } catch (notificationError) {
+        _log.severe('Error showing notification: $notificationError');
+      }
       
       // Navigate to success page
       if (mounted) {

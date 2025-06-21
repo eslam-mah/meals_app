@@ -282,5 +282,7 @@
   "connectionRestored": "تم استعادة الاتصال",
   "connectionLost": "تم فقدان الاتصال",
   "retryingConnection": "إعادة محاولة الاتصال...",
-  "reconnecting": "إعادة الاتصال..."
+  "reconnecting": "إعادة الاتصال...",
+  "orderReadyNotificationTitle": "تأكيد الطلب",
+  "orderReadyNotificationBody": "سيكون طلبك جاهزًا خلال 30 دقيقة"
 }
