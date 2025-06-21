@@ -11,7 +11,7 @@ import 'package:uuid/uuid.dart';
 
 class CartRepository {
   final Logger _log = Logger('CartRepository');
-  final StorageService _storageService = StorageService();
+  // final StorageService _storageService = StorageService();
   final FoodRepository _foodRepository = FoodRepository();
   
   // Supabase client

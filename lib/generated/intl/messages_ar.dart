@@ -44,9 +44,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "أضف عنوانك الأول بالنقر على الزر أدناه"),
         "addedToCart": MessageLookupByLibrary.simpleMessage(
             "تمت الإضافة إلى السلة بنجاح!"),
+        "addressNotFound":
+            MessageLookupByLibrary.simpleMessage("العنوان غير موجود"),
         "alexandria": MessageLookupByLibrary.simpleMessage("الإسكندرية"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
+        "alreadyUsedPromoCode": MessageLookupByLibrary.simpleMessage(
+            "لقد استخدمت كود الخصم هذا بالفعل"),
         "anErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
         "appTitle": MessageLookupByLibrary.simpleMessage("تطبيق الوجبات"),
         "appVersion": MessageLookupByLibrary.simpleMessage("إصدار التطبيق"),
@@ -76,12 +80,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "وظيفة الدفع غير متاحة حاليًا"),
         "chickenFries": MessageLookupByLibrary.simpleMessage("بطاطس بالدجاج"),
         "cityLabel": MessageLookupByLibrary.simpleMessage("المدينة"),
+        "clearError": MessageLookupByLibrary.simpleMessage("مسح الخطأ"),
         "confirmDeleteAccount":
             MessageLookupByLibrary.simpleMessage("تأكيد حذف الحساب"),
         "confirmNewPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور الجديدة"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
+        "connectionLost":
+            MessageLookupByLibrary.simpleMessage("تم فقدان الاتصال"),
+        "connectionRestored":
+            MessageLookupByLibrary.simpleMessage("تم استعادة الاتصال"),
         "continueButton": MessageLookupByLibrary.simpleMessage("متابعة"),
         "continueShopping":
             MessageLookupByLibrary.simpleMessage("مواصلة التسوق"),
@@ -117,7 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("العنوان التفصيلي"),
         "didntReceiveCode":
             MessageLookupByLibrary.simpleMessage("لم تستلم الرمز؟"),
-        "discount": MessageLookupByLibrary.simpleMessage("الخصم"),
+        "discount": MessageLookupByLibrary.simpleMessage("خصم"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
@@ -141,13 +150,35 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل بريدك الإلكتروني"),
         "enterYourFullName":
             MessageLookupByLibrary.simpleMessage("أدخل اسمك الكامل"),
+        "errorApplyingPromoCode":
+            MessageLookupByLibrary.simpleMessage("خطأ في تطبيق كود الخصم"),
+        "errorGettingLocation":
+            MessageLookupByLibrary.simpleMessage("خطأ في الحصول على الموقع"),
+        "errorLoadingMenuItems":
+            MessageLookupByLibrary.simpleMessage("خطأ في تحميل عناصر القائمة"),
+        "errorLoadingOffers":
+            MessageLookupByLibrary.simpleMessage("خطأ في تحميل العروض"),
+        "errorLoadingRecommendations":
+            MessageLookupByLibrary.simpleMessage("خطأ في تحميل التوصيات"),
         "extras": MessageLookupByLibrary.simpleMessage("إضافات"),
         "failedToAddToCart":
             MessageLookupByLibrary.simpleMessage("فشلت إضافة العنصر إلى السلة"),
+        "failedToCreateAddress":
+            MessageLookupByLibrary.simpleMessage("فشل في إنشاء العنوان"),
+        "failedToDeleteAddress":
+            MessageLookupByLibrary.simpleMessage("فشل في حذف العنوان"),
         "failedToGetLocation": m0,
+        "failedToLoadAddresses":
+            MessageLookupByLibrary.simpleMessage("فشل في تحميل العناوين"),
         "failedToLoadCart":
             MessageLookupByLibrary.simpleMessage("فشل تحميل السلة"),
+        "failedToPlaceOrder": MessageLookupByLibrary.simpleMessage(
+            "فشل في تقديم الطلب. يرجى المحاولة مرة أخرى."),
         "failedToSaveAddress": m1,
+        "failedToSetPrimaryAddress": MessageLookupByLibrary.simpleMessage(
+            "فشل في تعيين العنوان الرئيسي"),
+        "failedToUpdateAddress":
+            MessageLookupByLibrary.simpleMessage("فشل في تحديث العنوان"),
         "faiyum": MessageLookupByLibrary.simpleMessage("الفيوم"),
         "feedback": MessageLookupByLibrary.simpleMessage("التعليقات"),
         "feedbackSubmittedSuccessfully":
@@ -175,10 +206,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ما مدى رضاك عن سرعة الخدمة؟"),
         "howSatisfiedWithOverallService": MessageLookupByLibrary.simpleMessage(
             "ما مدى رضاك عن الخدمة بشكل عام؟"),
+        "invalidOrExpiredPromoCode": MessageLookupByLibrary.simpleMessage(
+            "كود الخصم غير صالح أو منتهي الصلاحية"),
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
             "رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى."),
-        "invalidPromoCode":
-            MessageLookupByLibrary.simpleMessage("كود الخصم غير صالح"),
         "ismailia": MessageLookupByLibrary.simpleMessage("الإسماعيلية"),
         "item": MessageLookupByLibrary.simpleMessage("عنصر"),
         "items": MessageLookupByLibrary.simpleMessage("العناصر"),
@@ -193,6 +224,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "سيصل التطبيق إلى موقعك\nفقط أثناء استخدام التطبيق"),
         "locationCapturedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم التقاط الموقع بنجاح"),
+        "locationPermissionDenied":
+            MessageLookupByLibrary.simpleMessage("تم رفض إذن الموقع"),
+        "locationPermissionPermanentlyDenied":
+            MessageLookupByLibrary.simpleMessage("تم رفض إذن الموقع بشكل دائم"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "loyaltyPoints": MessageLookupByLibrary.simpleMessage("نقاط الولاء"),
         "luxor": MessageLookupByLibrary.simpleMessage("الأقصر"),
@@ -211,10 +246,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "noAddressesFound":
             MessageLookupByLibrary.simpleMessage("لا توجد عناوين"),
+        "noDataAvailable":
+            MessageLookupByLibrary.simpleMessage("لا توجد بيانات متاحة"),
+        "noDeliveryAddressSelected":
+            MessageLookupByLibrary.simpleMessage("لم يتم تحديد عنوان التوصيل"),
         "noExtrasAllowed": MessageLookupByLibrary.simpleMessage(
             "لا يُسمح بإضافات إضافية كطلب خاص."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى."),
+        "noMenuItemsAvailable": MessageLookupByLibrary.simpleMessage(
+            "لا توجد عناصر متاحة في القائمة"),
+        "noOffersAvailable":
+            MessageLookupByLibrary.simpleMessage("لا توجد عروض متاحة"),
+        "noPickupBranchSelected":
+            MessageLookupByLibrary.simpleMessage("لم يتم تحديد فرع الاستلام"),
+        "noRecommendationsAvailable":
+            MessageLookupByLibrary.simpleMessage("لا توجد توصيات متاحة"),
         "noSavedAddresses":
             MessageLookupByLibrary.simpleMessage("ليس لديك أي عناوين محفوظة"),
         "northSinai": MessageLookupByLibrary.simpleMessage("شمال سيناء"),
@@ -272,6 +319,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pickupFromBranch":
             MessageLookupByLibrary.simpleMessage("استلم طلبك من الفرع المحدد"),
         "placeOrder": MessageLookupByLibrary.simpleMessage("تقديم الطلب"),
+        "placingOrder":
+            MessageLookupByLibrary.simpleMessage("جاري تقديم الطلب..."),
         "pleaseConfirmPassword":
             MessageLookupByLibrary.simpleMessage("الرجاء تأكيد كلمة المرور"),
         "pleaseEnterAddress": MessageLookupByLibrary.simpleMessage(
@@ -280,6 +329,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال منطقتك"),
         "pleaseEnterPassword":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة مرور"),
+        "pleaseEnterPromoCode":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال كود الخصم"),
         "pleaseEnterValidEmail": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال عنوان بريد إلكتروني صالح"),
         "pleaseEnterYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -288,6 +339,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسمك"),
         "pleaseLoginToContinue": MessageLookupByLibrary.simpleMessage(
             "الرجاء تسجيل الدخول للمتابعة"),
+        "pleaseSelectAnAddress":
+            MessageLookupByLibrary.simpleMessage("الرجاء تحديد عنوان"),
         "pleaseSelectDeliveryAddress":
             MessageLookupByLibrary.simpleMessage("الرجاء تحديد عنوان التوصيل"),
         "pleaseSelectPickupBranch":
@@ -301,17 +354,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "promoCode": MessageLookupByLibrary.simpleMessage("كود الخصم"),
-        "promoCodeApplied":
-            MessageLookupByLibrary.simpleMessage("تم تطبيق كود الخصم"),
         "qalyubia": MessageLookupByLibrary.simpleMessage("القليوبية"),
         "qena": MessageLookupByLibrary.simpleMessage("قنا"),
         "rating": MessageLookupByLibrary.simpleMessage("التقييم"),
         "recommended": MessageLookupByLibrary.simpleMessage("موصى به"),
         "recommendedDescription": MessageLookupByLibrary.simpleMessage(
             "الأطباق التي يحبها عملاؤنا أكثر. جرب أكثر خياراتنا شعبية والتي ستلبي رغباتك بالتأكيد!"),
+        "reconnecting":
+            MessageLookupByLibrary.simpleMessage("إعادة الاتصال..."),
         "redSea": MessageLookupByLibrary.simpleMessage("البحر الأحمر"),
         "regular": MessageLookupByLibrary.simpleMessage("عادي"),
-        "remove": MessageLookupByLibrary.simpleMessage("إزالة"),
+        "removePromoCode":
+            MessageLookupByLibrary.simpleMessage("إزالة كود الخصم"),
         "resendCode": MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز"),
         "resendCodeIn":
             MessageLookupByLibrary.simpleMessage("إعادة إرسال الرمز في"),
@@ -324,6 +378,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetToken": MessageLookupByLibrary.simpleMessage("رمز إعادة التعيين"),
         "resetTokenRequired": MessageLookupByLibrary.simpleMessage(
             "الرجاء إدخال رمز إعادة التعيين"),
+        "retryingConnection":
+            MessageLookupByLibrary.simpleMessage("إعادة محاولة الاتصال..."),
         "saveAddress": MessageLookupByLibrary.simpleMessage("حفظ العنوان"),
         "savedAddresses":
             MessageLookupByLibrary.simpleMessage("العناوين المحفوظة"),
@@ -343,6 +399,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "size": MessageLookupByLibrary.simpleMessage("الحجم"),
         "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
         "sohag": MessageLookupByLibrary.simpleMessage("سوهاج"),
+        "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+            "حدث خطأ ما. يرجى المحاولة مرة أخرى."),
         "southSinai": MessageLookupByLibrary.simpleMessage("جنوب سيناء"),
         "specialRequests": MessageLookupByLibrary.simpleMessage("طلبات خاصة"),
         "streetAndBuilding":
@@ -367,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAddress": MessageLookupByLibrary.simpleMessage("تحديث العنوان"),
         "useCurrentLocation":
             MessageLookupByLibrary.simpleMessage("استخدام الموقع الحالي"),
+        "userNotAuthenticated":
+            MessageLookupByLibrary.simpleMessage("المستخدم غير مصادق عليه"),
         "vat": MessageLookupByLibrary.simpleMessage("ضريبة القيمة المضافة"),
         "verificationCode": MessageLookupByLibrary.simpleMessage("رمز التحقق"),
         "verificationCodeSent": MessageLookupByLibrary.simpleMessage(

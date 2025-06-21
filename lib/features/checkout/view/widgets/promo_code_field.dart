@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/features/checkout/view_model/cubits/checkout_cubit.dart';
-import 'package:meals_app/features/checkout/view_model/cubits/checkout_state.dart';
+import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class PromoCodeField extends StatefulWidget {
@@ -26,12 +25,12 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CheckoutCubit, CheckoutState>(
+    return BlocConsumer<PromoCodeCubit, PromoCodeState>(
       listenWhen: (previous, current) => 
-        previous.appliedPromoCode != current.appliedPromoCode ||
-        previous.promoCodeError != current.promoCodeError,
+        previous.promoCode != current.promoCode ||
+        previous.errorMessage != current.errorMessage,
       listener: (context, state) {
-        if (state.appliedPromoCode != null && _promoController.text.isNotEmpty) {
+        if (state.promoCode != null && _promoController.text.isNotEmpty) {
           _promoFocusNode.unfocus();
         }
       },
@@ -62,7 +61,7 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
               ),
               child: Column(
                 children: [
-                  if (state.appliedPromoCode != null) ...[
+                  if (state.promoCode != null) ...[
                     _buildAppliedPromoCode(context, state),
                   ] else ...[
                     _buildPromoCodeInput(context, state),
@@ -76,8 +75,8 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
     );
   }
 
-  Widget _buildAppliedPromoCode(BuildContext context, CheckoutState state) {
-    final promoCode = state.appliedPromoCode!;
+  Widget _buildAppliedPromoCode(BuildContext context, PromoCodeState state) {
+    final promoCode = state.promoCode!;
     return Column(
       children: [
         Row(
@@ -142,11 +141,11 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
             ),
             TextButton(
               onPressed: () {
-                context.read<CheckoutCubit>().removePromoCode();
+                context.read<PromoCodeCubit>().removePromoCode();
                 _promoController.clear();
               },
               child: Text(
-                S.of(context).remove,
+                S.of(context).removePromoCode,
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
@@ -160,7 +159,7 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
     );
   }
 
-  Widget _buildPromoCodeInput(BuildContext context, CheckoutState state) {
+  Widget _buildPromoCodeInput(BuildContext context, PromoCodeState state) {
     return Column(
       children: [
         Row(
@@ -195,16 +194,16 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
                 ),
                 textCapitalization: TextCapitalization.characters,
                 textInputAction: TextInputAction.done,
-                enabled: !state.isApplyingPromoCode,
+                enabled: !state.isLoading,
               ),
             ),
             SizedBox(width: 12.w),
             ElevatedButton(
-              onPressed: state.isApplyingPromoCode
+              onPressed: state.isLoading
                   ? null
                   : () {
                       final code = _promoController.text.trim();
-                      context.read<CheckoutCubit>().applyPromoCode(code);
+                      context.read<PromoCodeCubit>().applyPromoCode(code);
                     },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -214,7 +213,7 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
               ),
-              child: state.isApplyingPromoCode
+              child: state.isLoading
                   ? SizedBox(
                       width: 20.r,
                       height: 20.r,
@@ -230,10 +229,10 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
             ),
           ],
         ),
-        if (state.promoCodeError != null) ...[
+        if (state.errorMessage != null) ...[
           SizedBox(height: 8.h),
           Text(
-            state.promoCodeError!,
+            state.errorMessage!,
             style: TextStyle(
               color: Colors.red,
               fontSize: 14.sp,

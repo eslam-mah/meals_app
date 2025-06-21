@@ -86,7 +86,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           phoneNumber: _phoneController.text,
           city: UserCubit.instance.city,
           location: UserCubit.instance.location,
-          isProfileCompleted: true,
           userType: UserCubit.instance.userType,
         );
 

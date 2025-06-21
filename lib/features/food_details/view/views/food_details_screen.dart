@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
+import 'package:meals_app/core/services/connectivity_service.dart';
+import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
 import 'package:meals_app/core/utils/media_query_values.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
@@ -22,6 +24,8 @@ import 'package:meals_app/features/profile/data/models/user_model.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:async';
+import 'package:shimmer/shimmer.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
   static const String routeName = '/food-details';
@@ -36,14 +40,98 @@ class FoodDetailsScreen extends StatefulWidget {
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   bool _isAddingToCart = false;
   final Logger _log = Logger('FoodDetailsScreen');
+  // bool _isConnected = true;
+  // bool _isDialogShowing = false;
+  // StreamSubscription<bool>? _connectivitySubscription;
+  // final ConnectivityService _connectivityService = ConnectivityService.instance;
 
   @override
   void initState() {
     super.initState();
+    // _initConnectivity();
     _loadFoodDetails();
   }
   
+  // @override
+  // void dispose() {
+    // _connectivitySubscription?.cancel();
+    // _connectivitySubscription = null;
+    // super.dispose();
+  // }
+
+  /// Initialize connectivity monitoring
+  // Future<void> _initConnectivity() async {
+  //   if (!mounted) return;
+    
+  //   _log.info('Initializing connectivity monitoring');
+    
+  //   // Check initial connectivity status
+  //   _isConnected = await _connectivityService.forceCheck();
+  //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
+    
+  //   // If initially disconnected, show dialog
+  //   if (!_isConnected && mounted && !_isDialogShowing) {
+  //     _log.info('Initially disconnected, showing dialog');
+  //     _showConnectivityDialog();
+  //   }
+    
+  //   // Listen for connectivity changes
+  //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
+  //   _log.info('Connectivity listener set up');
+  // }
+  
+  // /// Handle changes in connectivity status
+  // void _handleConnectivityChange(bool isConnected) {
+  //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
+    
+  //   if (!mounted) {
+  //     _log.warning('Widget not mounted during connectivity change');
+  //     return;
+  //   }
+    
+  //   // Only show dialog if we transition from connected to disconnected
+  //   if (_isConnected && !isConnected && !_isDialogShowing) {
+  //     _log.info('Connection lost, showing dialog immediately');
+  //     _showConnectivityDialog();
+  //   }
+    
+  //   setState(() {
+  //     _isConnected = isConnected;
+  //   });
+  // }
+  
+  // /// Show connectivity dialog when connection is lost
+  // void _showConnectivityDialog() {
+  //   if (!mounted || _isDialogShowing) return;
+    
+  //   _log.info('Showing connectivity dialog');
+  //   _isDialogShowing = true;
+    
+  //   ConnectivityDialog.show(
+  //     context,
+  //     onConnected: () {
+  //       _log.info('Connection restored callback from dialog');
+        
+  //       if (mounted) {
+  //         setState(() {
+  //           _isDialogShowing = false;
+  //         });
+          
+  //         // Reload food details when connection is restored
+  //         _loadFoodDetails();
+  //       } else {
+  //         _isDialogShowing = false;
+  //       }
+  //     },
+  //   ).catchError((error) {
+  //     _log.severe('Error showing dialog: $error');
+  //     _isDialogShowing = false;
+  //   });
+  // }
+  
   void _loadFoodDetails() {
+    // if (!_isConnected) return;
+    
     if (widget.foodId != null) {
       // Load food details using the BlocProvider
       Future.microtask(() => 
@@ -54,6 +142,11 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
   void _addToCart(BuildContext context, FoodDetailsState state) async {
     if (state.food == null) return;
+    
+    // if (!_isConnected) {
+    //   _showConnectivityDialog();
+    //   return;
+    // }
     
     setState(() {
       _isAddingToCart = true;
@@ -156,19 +249,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     return BlocBuilder<FoodDetailsCubit, FoodDetailsState>(
       builder: (context, state) {
         if (state.status == FoodDetailsStatus.loading) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => GoRouter.of(context).pop(),
-              ),
-            ),
-            body: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return _buildLoadingShimmer();
         }
         
         if (state.status == FoodDetailsStatus.error) {
@@ -243,11 +324,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                         ? CachedNetworkImage(
                             imageUrl: food.photoUrl!,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  ColorsBox.primaryColor,
-                                ),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                color: Colors.white,
+                                width: double.infinity,
+                                height: double.infinity,
                               ),
                             ),
                             errorWidget: (context, url, error) => Image.asset(
@@ -392,6 +475,133 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLoadingShimmer() {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => GoRouter.of(context).pop(),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.r),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Image shimmer
+              Container(
+                width: double.infinity,
+                height: 200.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              
+              SizedBox(height: 24.h),
+              
+              // Title shimmer
+              Container(
+                width: 200.w,
+                height: 30.h,
+                color: Colors.white,
+              ),
+              
+              SizedBox(height: 16.h),
+              
+              // Description shimmer
+              Container(
+                width: double.infinity,
+                height: 60.h,
+                color: Colors.white,
+              ),
+              
+              SizedBox(height: 24.h),
+              
+              // Price shimmer
+              Container(
+                width: 100.w,
+                height: 24.h,
+                color: Colors.white,
+              ),
+              
+              SizedBox(height: 32.h),
+              
+              // Section title shimmer
+              Container(
+                width: 120.w,
+                height: 24.h,
+                color: Colors.white,
+              ),
+              
+              SizedBox(height: 16.h),
+              
+              // Options shimmer
+              Row(
+                children: List.generate(3, (index) => 
+                  Padding(
+                    padding: EdgeInsets.only(right: 8.w),
+                    child: Container(
+                      width: 80.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ),
+              ),
+              
+              SizedBox(height: 32.h),
+              
+              // Another section title
+              Container(
+                width: 120.w,
+                height: 24.h,
+                color: Colors.white,
+              ),
+              
+              SizedBox(height: 16.h),
+              
+              // More options
+              Column(
+                children: List.generate(3, (index) => 
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(16.r),
+        child: Container(
+          height: 50.h,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+        ),
+      ),
     );
   }
 } 

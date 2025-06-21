@@ -410,6 +410,16 @@ class S {
     );
   }
 
+  /// `لا توجد بيانات متاحة`
+  String get noDataAvailable {
+    return Intl.message(
+      'لا توجد بيانات متاحة',
+      name: 'noDataAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `مرحبًا بك في تطبيق الوجبات`
   String get welcomeToMealsApp {
     return Intl.message(
@@ -2430,41 +2440,331 @@ class S {
     );
   }
 
-  /// `إزالة`
-  String get remove {
+  /// `إزالة كود الخصم`
+  String get removePromoCode {
     return Intl.message(
-      'إزالة',
-      name: 'remove',
+      'إزالة كود الخصم',
+      name: 'removePromoCode',
       desc: '',
       args: [],
     );
   }
 
-  /// `كود الخصم غير صالح`
-  String get invalidPromoCode {
-    return Intl.message(
-      'كود الخصم غير صالح',
-      name: 'invalidPromoCode',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `تم تطبيق كود الخصم`
-  String get promoCodeApplied {
-    return Intl.message(
-      'تم تطبيق كود الخصم',
-      name: 'promoCodeApplied',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `الخصم`
+  /// `خصم`
   String get discount {
     return Intl.message(
-      'الخصم',
+      'خصم',
       name: 'discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `جاري تقديم الطلب...`
+  String get placingOrder {
+    return Intl.message(
+      'جاري تقديم الطلب...',
+      name: 'placingOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في تقديم الطلب. يرجى المحاولة مرة أخرى.`
+  String get failedToPlaceOrder {
+    return Intl.message(
+      'فشل في تقديم الطلب. يرجى المحاولة مرة أخرى.',
+      name: 'failedToPlaceOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حدث خطأ ما. يرجى المحاولة مرة أخرى.`
+  String get somethingWentWrong {
+    return Intl.message(
+      'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خطأ في تحميل التوصيات`
+  String get errorLoadingRecommendations {
+    return Intl.message(
+      'خطأ في تحميل التوصيات',
+      name: 'errorLoadingRecommendations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا توجد توصيات متاحة`
+  String get noRecommendationsAvailable {
+    return Intl.message(
+      'لا توجد توصيات متاحة',
+      name: 'noRecommendationsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خطأ في تحميل العروض`
+  String get errorLoadingOffers {
+    return Intl.message(
+      'خطأ في تحميل العروض',
+      name: 'errorLoadingOffers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا توجد عروض متاحة`
+  String get noOffersAvailable {
+    return Intl.message(
+      'لا توجد عروض متاحة',
+      name: 'noOffersAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خطأ في تحميل عناصر القائمة`
+  String get errorLoadingMenuItems {
+    return Intl.message(
+      'خطأ في تحميل عناصر القائمة',
+      name: 'errorLoadingMenuItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا توجد عناصر متاحة في القائمة`
+  String get noMenuItemsAvailable {
+    return Intl.message(
+      'لا توجد عناصر متاحة في القائمة',
+      name: 'noMenuItemsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في تحميل العناوين`
+  String get failedToLoadAddresses {
+    return Intl.message(
+      'فشل في تحميل العناوين',
+      name: 'failedToLoadAddresses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء تحديد عنوان`
+  String get pleaseSelectAnAddress {
+    return Intl.message(
+      'الرجاء تحديد عنوان',
+      name: 'pleaseSelectAnAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كود الخصم غير صالح أو منتهي الصلاحية`
+  String get invalidOrExpiredPromoCode {
+    return Intl.message(
+      'كود الخصم غير صالح أو منتهي الصلاحية',
+      name: 'invalidOrExpiredPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لقد استخدمت كود الخصم هذا بالفعل`
+  String get alreadyUsedPromoCode {
+    return Intl.message(
+      'لقد استخدمت كود الخصم هذا بالفعل',
+      name: 'alreadyUsedPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خطأ في تطبيق كود الخصم`
+  String get errorApplyingPromoCode {
+    return Intl.message(
+      'خطأ في تطبيق كود الخصم',
+      name: 'errorApplyingPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرجاء إدخال كود الخصم`
+  String get pleaseEnterPromoCode {
+    return Intl.message(
+      'الرجاء إدخال كود الخصم',
+      name: 'pleaseEnterPromoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لم يتم تحديد عنوان التوصيل`
+  String get noDeliveryAddressSelected {
+    return Intl.message(
+      'لم يتم تحديد عنوان التوصيل',
+      name: 'noDeliveryAddressSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لم يتم تحديد فرع الاستلام`
+  String get noPickupBranchSelected {
+    return Intl.message(
+      'لم يتم تحديد فرع الاستلام',
+      name: 'noPickupBranchSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `المستخدم غير مصادق عليه`
+  String get userNotAuthenticated {
+    return Intl.message(
+      'المستخدم غير مصادق عليه',
+      name: 'userNotAuthenticated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في إنشاء العنوان`
+  String get failedToCreateAddress {
+    return Intl.message(
+      'فشل في إنشاء العنوان',
+      name: 'failedToCreateAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في حذف العنوان`
+  String get failedToDeleteAddress {
+    return Intl.message(
+      'فشل في حذف العنوان',
+      name: 'failedToDeleteAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في تعيين العنوان الرئيسي`
+  String get failedToSetPrimaryAddress {
+    return Intl.message(
+      'فشل في تعيين العنوان الرئيسي',
+      name: 'failedToSetPrimaryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `العنوان غير موجود`
+  String get addressNotFound {
+    return Intl.message(
+      'العنوان غير موجود',
+      name: 'addressNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في تحديث العنوان`
+  String get failedToUpdateAddress {
+    return Intl.message(
+      'فشل في تحديث العنوان',
+      name: 'failedToUpdateAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم رفض إذن الموقع`
+  String get locationPermissionDenied {
+    return Intl.message(
+      'تم رفض إذن الموقع',
+      name: 'locationPermissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم رفض إذن الموقع بشكل دائم`
+  String get locationPermissionPermanentlyDenied {
+    return Intl.message(
+      'تم رفض إذن الموقع بشكل دائم',
+      name: 'locationPermissionPermanentlyDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خطأ في الحصول على الموقع`
+  String get errorGettingLocation {
+    return Intl.message(
+      'خطأ في الحصول على الموقع',
+      name: 'errorGettingLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `مسح الخطأ`
+  String get clearError {
+    return Intl.message(
+      'مسح الخطأ',
+      name: 'clearError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم استعادة الاتصال`
+  String get connectionRestored {
+    return Intl.message(
+      'تم استعادة الاتصال',
+      name: 'connectionRestored',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم فقدان الاتصال`
+  String get connectionLost {
+    return Intl.message(
+      'تم فقدان الاتصال',
+      name: 'connectionLost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة محاولة الاتصال...`
+  String get retryingConnection {
+    return Intl.message(
+      'إعادة محاولة الاتصال...',
+      name: 'retryingConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة الاتصال...`
+  String get reconnecting {
+    return Intl.message(
+      'إعادة الاتصال...',
+      name: 'reconnecting',
       desc: '',
       args: [],
     );

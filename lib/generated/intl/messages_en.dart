@@ -44,9 +44,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "Add your first address by clicking the button below"),
         "addedToCart":
             MessageLookupByLibrary.simpleMessage("Added to cart successfully!"),
+        "addressNotFound":
+            MessageLookupByLibrary.simpleMessage("Address not found"),
         "alexandria": MessageLookupByLibrary.simpleMessage("Alexandria"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account?"),
+        "alreadyUsedPromoCode": MessageLookupByLibrary.simpleMessage(
+            "You have already used this promo code"),
         "anErrorOccurred":
             MessageLookupByLibrary.simpleMessage("An error occurred"),
         "appTitle": MessageLookupByLibrary.simpleMessage("Meals App"),
@@ -78,12 +82,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "Checkout functionality is not implemented yet"),
         "chickenFries": MessageLookupByLibrary.simpleMessage("Chicken Fries"),
         "cityLabel": MessageLookupByLibrary.simpleMessage("City"),
+        "clearError": MessageLookupByLibrary.simpleMessage("Clear error"),
         "confirmDeleteAccount":
             MessageLookupByLibrary.simpleMessage("Confirm Account Deletion"),
         "confirmNewPassword":
             MessageLookupByLibrary.simpleMessage("Confirm new password"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "connectionLost":
+            MessageLookupByLibrary.simpleMessage("Connection lost"),
+        "connectionRestored":
+            MessageLookupByLibrary.simpleMessage("Connection restored"),
         "continueButton": MessageLookupByLibrary.simpleMessage("Continue"),
         "continueShopping":
             MessageLookupByLibrary.simpleMessage("Continue Shopping"),
@@ -145,13 +154,35 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your email"),
         "enterYourFullName":
             MessageLookupByLibrary.simpleMessage("Enter your full name"),
+        "errorApplyingPromoCode":
+            MessageLookupByLibrary.simpleMessage("Error applying promo code"),
+        "errorGettingLocation":
+            MessageLookupByLibrary.simpleMessage("Error getting location"),
+        "errorLoadingMenuItems":
+            MessageLookupByLibrary.simpleMessage("Error loading menu items"),
+        "errorLoadingOffers":
+            MessageLookupByLibrary.simpleMessage("Error loading offers"),
+        "errorLoadingRecommendations": MessageLookupByLibrary.simpleMessage(
+            "Error loading recommendations"),
         "extras": MessageLookupByLibrary.simpleMessage("Extras"),
         "failedToAddToCart":
             MessageLookupByLibrary.simpleMessage("Failed to add to cart"),
+        "failedToCreateAddress":
+            MessageLookupByLibrary.simpleMessage("Failed to create address"),
+        "failedToDeleteAddress":
+            MessageLookupByLibrary.simpleMessage("Failed to delete address"),
         "failedToGetLocation": m0,
+        "failedToLoadAddresses":
+            MessageLookupByLibrary.simpleMessage("Failed to load addresses"),
         "failedToLoadCart":
             MessageLookupByLibrary.simpleMessage("Failed to load cart"),
+        "failedToPlaceOrder": MessageLookupByLibrary.simpleMessage(
+            "Failed to place order. Please try again."),
         "failedToSaveAddress": m1,
+        "failedToSetPrimaryAddress": MessageLookupByLibrary.simpleMessage(
+            "Failed to set primary address"),
+        "failedToUpdateAddress":
+            MessageLookupByLibrary.simpleMessage("Failed to update address"),
         "faiyum": MessageLookupByLibrary.simpleMessage("Faiyum"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "feedbackSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -181,10 +212,10 @@ class MessageLookup extends MessageLookupByLibrary {
                 "How satisfied are you with the speed of the service?"),
         "howSatisfiedWithOverallService": MessageLookupByLibrary.simpleMessage(
             "How satisfied are you with the overall service?"),
+        "invalidOrExpiredPromoCode": MessageLookupByLibrary.simpleMessage(
+            "Invalid or expired promo code"),
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
             "Invalid verification code. Please try again."),
-        "invalidPromoCode":
-            MessageLookupByLibrary.simpleMessage("Invalid promo code"),
         "ismailia": MessageLookupByLibrary.simpleMessage("Ismailia"),
         "item": MessageLookupByLibrary.simpleMessage("Item"),
         "items": MessageLookupByLibrary.simpleMessage("Items"),
@@ -200,6 +231,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "DFOOD WILL ACCESS YOUR LOCATION\nONLY WHILE USING THE APP"),
         "locationCapturedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Location Captured Successfully"),
+        "locationPermissionDenied":
+            MessageLookupByLibrary.simpleMessage("Location permission denied"),
+        "locationPermissionPermanentlyDenied":
+            MessageLookupByLibrary.simpleMessage(
+                "Location permission permanently denied"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "loyaltyPoints": MessageLookupByLibrary.simpleMessage("Loyalty Points"),
         "luxor": MessageLookupByLibrary.simpleMessage("Luxor"),
@@ -217,10 +253,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("NEXT"),
         "noAddressesFound":
             MessageLookupByLibrary.simpleMessage("No Addresses Found"),
+        "noDataAvailable":
+            MessageLookupByLibrary.simpleMessage("No data available"),
+        "noDeliveryAddressSelected": MessageLookupByLibrary.simpleMessage(
+            "No delivery address selected"),
         "noExtrasAllowed": MessageLookupByLibrary.simpleMessage(
             "No extras are allowed as a special request."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "No internet connection. Please check your connection and try again."),
+        "noMenuItemsAvailable":
+            MessageLookupByLibrary.simpleMessage("No menu items available"),
+        "noOffersAvailable":
+            MessageLookupByLibrary.simpleMessage("No offers available"),
+        "noPickupBranchSelected":
+            MessageLookupByLibrary.simpleMessage("No pickup branch selected"),
+        "noRecommendationsAvailable": MessageLookupByLibrary.simpleMessage(
+            "No recommendations available"),
         "noSavedAddresses": MessageLookupByLibrary.simpleMessage(
             "You don\'t have any saved addresses"),
         "northSinai": MessageLookupByLibrary.simpleMessage("North Sinai"),
@@ -278,6 +326,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pickupFromBranch": MessageLookupByLibrary.simpleMessage(
             "Pick up your order from selected branch"),
         "placeOrder": MessageLookupByLibrary.simpleMessage("Place Order"),
+        "placingOrder":
+            MessageLookupByLibrary.simpleMessage("Placing order..."),
         "pleaseConfirmPassword": MessageLookupByLibrary.simpleMessage(
             "Please confirm your password"),
         "pleaseEnterAddress": MessageLookupByLibrary.simpleMessage(
@@ -286,6 +336,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your area"),
         "pleaseEnterPassword":
             MessageLookupByLibrary.simpleMessage("Please enter a password"),
+        "pleaseEnterPromoCode":
+            MessageLookupByLibrary.simpleMessage("Please enter a promo code"),
         "pleaseEnterValidEmail": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid email address"),
         "pleaseEnterYourEmail":
@@ -294,6 +346,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your name"),
         "pleaseLoginToContinue":
             MessageLookupByLibrary.simpleMessage("Please login to continue"),
+        "pleaseSelectAnAddress":
+            MessageLookupByLibrary.simpleMessage("Please select an address"),
         "pleaseSelectDeliveryAddress": MessageLookupByLibrary.simpleMessage(
             "Please select a delivery address"),
         "pleaseSelectPickupBranch": MessageLookupByLibrary.simpleMessage(
@@ -308,17 +362,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "promoCode": MessageLookupByLibrary.simpleMessage("Promo Code"),
-        "promoCodeApplied":
-            MessageLookupByLibrary.simpleMessage("Promo code applied"),
         "qalyubia": MessageLookupByLibrary.simpleMessage("Qalyubia"),
         "qena": MessageLookupByLibrary.simpleMessage("Qena"),
         "rating": MessageLookupByLibrary.simpleMessage("Rating"),
         "recommended": MessageLookupByLibrary.simpleMessage("Recommended"),
         "recommendedDescription": MessageLookupByLibrary.simpleMessage(
             "Dishes our customers love the most. Try our most popular options that are sure to satisfy your cravings!"),
+        "reconnecting": MessageLookupByLibrary.simpleMessage("Reconnecting..."),
         "redSea": MessageLookupByLibrary.simpleMessage("Red Sea"),
         "regular": MessageLookupByLibrary.simpleMessage("Regular"),
-        "remove": MessageLookupByLibrary.simpleMessage("Remove"),
+        "removePromoCode":
+            MessageLookupByLibrary.simpleMessage("Remove promo code"),
         "resendCode": MessageLookupByLibrary.simpleMessage("Resend Code"),
         "resendCodeIn": MessageLookupByLibrary.simpleMessage("Resend code in"),
         "resendResetEmail":
@@ -329,6 +383,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetToken": MessageLookupByLibrary.simpleMessage("Reset Token"),
         "resetTokenRequired": MessageLookupByLibrary.simpleMessage(
             "Please enter the reset token"),
+        "retryingConnection":
+            MessageLookupByLibrary.simpleMessage("Retrying connection..."),
         "saveAddress": MessageLookupByLibrary.simpleMessage("Save Address"),
         "savedAddresses":
             MessageLookupByLibrary.simpleMessage("Saved Addresses"),
@@ -349,6 +405,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "size": MessageLookupByLibrary.simpleMessage("Size"),
         "skip": MessageLookupByLibrary.simpleMessage("Skip"),
         "sohag": MessageLookupByLibrary.simpleMessage("Sohag"),
+        "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+            "Something went wrong. Please try again."),
         "southSinai": MessageLookupByLibrary.simpleMessage("South Sinai"),
         "specialRequests":
             MessageLookupByLibrary.simpleMessage("SPECIAL REQUESTS"),
@@ -374,6 +432,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAddress": MessageLookupByLibrary.simpleMessage("Update Address"),
         "useCurrentLocation":
             MessageLookupByLibrary.simpleMessage("Use Current Location"),
+        "userNotAuthenticated":
+            MessageLookupByLibrary.simpleMessage("User not authenticated"),
         "vat": MessageLookupByLibrary.simpleMessage("VAT"),
         "verificationCode":
             MessageLookupByLibrary.simpleMessage("Verification Code"),

@@ -5,6 +5,7 @@ import 'package:meals_app/features/profile/data/models/user_model.dart';
 import 'package:meals_app/features/profile/data/models/user_form.dart';
 import 'package:meals_app/features/profile/data/repositories/user_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 /// UserState for the cubit
 class UserState {
@@ -73,11 +74,7 @@ class UserCubit extends Cubit<UserState> {
         _log.info('Phone: ${user.phoneNumber ?? "Not set"}');
         _log.info('City: ${user.city ?? "Not set"}');
         _log.info('Location: ${user.location ?? "Not set"}');
-        _log.info('Profile Completed: ${user.isProfileCompleted}');
         _log.info('User Type: ${user.userType ?? "Not set"}');
-        
-        // Update storage with profile completion status
-        await _storageService.setHasCompletedProfile(user.isProfileCompleted);
       } else {
         _log.warning('No user data found in database');
       }
@@ -92,7 +89,9 @@ class UserCubit extends Cubit<UserState> {
       _log.severe('Failed to load user: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to load user: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تحميل بيانات المستخدم: ${e.toString()}'
+            : 'Failed to load user: ${e.toString()}',
       ));
     }
   }
@@ -118,9 +117,6 @@ class UserCubit extends Cubit<UserState> {
           _log.info('City: ${form.city ?? "Not set"}');
           _log.info('Location: ${form.location ?? "Not set"}');
         }
-        
-        // Update profile completion status in storage
-        await _storageService.setHasCompletedProfile(newUser.isProfileCompleted);
       } else {
         _log.warning('User created but returned null');
       }
@@ -133,7 +129,9 @@ class UserCubit extends Cubit<UserState> {
       _log.severe('Failed to create user: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to create user: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل إنشاء المستخدم: ${e.toString()}'
+            : 'Failed to create user: ${e.toString()}',
       ));
     }
   }
@@ -154,10 +152,6 @@ class UserCubit extends Cubit<UserState> {
         _log.info('Phone: ${user.phoneNumber ?? "Not set"}');
         _log.info('City: ${user.city ?? "Not set"}');
         _log.info('Location: ${user.location ?? "Not set"}');
-        _log.info('Profile Completed: ${user.isProfileCompleted}');
-        
-        // Update profile completion status in storage
-        await _storageService.setHasCompletedProfile(user.isProfileCompleted);
       } else {
         _log.warning('User update returned null');
       }
@@ -170,7 +164,9 @@ class UserCubit extends Cubit<UserState> {
       _log.severe('Failed to update user: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to update user: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تحديث بيانات المستخدم: ${e.toString()}'
+            : 'Failed to update user: ${e.toString()}',
       ));
     }
   }
@@ -191,10 +187,6 @@ class UserCubit extends Cubit<UserState> {
         _log.info('Phone: ${updatedUser.phoneNumber ?? "Not set"}');
         _log.info('City: ${updatedUser.city ?? "Not set"}');
         _log.info('Location: ${updatedUser.location ?? "Not set"}');
-        _log.info('Profile Completed: ${updatedUser.isProfileCompleted}');
-        
-        // Update profile completion status in storage
-        await _storageService.setHasCompletedProfile(updatedUser.isProfileCompleted);
       } else {
         _log.warning('User update with form returned null');
       }
@@ -207,7 +199,9 @@ class UserCubit extends Cubit<UserState> {
       _log.severe('Failed to update user with form: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to update user: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تحديث بيانات المستخدم: ${e.toString()}'
+            : 'Failed to update user: ${e.toString()}',
       ));
     }
   }
@@ -226,7 +220,6 @@ class UserCubit extends Cubit<UserState> {
   String? get city => state.user?.city;
   String? get location => state.user?.location;
   String? get userType => state.user?.userType;
-  bool get isProfileCompleted => state.user?.isProfileCompleted ?? false;
   bool get hasUser => state.user != null;
 
   /// Create user record directly from auth data
@@ -239,7 +232,9 @@ class UserCubit extends Cubit<UserState> {
         _log.warning('No authenticated user found');
         emit(state.copyWith(
           isLoading: false,
-          errorMessage: 'No authenticated user found',
+          errorMessage: Intl.getCurrentLocale() == 'ar'
+              ? 'لم يتم العثور على مستخدم مصادق عليه'
+              : 'No authenticated user found',
         ));
         return;
       }
@@ -251,7 +246,6 @@ class UserCubit extends Cubit<UserState> {
         'id': authUser.id,
         'created_at': DateTime.now().toIso8601String(),
         'email': authUser.email ?? '',
-        'is_profile_completed': false,
       };
       
       _log.info('Inserting user record with data: $userJson');
@@ -271,9 +265,6 @@ class UserCubit extends Cubit<UserState> {
       final newUser = UserModel.fromJson(response);
       _log.info('User record confirmed in createUserFromAuth: ${newUser.id}');
       
-      // Update profile completion status in storage
-      await _storageService.setHasCompletedProfile(newUser.isProfileCompleted);
-      
       emit(state.copyWith(
         user: newUser,
         isLoading: false,
@@ -282,7 +273,9 @@ class UserCubit extends Cubit<UserState> {
       _log.severe('Error in createUserFromAuth: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to create user: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل إنشاء المستخدم: ${e.toString()}'
+            : 'Failed to create user: ${e.toString()}',
       ));
     }
   }
@@ -299,7 +292,9 @@ class UserCubit extends Cubit<UserState> {
         _log.warning('No authenticated user found for deletion');
         emit(state.copyWith(
           isLoading: false,
-          errorMessage: 'No authenticated user found',
+          errorMessage: Intl.getCurrentLocale() == 'ar'
+              ? 'لم يتم العثور على مستخدم مصادق عليه للحذف'
+              : 'No authenticated user found',
         ));
         return false;
       }
@@ -372,7 +367,9 @@ class UserCubit extends Cubit<UserState> {
       _log.severe('Error during user deletion: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to delete user: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل حذف المستخدم: ${e.toString()}'
+            : 'Failed to delete user: ${e.toString()}',
       ));
       return false;
     }

@@ -9,7 +9,6 @@ class UserModel extends Equatable {
   final String? phoneNumber;
   final String? city;
   final String? location;
-  final bool isProfileCompleted;
   final String? userType;
 
   const UserModel({
@@ -20,7 +19,6 @@ class UserModel extends Equatable {
     this.phoneNumber,
     this.city,
     this.location,
-    required this.isProfileCompleted,
     this.userType,
   });
 
@@ -33,7 +31,6 @@ class UserModel extends Equatable {
         phoneNumber,
         city,
         location,
-        isProfileCompleted,
         userType,
       ];
 
@@ -42,7 +39,6 @@ class UserModel extends Equatable {
         id: '',
         createdAt: DateTime.now(),
         email: '',
-        isProfileCompleted: false,
       );
 
   // Create from JSON (from Supabase)
@@ -55,7 +51,6 @@ class UserModel extends Equatable {
       phoneNumber: json['phone_number'] as String?,
       city: json['city'] as String?,
       location: json['location'] as String?,
-      isProfileCompleted: json['is_profile_completed'] as bool? ?? false,
       userType: json['user_type'] as String?,
     );
   }
@@ -70,7 +65,6 @@ class UserModel extends Equatable {
       'phone_number': phoneNumber,
       'city': city,
       'location': location,
-      'is_profile_completed': isProfileCompleted,
       'user_type': userType,
     };
   }
@@ -81,7 +75,6 @@ class UserModel extends Equatable {
       id: authUser.id,
       createdAt: DateTime.now(),
       email: authUser.email ?? '',
-      isProfileCompleted: false,
     );
   }
 
@@ -94,7 +87,6 @@ class UserModel extends Equatable {
     String? phoneNumber,
     String? city,
     String? location,
-    bool? isProfileCompleted,
     String? userType,
   }) {
     return UserModel(
@@ -105,7 +97,6 @@ class UserModel extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       city: city ?? this.city,
       location: location ?? this.location,
-      isProfileCompleted: isProfileCompleted ?? this.isProfileCompleted,
       userType: userType ?? this.userType,
     );
   }

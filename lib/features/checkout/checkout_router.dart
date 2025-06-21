@@ -9,6 +9,7 @@ import 'package:meals_app/features/checkout/data/repositories/promo_code_usage_r
 import 'package:meals_app/features/checkout/view/views/checkout_success_view.dart';
 import 'package:meals_app/features/checkout/view/views/checkout_view.dart';
 import 'package:meals_app/features/checkout/view_model/cubits/checkout_cubit.dart';
+import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
 import 'package:meals_app/features/saved_addresses/data/repositories/address_repository.dart';
 import 'package:meals_app/features/saved_addresses/view_model/cubits/address_cubit.dart';
 
@@ -58,6 +59,13 @@ class CheckoutRouter {
           BlocProvider(
             create: (context) => CheckoutCubit(
               checkoutRepository: context.read<CheckoutRepository>(),
+              promoCodeRepository: context.read<PromoCodeRepository>(),
+              promoCodeUsageRepository: context.read<PromoCodeUsageRepository>(),
+            ),
+          ),
+          // Add the PromoCodeCubit for managing promo codes with dynamic percentages
+          BlocProvider(
+            create: (context) => PromoCodeCubit(
               promoCodeRepository: context.read<PromoCodeRepository>(),
               promoCodeUsageRepository: context.read<PromoCodeUsageRepository>(),
             ),

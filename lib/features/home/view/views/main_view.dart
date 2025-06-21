@@ -8,7 +8,6 @@ import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart' as app_auth;
 import 'package:meals_app/features/home/main_router.dart';
-import 'package:meals_app/features/profile/view/views/add_profile_details_screen.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 
@@ -46,20 +45,6 @@ class _MainViewState extends State<MainView> {
     if (!isAuthenticated) {
       // If not authenticated, display restricted view with option to login
       _showLoginPrompt();
-    } else {
-      // If authenticated, check if profile is completed
-      final isProfileCompleted = _storageService.hasCompletedProfile();
-      
-      if (!isProfileCompleted) {
-        // Redirect to profile completion screen
-        if (mounted) {
-          context.read<UserCubit>().loadUser();
-          if (!context.read<UserCubit>().isProfileCompleted) {
-            GoRouter.of(context).push(AddProfileDetailsScreen.routeName);
-          }
-
-        }
-      }
     }
   }
   

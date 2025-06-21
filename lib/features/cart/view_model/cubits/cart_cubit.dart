@@ -6,6 +6,7 @@ import 'package:meals_app/features/cart/view_model/cubits/cart_state.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:meals_app/features/profile/data/models/user_model.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
+import 'package:intl/intl.dart';
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository _cartRepository;
@@ -64,7 +65,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to load cart: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to load cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحميل السلة'
+            : 'Failed to load cart',
       ));
     }
   }
@@ -125,7 +128,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to add item to cart: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to add item to cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشلت إضافة العنصر إلى السلة'
+            : 'Failed to add item to cart',
       ));
     }
   }
@@ -186,13 +191,18 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to add new item to cart: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to add item to cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشلت إضافة العنصر إلى السلة'
+            : 'Failed to add item to cart',
       ));
     }
   }
 
   /// Remove an item from the cart
   Future<void> removeItem(String itemId) async {
+    // Preserve current delivery type
+    final currentDeliveryType = state.cart.deliveryType;
+    
     emit(state.copyWith(status: CartStatus.loading));
     
     try {
@@ -227,19 +237,27 @@ class CartCubit extends Cubit<CartState> {
       
       _log.info('Item removed. New cart size: ${updatedCart.items.length}');
       
+      // Ensure delivery type is preserved
+      final finalCart = updatedCart.copyWith(deliveryType: currentDeliveryType);
+      
       emit(state.copyWith(
         status: CartStatus.loaded,
-        cart: updatedCart,
+        cart: finalCart,
       ));
       
       // Force a refresh of the cart from storage to ensure UI is updated
       await Future.delayed(const Duration(milliseconds: 300));
-      await loadCart();
+      final refreshedCart = await _cartRepository.getCart(user: user);
+      emit(state.copyWith(
+        cart: refreshedCart.copyWith(deliveryType: currentDeliveryType),
+      ));
     } catch (e) {
       _log.warning('Failed to remove item from cart: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to remove item from cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشلت إزالة العنصر من السلة'
+            : 'Failed to remove item from cart',
       ));
     }
   }
@@ -268,7 +286,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to update cart item: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to update cart item',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحديث عنصر السلة'
+            : 'Failed to update cart item',
       ));
     }
   }
@@ -277,6 +297,9 @@ class CartCubit extends Cubit<CartState> {
   Future<void> incrementItemQuantity(String itemId) async {
     // --- MODIFIED: Do not emit loading here, just update in place! ---
     try {
+      // Preserve current delivery type
+      final currentDeliveryType = state.cart.deliveryType;
+      
       // Get current user if authenticated
       UserModel? user;
       try {
@@ -288,16 +311,21 @@ class CartCubit extends Cubit<CartState> {
       // Increment quantity
       final updatedCart = await _cartRepository.incrementItemQuantity(itemId, user: user);
       
+      // Ensure delivery type is preserved
+      final finalCart = updatedCart.copyWith(deliveryType: currentDeliveryType);
+      
       emit(state.copyWith(
         status: CartStatus.loaded, // Keep as loaded, no spinner
-        cart: updatedCart,
+        cart: finalCart,
       ));
     } catch (e) {
       _log.warning('Failed to increment item quantity: $e');
       // Optionally: emit error but no loading
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to update cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحديث السلة'
+            : 'Failed to update cart',
       ));
     }
   }
@@ -306,6 +334,9 @@ class CartCubit extends Cubit<CartState> {
   Future<void> decrementItemQuantity(String itemId) async {
     // --- MODIFIED: Do not emit loading here, just update in place! ---
     try {
+      // Preserve current delivery type
+      final currentDeliveryType = state.cart.deliveryType;
+      
       // Get current user if authenticated
       UserModel? user;
       try {
@@ -317,15 +348,20 @@ class CartCubit extends Cubit<CartState> {
       // Decrement quantity
       final updatedCart = await _cartRepository.decrementItemQuantity(itemId, user: user);
       
+      // Ensure delivery type is preserved
+      final finalCart = updatedCart.copyWith(deliveryType: currentDeliveryType);
+      
       emit(state.copyWith(
         status: CartStatus.loaded, // Keep as loaded, no spinner
-        cart: updatedCart,
+        cart: finalCart,
       ));
     } catch (e) {
       _log.warning('Failed to decrement item quantity: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to update cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحديث السلة'
+            : 'Failed to update cart',
       ));
     }
   }
@@ -356,7 +392,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to clear cart: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to clear cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل مسح السلة'
+            : 'Failed to clear cart',
       ));
     }
   }
@@ -385,7 +423,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to set special instructions: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to update cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحديث السلة'
+            : 'Failed to update cart',
       ));
     }
   }
@@ -414,7 +454,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to set delivery type: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to update cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحديث السلة'
+            : 'Failed to update cart',
       ));
     }
   }
@@ -435,7 +477,9 @@ class CartCubit extends Cubit<CartState> {
       _log.warning('Failed to sync cart on login: $e');
       emit(state.copyWith(
         status: CartStatus.error,
-        errorMessage: 'Failed to sync cart',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل مزامنة السلة'
+            : 'Failed to sync cart',
       ));
     }
   }

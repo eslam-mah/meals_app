@@ -9,14 +9,12 @@ class UserForm {
   final String? city;
   final String? location;
   final String? userType;
-  final bool isProfileCompleted;
 
   const UserForm({
     this.name,
     this.phoneNumber,
     this.city,
     this.location,
-    this.isProfileCompleted = false,
     this.userType = 'user',
   });
 
@@ -30,7 +28,6 @@ class UserForm {
       phoneNumber: phoneNumber,
       city: city,
       location: location,
-      isProfileCompleted: isProfileCompleted,
       userType: userType ?? 'user',
     );
   }
@@ -45,7 +42,6 @@ class UserForm {
       'phone_number': phoneNumber,
       'city': city,
       'location': location,
-      'is_profile_completed': isProfileCompleted,
       'user_type': userType ?? 'user',
     };
   }
@@ -60,7 +56,6 @@ class UserForm {
       phoneNumber: user.phoneNumber,
       city: user.city,
       location: user.location,
-      isProfileCompleted: user.isProfileCompleted,
       userType: user.userType ?? 'user',
     );
   }
@@ -72,14 +67,12 @@ class UserForm {
     String? city,
     String? location,
     String? userType,
-    bool? isProfileCompleted,
   }) {
     return UserForm(
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       city: city ?? this.city,
       location: location ?? this.location,
-      isProfileCompleted: isProfileCompleted ?? this.isProfileCompleted,
       userType: userType ?? this.userType,
     );
   }

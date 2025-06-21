@@ -4,6 +4,7 @@ import 'package:meals_app/features/feedback/data/models/feedback_model.dart';
 import 'package:meals_app/features/feedback/data/repositories/feedback_repository.dart';
 import 'package:meals_app/features/feedback/view_model/cubits/feedback_state.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 class FeedbackCubit extends Cubit<FeedbackState> {
   final FeedbackRepository _repository;
@@ -59,7 +60,9 @@ class FeedbackCubit extends Cubit<FeedbackState> {
         _log.warning('Failed to submit feedback');
         emit(state.copyWith(
           status: FeedbackStatus.failure,
-          error: 'Failed to submit feedback',
+          error: Intl.getCurrentLocale() == 'ar'
+              ? 'فشل في إرسال التعليق'
+              : 'Failed to submit feedback',
         ));
         return false;
       }
@@ -67,7 +70,9 @@ class FeedbackCubit extends Cubit<FeedbackState> {
       _log.severe('Error submitting feedback: $e');
       emit(state.copyWith(
         status: FeedbackStatus.failure,
-        error: e.toString(),
+        error: Intl.getCurrentLocale() == 'ar'
+            ? 'خطأ في إرسال التعليق: $e'
+            : e.toString(),
       ));
       return false;
     }
@@ -83,7 +88,9 @@ class FeedbackCubit extends Cubit<FeedbackState> {
         _log.warning('No authenticated user found');
         emit(state.copyWith(
           status: FeedbackStatus.failure,
-          error: 'Not authenticated',
+          error: Intl.getCurrentLocale() == 'ar'
+              ? 'المستخدم غير مصادق عليه'
+              : 'Not authenticated',
         ));
         return;
       }
@@ -99,7 +106,9 @@ class FeedbackCubit extends Cubit<FeedbackState> {
       _log.severe('Error loading user feedback: $e');
       emit(state.copyWith(
         status: FeedbackStatus.failure,
-        error: e.toString(),
+        error: Intl.getCurrentLocale() == 'ar'
+            ? 'خطأ في تحميل التعليقات: $e'
+            : e.toString(),
       ));
     }
   }

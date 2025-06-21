@@ -6,6 +6,7 @@ import 'package:meals_app/features/authentication/view_model/cubits/auth_state.d
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/profile/data/models/user_form.dart';
+import 'package:intl/intl.dart';
 
 class AuthCubit extends Cubit<app_auth.AuthState> {
   final AuthRepository _authRepository;
@@ -46,14 +47,8 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
               _log.info('User ID: ${userData.id}');
               _log.info('Email: ${userData.email}');
               _log.info('Name: ${userData.name ?? "Not set"}');
-              _log.info('Profile completed: ${userData.isProfileCompleted}');
-              _log.info('User type: ${userData.userType ?? "Not set"}');
-              
-              // Update profile completion status in storage
-              await _storageService.setHasCompletedProfile(userData.isProfileCompleted);
             } else {
               _log.warning('User authenticated but no profile data found in database');
-              await _storageService.setHasCompletedProfile(false);
             }
           } catch (e) {
             _log.warning('Error loading user data: $e');
@@ -87,7 +82,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       if (!_authRepository.isValidEmail(email)) {
         emit(state.copyWith(
           status: app_auth.AuthStatus.error,
-          errorMessage: 'Please enter a valid email address from a known provider',
+          errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'الرجاء إدخال عنوان بريد إلكتروني صالح من مزود معروف'
+            : 'Please enter a valid email address from a known provider',
         ));
         return;
       }
@@ -104,7 +101,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
     } catch (e) {
       emit(state.copyWith(
         status: app_auth.AuthStatus.error,
-        errorMessage: 'Failed to check email. Please try again.',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في التحقق من البريد الإلكتروني. يرجى المحاولة مرة أخرى.'
+            : 'Failed to check email. Please try again.',
       ));
     }
   }
@@ -138,16 +137,10 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
           _log.info('User ID: ${userData.id}');
           _log.info('Email: ${userData.email}');
           _log.info('Name: ${userData.name ?? "Not set"}');
-          _log.info('Profile completed: ${userData.isProfileCompleted}');
         }
 
         // Save authentication state in storage
         await _storageService.setIsAuthenticated(true);
-        
-        // Check if profile is completed and save to storage
-        final isProfileCompleted = UserCubit.instance.isProfileCompleted;
-        await _storageService.setHasCompletedProfile(isProfileCompleted);
-        _log.info('Profile completion status: ${isProfileCompleted ? "Completed" : "Incomplete"}');
       } catch (e) {
         _log.warning('Error checking/creating user record: $e');
         // Continue even if this fails
@@ -186,7 +179,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
         status: app_auth.AuthStatus.passwordResetEmailSent,
       ));
     } catch (e) {
-      String errorMessage = 'Failed to send password reset email. Please try again.';
+      String errorMessage = Intl.getCurrentLocale() == 'ar'
+          ? 'فشل في إرسال بريد إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى.'
+          : 'Failed to send password reset email. Please try again.';
       
       // Clean up the error message for display
       if (e.toString().startsWith('Exception: ')) {
@@ -213,7 +208,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
     } catch (e) {
       emit(state.copyWith(
         status: app_auth.AuthStatus.error,
-        errorMessage: 'Failed to reset password. Please try again.',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى.'
+            : 'Failed to reset password. Please try again.',
       ));
     }
   }
@@ -233,9 +230,13 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       
       // Provide more user-friendly error message
       if (errorMessage.contains('user_not_found') || errorMessage.contains('User from sub claim')) {
-        errorMessage = 'Your password reset link has expired. Please request a new one.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'انتهت صلاحية رابط إعادة تعيين كلمة المرور. يرجى طلب رابط جديد.'
+            : 'Your password reset link has expired. Please request a new one.';
       } else {
-        errorMessage = 'Failed to reset password. Please try again.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى.'
+            : 'Failed to reset password. Please try again.';
       }
       
       emit(state.copyWith(
@@ -260,13 +261,21 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       
       // Provide more user-friendly error message
       if (errorMessage.contains('Invalid one time token')) {
-        errorMessage = 'Invalid token. Please make sure you entered the correct code from the email.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'رمز غير صالح. يرجى التأكد من إدخال الرمز الصحيح من البريد الإلكتروني.'
+            : 'Invalid token. Please make sure you entered the correct code from the email.';
       } else if (errorMessage.contains('user_not_found')) {
-        errorMessage = 'User not found. Please check your email address.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'لم يتم العثور على المستخدم. يرجى التحقق من عنوان البريد الإلكتروني.'
+            : 'User not found. Please check your email address.';
       } else if (errorMessage.contains('expired')) {
-        errorMessage = 'The token has expired. Please request a new one.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'انتهت صلاحية الرمز. يرجى طلب رمز جديد.'
+            : 'The token has expired. Please request a new one.';
       } else {
-        errorMessage = 'Failed to reset password. Please try again or request a new token.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى أو طلب رمز جديد.'
+            : 'Failed to reset password. Please try again or request a new token.';
       }
       
       emit(state.copyWith(
@@ -291,11 +300,17 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       
       // Provide more user-friendly error message
       if (errorMessage.contains('user_not_found')) {
-        errorMessage = 'User not found. Please check your email address.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'لم يتم العثور على المستخدم. يرجى التحقق من عنوان البريد الإلكتروني.'
+            : 'User not found. Please check your email address.';
       } else if (errorMessage.contains('OTP not found')) {
-        errorMessage = 'The verification code was not found. Please request a new one.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'لم يتم العثور على رمز التحقق. يرجى طلب رمز جديد.'
+            : 'The verification code was not found. Please request a new one.';
       } else {
-        errorMessage = 'Failed to reset password. Please try again or use the link in your email.';
+        errorMessage = Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى أو استخدام الرابط في بريدك الإلكتروني.'
+            : 'Failed to reset password. Please try again or use the link in your email.';
       }
       
       emit(state.copyWith(
@@ -323,8 +338,7 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
           final userJson = {
             'id': response.user!.id,
             'created_at': DateTime.now().toIso8601String(),
-            'email': response.user!.email ?? '',
-            'is_profile_completed': false
+            'email': response.user!.email ?? ''
           };
           
           _log.info('Inserting user JSON data');
@@ -360,7 +374,6 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
 
           // Save authentication state in storage
           await _storageService.setIsAuthenticated(true);
-          await _storageService.setHasCompletedProfile(false);
         } catch (e) {
           _log.severe('Error creating user record', e);
           // Continue even if user record creation fails
@@ -375,7 +388,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       ));
     } catch (e, stackTrace) {
       // Get the specific error message
-      String errorMessage = 'Failed to create account. Please try again.';
+      String errorMessage = Intl.getCurrentLocale() == 'ar'
+          ? 'فشل في إنشاء الحساب. يرجى المحاولة مرة أخرى.'
+          : 'Failed to create account. Please try again.';
       
       // Log detailed error for debugging
       _log.severe('SignUp error', e, stackTrace);
@@ -394,32 +409,97 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
     }
   }
 
-  /// Check if user profile is complete after authentication
-  /// Returns true if profile is complete, false if incomplete
-  Future<bool> checkProfileCompletion() async {
-    _log.info('Checking profile completion status');
-    
+  // Sign up with email, password, and profile details
+  Future<void> signUpWithEmailAndProfile(String email, String password, UserForm userForm) async {
     try {
-      // Load user data
-      await UserCubit.instance.loadUser();
-      final userData = UserCubit.instance.state.user;
+      emit(state.copyWith(status: app_auth.AuthStatus.loading));
+
+      _log.info('Starting sign up process with profile details for email: $email');
+      final response = await _authRepository.signUpWithEmail(email, password);
+      _log.info('Sign up auth response received. User ID: ${response.user?.id}');
       
-      if (userData != null) {
-        final isProfileCompleted = userData.isProfileCompleted;
-        _log.info('Profile completion status: ${isProfileCompleted ? "Complete" : "Incomplete"}');
-        
-        // Update storage
-        await _storageService.setHasCompletedProfile(isProfileCompleted);
-        
-        return isProfileCompleted;
+      // Create a user record in the database with profile details
+      if (response.user != null) {
+        try {
+          _log.info('Creating user record with profile details for ${response.user!.id}');
+          
+          // Create user with profile details
+          final userJson = {
+            'id': response.user!.id,
+            'created_at': DateTime.now().toIso8601String(),
+            'email': response.user!.email ?? '',
+            'name': userForm.name,
+            'phone_number': userForm.phoneNumber,
+            'city': userForm.city,
+            'location': userForm.location,
+            'user_type': userForm.userType ?? 'user'
+          };
+          
+          _log.info('Inserting user JSON data with profile details');
+          
+          // Use direct SQL query to ensure insertion
+          try {
+            await Supabase.instance.client.from('users').insert(userJson);
+            _log.info('User with profile details inserted with regular insert');
+          } catch (dbError) {
+            _log.warning('Insert failed, trying upsert: $dbError');
+            
+            // If insert fails, try upsert
+            await Supabase.instance.client
+                .from('users')
+                .upsert(userJson, onConflict: 'id');
+            _log.info('User record with profile details created with upsert');
+          }
+          
+          // Fetch to verify
+          try {
+            final result = await Supabase.instance.client
+                .from('users')
+                .select()
+                .eq('id', response.user!.id)
+                .single();
+            _log.info('User record with profile details verified: ${result['id']}');
+          } catch (fetchError) {
+            _log.warning('Failed to verify user record with profile details: $fetchError');
+          }
+          
+          // Update UserCubit state - force a reload and emit a new state
+          await UserCubit.instance.loadUser();
+
+          // Save authentication state in storage
+          await _storageService.setIsAuthenticated(true);
+        } catch (e) {
+          _log.severe('Error creating user record with profile details', e);
+          // Continue even if user record creation fails
+        }
       } else {
-        _log.warning('No user data found when checking profile completion');
-        await _storageService.setHasCompletedProfile(false);
-        return false;
+        _log.warning('No user returned from sign up response');
       }
-    } catch (e) {
-      _log.severe('Error checking profile completion: $e');
-      return false;
+      
+      emit(state.copyWith(
+        status: app_auth.AuthStatus.authenticated,
+        user: response.user,
+      ));
+    } catch (e, stackTrace) {
+      // Get the specific error message
+      String errorMessage = Intl.getCurrentLocale() == 'ar'
+          ? 'فشل في إنشاء الحساب. يرجى المحاولة مرة أخرى.'
+          : 'Failed to create account. Please try again.';
+      
+      // Log detailed error for debugging
+      _log.severe('SignUp with profile details error', e, stackTrace);
+      
+      // Clean up the error message for display
+      if (e.toString().startsWith('Exception: ')) {
+        errorMessage = e.toString().substring('Exception: '.length);
+      } else if (e is AuthException) {
+        errorMessage = e.message;
+      }
+      
+      emit(state.copyWith(
+        status: app_auth.AuthStatus.error,
+        errorMessage: errorMessage,
+      ));
     }
   }
 
@@ -441,7 +521,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       _log.warning('Error during sign out: $e');
       emit(state.copyWith(
         status: app_auth.AuthStatus.error,
-        errorMessage: 'Failed to sign out. Please try again.',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تسجيل الخروج. يرجى المحاولة مرة أخرى.'
+            : 'Failed to sign out. Please try again.',
       ));
     }
   }
@@ -458,7 +540,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
         _log.warning('No authenticated user found for deletion');
         emit(state.copyWith(
           status: app_auth.AuthStatus.error,
-          errorMessage: 'No authenticated user found',
+          errorMessage: Intl.getCurrentLocale() == 'ar'
+              ? 'لم يتم العثور على مستخدم مصادق عليه'
+              : 'No authenticated user found',
         ));
         return false;
       }
@@ -494,7 +578,9 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       _log.severe('Error during account deletion: $e');
       emit(state.copyWith(
         status: app_auth.AuthStatus.error,
-        errorMessage: 'Failed to delete account: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في حذف الحساب: ${e.toString()}'
+            : 'Failed to delete account: ${e.toString()}',
       ));
       return false;
     }

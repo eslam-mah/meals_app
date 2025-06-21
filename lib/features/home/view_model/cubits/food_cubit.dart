@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:meals_app/features/home/data/repositories/food_repository.dart';
 import 'package:meals_app/features/home/view_model/cubits/food_state.dart';
+import 'package:intl/intl.dart';
 
 class FoodCubit extends Cubit<FoodState> {
   final FoodRepository _foodRepository;
@@ -69,7 +70,9 @@ class FoodCubit extends Cubit<FoodState> {
       _log.severe('Error loading recommended items: $e');
       emit(state.copyWith(
         recommendedStatus: FoodStatus.error,
-        errorMessage: 'Failed to load recommended items',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل العناصر الموصى بها'
+            : 'Failed to load recommended items',
       ));
     }
   }
@@ -98,7 +101,9 @@ class FoodCubit extends Cubit<FoodState> {
       _log.severe('Error loading more recommended items: $e');
       emit(state.copyWith(
         recommendedStatus: FoodStatus.error,
-        errorMessage: 'Failed to load more recommended items',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل المزيد من العناصر الموصى بها'
+            : 'Failed to load more recommended items',
       ));
     }
   }
@@ -133,7 +138,9 @@ class FoodCubit extends Cubit<FoodState> {
       _log.severe('Error loading offer items: $e');
       emit(state.copyWith(
         offerStatus: FoodStatus.error,
-        errorMessage: 'Failed to load offer items',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل عناصر العروض'
+            : 'Failed to load offer items',
       ));
     }
   }
@@ -162,7 +169,9 @@ class FoodCubit extends Cubit<FoodState> {
       _log.severe('Error loading more offer items: $e');
       emit(state.copyWith(
         offerStatus: FoodStatus.error,
-        errorMessage: 'Failed to load more offer items',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل المزيد من عناصر العروض'
+            : 'Failed to load more offer items',
       ));
     }
   }
@@ -197,7 +206,9 @@ class FoodCubit extends Cubit<FoodState> {
       _log.severe('Error loading menu items: $e');
       emit(state.copyWith(
         menuStatus: FoodStatus.error,
-        errorMessage: 'Failed to load menu items',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل عناصر القائمة'
+            : 'Failed to load menu items',
       ));
     }
   }
@@ -226,7 +237,9 @@ class FoodCubit extends Cubit<FoodState> {
       _log.severe('Error loading more menu items: $e');
       emit(state.copyWith(
         menuStatus: FoodStatus.error,
-        errorMessage: 'Failed to load more menu items',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل المزيد من عناصر القائمة'
+            : 'Failed to load more menu items',
       ));
     }
   }

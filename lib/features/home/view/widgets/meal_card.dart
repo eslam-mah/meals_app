@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
@@ -86,7 +87,7 @@ class MealCard extends StatelessWidget {
                   children: [
                     // Title
                     Text(
-                      food.nameEn,
+                      Intl.getCurrentLocale() == 'ar' ? food.nameAr : food.nameEn,
                       style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
@@ -97,7 +98,7 @@ class MealCard extends StatelessWidget {
                     
                     // Description
                     Text(
-                      food.descriptionEn ?? '',
+                      Intl.getCurrentLocale() == 'ar' ? food.descriptionAr ?? '' : food.descriptionEn ?? '',
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: Colors.grey,

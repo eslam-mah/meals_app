@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:meals_app/features/food_details/view_model/cubits/food_details_state.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:meals_app/features/home/data/repositories/food_repository.dart';
+import 'package:intl/intl.dart';
 
 class FoodDetailsCubit extends Cubit<FoodDetailsState> {
   final FoodRepository _foodRepository;
@@ -55,7 +56,9 @@ class FoodDetailsCubit extends Cubit<FoodDetailsState> {
       _log.severe('Error loading food details: $e');
       emit(state.copyWith(
         status: FoodDetailsStatus.error,
-        errorMessage: 'Failed to load food details',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في تحميل تفاصيل الطعام'
+            : 'Failed to load food details',
       ));
     }
   }

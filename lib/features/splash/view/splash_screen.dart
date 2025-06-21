@@ -14,7 +14,6 @@ import 'package:meals_app/features/authentication/view_model/cubits/auth_state.d
     as app_auth;
 import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/features/onboarding/view/views/onboarding_screen.dart';
-import 'package:meals_app/features/profile/view/views/add_profile_details_screen.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -244,32 +243,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
           // Now check profile completion status
           final user = context.read<UserCubit>().state.user;
-          final isProfileCompleted = user?.isProfileCompleted ?? false;
 
           _log.info('User ID: ${user?.id ?? "Unknown"}');
           _log.info('Email: ${user?.email ?? "Unknown"}');
           _log.info('Name: ${user?.name ?? "Not set"}');
-          _log.info('Profile completion status: $isProfileCompleted');
 
           // Update storage with authentication and profile status
           await _storageService.setIsAuthenticated(true);
-          await _storageService.setHasCompletedProfile(isProfileCompleted);
-
-          if (!mounted) return;
-
-          if (!isProfileCompleted) {
-            _log.info(
-              'Profile incomplete - navigating to profile completion screen',
-            );
-            GoRouter.of(context).go(AddProfileDetailsScreen.routeName);
-            return;
-          }
 
           if (!mounted) return;
 
           // User is authenticated and profile is completed
           _log.info(
-            'User authenticated with completed profile - navigating to main view',
+            'User authenticated - navigating to main view',
           );
           GoRouter.of(context).go(MainView.mainPath);
         } catch (userError) {

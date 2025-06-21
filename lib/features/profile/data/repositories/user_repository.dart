@@ -53,7 +53,6 @@ class UserRepository {
         'id': authUser.id,
         'created_at': DateTime.now().toIso8601String(),
         'email': authUser.email ?? '',
-        'is_profile_completed': false,
       };
       
       _log.info('Creating user with data: $userJson');
@@ -86,7 +85,6 @@ class UserRepository {
         id: authUser.id,
         createdAt: DateTime.now(),
         email: authUser.email ?? '',
-        isProfileCompleted: false,
       );
     }
   }
@@ -176,7 +174,6 @@ class UserRepository {
         city: form.city,
         location: form.location,
         userType: form.userType ?? 'user', // Default to 'user' if not specified
-        isProfileCompleted: true, // Always set to true when updating profile
       );
       
       _log.info('Updating user profile: ${updatedUser.toJson()}');

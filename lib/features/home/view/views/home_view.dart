@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
+import 'package:meals_app/core/services/connectivity_service.dart';
+import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
+import 'package:meals_app/core/main_widgets/custom_error_widget.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/cart/view/widgets/cart_indicator.dart';
@@ -16,6 +20,9 @@ import 'package:meals_app/features/home/view_model/cubits/food_cubit.dart';
 import 'package:meals_app/features/home/view_model/cubits/food_state.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
+import 'dart:async';
+import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
 
 class HomeView extends StatefulWidget {
   static const String homePath = '/home';
@@ -28,14 +35,100 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final ScrollController _scrollController = ScrollController();
+  // final Logger _log = Logger('HomeView');
+  bool _isConnected = true;
+  // bool _isDialogShowing = false;
+  // StreamSubscription<bool>? _connectivitySubscription;
+  // final ConnectivityService _connectivityService = ConnectivityService.instance;
 
   @override
   void initState() {
     super.initState();
+    // _initConnectivity();
     _loadInitialData();
     _setupScrollListener();
     _initializeUserCubit();
   }
+
+  // /// Initialize connectivity monitoring
+  // Future<void> _initConnectivity() async {
+  //   if (!mounted) return;
+
+  //   _log.info('Initializing connectivity monitoring');
+
+  //   // Check initial connectivity status
+  //   _isConnected = await _connectivityService.forceCheck();
+  //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
+
+  //   // If initially disconnected, show dialog
+  //   if (!_isConnected && mounted && !_isDialogShowing) {
+  //     _log.info('Initially disconnected, showing dialog');
+  //     _showConnectivityDialog();
+  //   }
+
+  //   // Listen for connectivity changes
+  //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
+  //   _log.info('Connectivity listener set up');
+  // }
+
+  // /// Handle changes in connectivity status
+  // void _handleConnectivityChange(bool isConnected) {
+  //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
+
+  //   if (!mounted) {
+  //     _log.warning('Widget not mounted during connectivity change');
+  //     return;
+  //   }
+
+  //   // Only show dialog if we transition from connected to disconnected
+  //   if (_isConnected && !isConnected && !_isDialogShowing) {
+  //     _log.info('Connection lost, showing dialog immediately');
+  //     _showConnectivityDialog();
+  //   }
+
+  //   setState(() {
+  //     _isConnected = isConnected;
+  //   });
+  // }
+
+  // void _showConnectivityDialog() {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         snackBarAnimationStyle:  AnimationStyle(curve: ElasticInCurve()),
+  //             SnackBar(
+
+  //               content: Text(S.of(context).noInternetConnection),
+  //               backgroundColor: Colors.red,
+  //             ),
+  //           );
+  // }
+  // /// Show connectivity dialog when connection is lost
+  // void _showConnectivityDialog() {
+  //   if (!mounted || _isDialogShowing) return;
+
+  //   _log.info('Showing connectivity dialog');
+  //   _isDialogShowing = true;
+
+  //   ConnectivityDialog.show(
+  //     context,
+  //     onConnected: () {
+  //       _log.info('Connection restored callback from dialog');
+
+  //       if (mounted) {
+  //         setState(() {
+  //           _isDialogShowing = false;
+  //         });
+
+  //         // Reload data when connection is restored
+  //         _loadInitialData();
+  //       } else {
+  //         _isDialogShowing = false;
+  //       }
+  //     },
+  //   ).catchError((error) {
+  //     _log.severe('Error showing dialog: $error');
+  //     _isDialogShowing = false;
+  //   });
+  // }
 
   void _initializeUserCubit() {
     // Ensure UserCubit is initialized and loads user data
@@ -45,6 +138,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _loadInitialData() {
+    // if (!_isConnected) return;
     final foodCubit = context.read<FoodCubit>();
     foodCubit.loadInitialData();
   }
@@ -54,9 +148,10 @@ class _HomeViewState extends State<HomeView> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
         // Load more recommended items when nearing the end
+        // if (!_isConnected) return;
         final foodCubit = context.read<FoodCubit>();
         final state = foodCubit.state;
-        
+
         if (state.recommendedStatus != FoodStatus.loadingMore &&
             state.hasMoreRecommended) {
           foodCubit.loadMoreRecommendedItems();
@@ -67,6 +162,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void dispose() {
+    // _connectivitySubscription?.cancel();
+    // _connectivitySubscription = null;
     _scrollController.dispose();
     super.dispose();
   }
@@ -81,7 +178,7 @@ class _HomeViewState extends State<HomeView> {
           children: [
             // User greeting and icons
             _buildHeader(context, localization),
-            
+
             // Main content with Expanded
             Expanded(
               child: Stack(
@@ -108,7 +205,10 @@ class _HomeViewState extends State<HomeView> {
                                     height: 30.h,
                                     width: 30.h,
                                     child: CircularProgressIndicator(
-                                      value: controller.isLoading ? null : controller.value,
+                                      value:
+                                          controller.isLoading
+                                              ? null
+                                              : controller.value,
                                       valueColor: AlwaysStoppedAnimation<Color>(
                                         ColorsBox.primaryColor,
                                       ),
@@ -132,75 +232,73 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           // Delivery location
                           const DeliveryLocation(),
-                          
+
                           SizedBox(height: 16.h),
-                          
+
                           // Hot offers section
-                          _buildSectionTitle(localization.offers),
-                          
-                          SizedBox(height: 12.h),
-                          
+
                           // Hot offers horizontal list
-                          SizedBox(
-                            height: 180.h,
-                            child: BlocBuilder<FoodCubit, FoodState>(
-                              buildWhen: (previous, current) => 
-                                  previous.offerItems != current.offerItems ||
-                                  previous.offerStatus != current.offerStatus,
-                              builder: (context, state) {
-                                if (state.offerStatus == FoodStatus.loading) {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        ColorsBox.primaryColor,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                
-                                if (state.offerStatus == FoodStatus.error) {
-                                  return Center(
-                                    child: Text(
-                                      state.errorMessage ?? 'Error loading offers',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                
-                                if (state.offerItems.isEmpty) {
-                                  return Center(
-                                    child: Text(
-                                      'No offers available',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                
-                                return ListView.builder(
+                          BlocBuilder<FoodCubit, FoodState>(
+                            buildWhen:
+                                (previous, current) =>
+                                    previous.offerItems !=
+                                        current.offerItems ||
+                                    previous.offerStatus !=
+                                        current.offerStatus,
+                            builder: (context, state) {
+                              if (state.offerStatus == FoodStatus.loading) {
+                                return _buildOfferItemsShimmer();
+                              }
+                          
+                              if (state.offerStatus == FoodStatus.error) {
+                                return CustomErrorWidget(
+                                  errorMessage: Intl.getCurrentLocale() == 'ar' 
+                                    ? 'خطأ في تحميل العروض'
+                                    : 'Error loading offers',
+                                  padding: EdgeInsets.symmetric(vertical: 20.h),
+                                );
+                              }
+                          
+                              if (state.offerItems.isEmpty) {
+                                return SizedBox.shrink();
+                              }
+                          
+                              return SizedBox(
+                                                            height: state.offerItems.isNotEmpty ? 225.h : 0,
+
+                                child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   padding: EdgeInsets.only(left: 16.w),
                                   itemCount: state.offerItems.length,
                                   itemBuilder: (context, index) {
-                                    return HotOfferCard(food: state.offerItems[index]);
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        if (state.offerItems.isNotEmpty) ...[
+                                          _buildSectionTitle(
+                                            localization.offers,
+                                          ),
+                                                          
+                                          SizedBox(height: 12.h),
+                                        ],
+                                        HotOfferCard(
+                                          food: state.offerItems[index],
+                                        ),
+                                      ],
+                                    );
                                   },
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
-                          
-                          SizedBox(height: 24.h),
-                          
+
+                          SizedBox(height: 30.h),
+
                           // Recommended section
                           _buildSectionTitle(localization.recommended),
-                          
+
                           SizedBox(height: 8.h),
-                          
+
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Text(
@@ -211,67 +309,55 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                           ),
-                          
+
                           SizedBox(height: 16.h),
-                          
+
                           // Recommended meals list
                           BlocBuilder<FoodCubit, FoodState>(
-                            buildWhen: (previous, current) => 
-                                previous.recommendedItems != current.recommendedItems ||
-                                previous.recommendedStatus != current.recommendedStatus,
+                            buildWhen:
+                                (previous, current) =>
+                                    previous.recommendedItems !=
+                                        current.recommendedItems ||
+                                    previous.recommendedStatus !=
+                                        current.recommendedStatus,
                             builder: (context, state) {
-                              if (state.recommendedStatus == FoodStatus.loading &&
+                              if (state.recommendedStatus ==
+                                      FoodStatus.loading &&
                                   state.recommendedItems.isEmpty) {
-                                return Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 40.h),
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        ColorsBox.primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                return _buildRecommendedItemsShimmer();
                               }
-                              
+
                               if (state.recommendedStatus == FoodStatus.error &&
                                   state.recommendedItems.isEmpty) {
-                                return Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 40.h),
-                                    child: Text(
-                                      state.errorMessage ?? 'Error loading recommendations',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  ),
+                                return CustomErrorWidget(
+                                  errorMessage: Intl.getCurrentLocale() == 'ar' 
+                                    ? 'خطأ في تحميل التوصيات'
+                                    : 'Error loading recommendations',
+                                  padding: EdgeInsets.symmetric(vertical: 40.h),
                                 );
                               }
-                              
+
                               if (state.recommendedItems.isEmpty) {
-                                return Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 40.h),
-                                    child: Text(
-                                      'No recommendations available',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  ),
+                                return CustomErrorWidget(
+                                  errorMessage: Intl.getCurrentLocale() == 'ar'
+                                    ? 'لا توجد توصيات متاحة'
+                                    : 'No recommendations available',
+                                  padding: EdgeInsets.symmetric(vertical: 40.h),
+                                  textColor: Colors.grey,
+                                  icon: Icons.no_meals_outlined,
                                 );
                               }
-                              
+
                               return Column(
                                 children: [
                                   // Recommended items list
                                   ListView.builder(
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w,
+                                    ),
                                     itemCount: state.recommendedItems.length,
                                     itemBuilder: (context, index) {
                                       return Padding(
@@ -282,20 +368,17 @@ class _HomeViewState extends State<HomeView> {
                                       );
                                     },
                                   ),
-                                  
+
                                   // Loading indicator at the bottom when loading more
-                                  if (state.recommendedStatus == FoodStatus.loadingMore)
+                                  if (state.recommendedStatus ==
+                                      FoodStatus.loadingMore)
                                     Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 16.h),
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation<Color>(
-                                            ColorsBox.primaryColor,
-                                          ),
-                                        ),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 16.h,
                                       ),
+                                      child: _buildRecommendedItemShimmer(),
                                     ),
-                                    
+
                                   // Extra space at the bottom for the cart indicator
                                   SizedBox(height: 80.h),
                                 ],
@@ -306,7 +389,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  
+
                   // Cart indicator at the bottom
                   Positioned(
                     bottom: 0,
@@ -315,6 +398,74 @@ class _HomeViewState extends State<HomeView> {
                     child: const CartIndicator(),
                   ),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOfferItemsShimmer() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      padding: EdgeInsets.only(left: 16.w),
+      itemCount: 3, // Show 3 shimmer placeholders
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            margin: EdgeInsets.only(right: 20.w),
+            width: 300.w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRecommendedItemsShimmer() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        children: List.generate(3, (index) => _buildRecommendedItemShimmer()),
+      ),
+    );
+  }
+
+  Widget _buildRecommendedItemShimmer() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12.h),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // Card container
+            Container(
+              margin: EdgeInsets.only(top: 60.h, bottom: 16.h),
+              height: 120.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+            ),
+            // Image placeholder
+            PositionedDirectional(
+              top: 0,
+              start: 16.w,
+              child: Container(
+                width: 120.w,
+                height: 120.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -345,7 +496,7 @@ class _HomeViewState extends State<HomeView> {
               );
             },
           ),
-          
+
           // Icons
           Row(
             children: [
@@ -354,9 +505,9 @@ class _HomeViewState extends State<HomeView> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(50.r),
                   onTap: () {
-                    if(storageService.isAuthenticated()){
+                    if (storageService.isAuthenticated()) {
                       GoRouter.of(context).push(CartView.cartPath);
-                    }else{
+                    } else {
                       GoRouter.of(context).push(LoginScreen.routeName);
                     }
                   },
@@ -375,7 +526,6 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
-             
             ],
           ),
         ],
@@ -396,4 +546,4 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-} 
+}

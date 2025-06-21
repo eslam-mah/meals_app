@@ -6,6 +6,7 @@ import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/saved_addresses/data/models/address_model.dart';
 import 'package:meals_app/features/saved_addresses/data/repositories/address_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 part 'address_state.dart';
 
@@ -36,7 +37,9 @@ class AddressCubit extends Cubit<AddressState> {
       _log.severe('Error loading user addresses: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to load addresses: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar' 
+            ? 'فشل تحميل العناوين: ${e.toString()}'
+            : 'Failed to load addresses: ${e.toString()}',
       ));
     }
   }
@@ -52,7 +55,9 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId == null) {
-        throw Exception('User not authenticated');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'المستخدم غير مصادق عليه'
+            : 'User not authenticated');
       }
       
       // Get user city from UserCubit
@@ -70,7 +75,9 @@ class AddressCubit extends Cubit<AddressState> {
       
       final createdAddress = await _addressRepository.createAddress(newAddress);
       if (createdAddress == null) {
-        throw Exception('Failed to create address');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'فشل إنشاء العنوان'
+            : 'Failed to create address');
       }
       
       // Update the local state with the new address
@@ -86,7 +93,9 @@ class AddressCubit extends Cubit<AddressState> {
       _log.severe('Error creating address: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to create address: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل إنشاء العنوان: ${e.toString()}'
+            : 'Failed to create address: ${e.toString()}',
       ));
       return false;
     }
@@ -101,7 +110,9 @@ class AddressCubit extends Cubit<AddressState> {
       
       final success = await _addressRepository.deleteAddress(addressId);
       if (!success) {
-        throw Exception('Failed to delete address');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'فشل حذف العنوان'
+            : 'Failed to delete address');
       }
       
       // Update the local state by removing the deleted address
@@ -117,7 +128,9 @@ class AddressCubit extends Cubit<AddressState> {
       _log.severe('Error deleting address: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to delete address: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل حذف العنوان: ${e.toString()}'
+            : 'Failed to delete address: ${e.toString()}',
       ));
       return false;
     }
@@ -132,7 +145,9 @@ class AddressCubit extends Cubit<AddressState> {
       
       final success = await _addressRepository.setPrimaryAddress(addressId);
       if (!success) {
-        throw Exception('Failed to set primary address');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تعيين العنوان الرئيسي'
+            : 'Failed to set primary address');
       }
       
       // Update the local state by updating the isPrimary flag
@@ -158,7 +173,9 @@ class AddressCubit extends Cubit<AddressState> {
       _log.severe('Error setting primary address: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to set primary address: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تعيين العنوان الرئيسي: ${e.toString()}'
+            : 'Failed to set primary address: ${e.toString()}',
       ));
       return false;
     }
@@ -176,7 +193,9 @@ class AddressCubit extends Cubit<AddressState> {
       // Find the existing address
       final existingAddress = state.addresses.firstWhere(
         (addr) => addr.id == id,
-        orElse: () => throw Exception('Address not found'),
+        orElse: () => throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'العنوان غير موجود'
+            : 'Address not found'),
       );
       
       // Create updated address
@@ -189,7 +208,9 @@ class AddressCubit extends Cubit<AddressState> {
       
       final result = await _addressRepository.updateAddress(updatedAddress);
       if (result == null) {
-        throw Exception('Failed to update address');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تحديث العنوان'
+            : 'Failed to update address');
       }
       
       // Update the local state
@@ -207,7 +228,9 @@ class AddressCubit extends Cubit<AddressState> {
       _log.severe('Error updating address: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to update address: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل تحديث العنوان: ${e.toString()}'
+            : 'Failed to update address: ${e.toString()}',
       ));
       return false;
     }
@@ -223,12 +246,16 @@ class AddressCubit extends Cubit<AddressState> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          throw Exception('Location permission denied');
+          throw Exception(Intl.getCurrentLocale() == 'ar'
+              ? 'تم رفض إذن الموقع'
+              : 'Location permission denied');
         }
       }
       
       if (permission == LocationPermission.deniedForever) {
-        throw Exception('Location permission permanently denied');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'تم رفض إذن الموقع بشكل دائم'
+            : 'Location permission permanently denied');
       }
       
       // Get current position
@@ -239,7 +266,9 @@ class AddressCubit extends Cubit<AddressState> {
     } catch (e) {
       _log.severe('Error getting location: $e');
       emit(state.copyWith(
-        errorMessage: 'Failed to get location: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل في الحصول على الموقع: ${e.toString()}'
+            : 'Failed to get location: ${e.toString()}',
       ));
       return null;
     }
@@ -255,7 +284,9 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       final position = await getCurrentLocation();
       if (position == null) {
-        throw Exception('Could not get current location');
+        throw Exception(Intl.getCurrentLocale() == 'ar'
+            ? 'تعذر الحصول على الموقع الحالي'
+            : 'Could not get current location');
       }
       
       final locationString = '${position.latitude},${position.longitude}';
@@ -269,7 +300,9 @@ class AddressCubit extends Cubit<AddressState> {
       _log.severe('Error creating address from location: $e');
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to create address: ${e.toString()}',
+        errorMessage: Intl.getCurrentLocale() == 'ar'
+            ? 'فشل إنشاء العنوان: ${e.toString()}'
+            : 'Failed to create address: ${e.toString()}',
       ));
       return false;
     }

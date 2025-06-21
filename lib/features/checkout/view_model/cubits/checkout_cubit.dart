@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/locale.dart';
 import 'package:logging/logging.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
@@ -48,7 +50,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   Future<void> applyPromoCode(String code) async {
     if (code.isEmpty) {
       emit(state.copyWith(
-        promoCodeError: 'Please enter a promo code',
+        promoCodeError: Intl.defaultLocale == 'ar' ? 'يرجى إدخال كود خصم' : 'Please enter a promo code',
       ));
       return;
     }
@@ -71,7 +73,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       if (promoCode == null) {
         emit(state.copyWith(
           isApplyingPromoCode: false,
-          promoCodeError: 'Invalid or expired promo code',
+          promoCodeError:Intl.defaultLocale == 'ar' ? 'الكود الخصم غير متوفر' : 'Invalid or expired promo code',
           appliedPromoCode: null,
         ));
         return;
@@ -82,7 +84,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       if (hasUsed) {
         emit(state.copyWith(
           isApplyingPromoCode: false,
-          promoCodeError: 'You have already used this promo code',
+          promoCodeError:Intl.defaultLocale == 'ar' ? 'لقد استخدمت هذا الكود الخصم مسبقاً' : 'You have already used this promo code',
           appliedPromoCode: null,
         ));
         return;
@@ -99,7 +101,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       _log.severe('Error applying promo code: $e');
       emit(state.copyWith(
         isApplyingPromoCode: false,
-        promoCodeError: 'Error applying promo code: ${e.toString()}',
+        promoCodeError:Intl.defaultLocale == 'ar' ? 'خطأ في تطبيق الكود الخصم: ${e.toString()}' : 'Error applying promo code: ${e.toString()}',
         appliedPromoCode: null,
       ));
     }

@@ -6,6 +6,8 @@ import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
+import 'package:meals_app/core/services/connectivity_service.dart';
+import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
@@ -25,6 +27,8 @@ import 'package:meals_app/features/checkout/view/widgets/promo_code_field.dart';
 import 'package:meals_app/features/checkout/data/repositories/checkout_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:async';
+import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String checkoutPath = '/checkout';
@@ -41,10 +45,16 @@ class _CheckoutViewState extends State<CheckoutView> {
   final TextEditingController _specialRequestController = TextEditingController();
   String? _specialRequest;
   bool _isProcessing = false;
+  // bool _isConnected = true;
+  // bool _isDialogShowing = false;
+  // StreamSubscription<bool>? _connectivitySubscription;
+  // final ConnectivityService _connectivityService = ConnectivityService.instance;
   
   @override
   void initState() {
     super.initState();
+    // _initConnectivity();
+    
     // Ensure we have addresses loaded if delivery is selected
     final cart = context.read<CartCubit>().state.cart;
     if (cart.deliveryType == 'delivery') {
@@ -60,9 +70,84 @@ class _CheckoutViewState extends State<CheckoutView> {
   
   @override
   void dispose() {
+    // _connectivitySubscription?.cancel();
+    // _connectivitySubscription = null;
     _specialRequestController.dispose();
     super.dispose();
   }
+
+  /// Initialize connectivity monitoring
+  // Future<void> _initConnectivity() async {
+  //   if (!mounted) return;
+    
+  //   _log.info('Initializing connectivity monitoring');
+    
+  //   // Check initial connectivity status
+  //   _isConnected = await _connectivityService.forceCheck();
+  //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
+    
+  //   // If initially disconnected, show dialog
+  //   if (!_isConnected && mounted && !_isDialogShowing) {
+  //     _log.info('Initially disconnected, showing dialog');
+  //     _showConnectivityDialog();
+  //   }
+    
+  //   // Listen for connectivity changes
+  //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
+  //   _log.info('Connectivity listener set up');
+  // }
+  
+  // /// Handle changes in connectivity status
+  // void _handleConnectivityChange(bool isConnected) {
+  //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
+    
+  //   if (!mounted) {
+  //     _log.warning('Widget not mounted during connectivity change');
+  //     return;
+  //   }
+    
+  //   // Only show dialog if we transition from connected to disconnected
+  //   if (_isConnected && !isConnected && !_isDialogShowing) {
+  //     _log.info('Connection lost, showing dialog immediately');
+  //     _showConnectivityDialog();
+  //   }
+    
+  //   setState(() {
+  //     _isConnected = isConnected;
+  //   });
+  // }
+  
+  // /// Show connectivity dialog when connection is lost
+  // void _showConnectivityDialog() {
+  //   if (!mounted || _isDialogShowing) return;
+    
+  //   _log.info('Showing connectivity dialog');
+  //   _isDialogShowing = true;
+    
+  //   ConnectivityDialog.show(
+  //     context,
+  //     onConnected: () {
+  //       _log.info('Connection restored callback from dialog');
+        
+  //       if (mounted) {
+  //         setState(() {
+  //           _isDialogShowing = false;
+  //         });
+          
+  //         // Reload necessary data when connection is restored
+  //         final cart = context.read<CartCubit>().state.cart;
+  //         if (cart.deliveryType == 'delivery') {
+  //           context.read<AddressCubit>().loadUserAddresses();
+  //         }
+  //       } else {
+  //         _isDialogShowing = false;
+  //       }
+  //     },
+  //   ).catchError((error) {
+  //     _log.severe('Error showing dialog: $error');
+  //     _isDialogShowing = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -430,6 +515,8 @@ class _CheckoutViewState extends State<CheckoutView> {
   }
 
   void _showAddressSelector(BuildContext context) {
+ 
+    
     final addressCubit = context.read<AddressCubit>();
     showModalBottomSheet(
       context: context,
@@ -466,6 +553,7 @@ class _CheckoutViewState extends State<CheckoutView> {
           branches: checkoutState.availableBranches,
           selectedBranch: checkoutState.selectedBranch,
           onBranchSelected: (branch) {
+          
             context.read<CheckoutCubit>().setSelectedBranch(branch);
           },
         ),
@@ -492,6 +580,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         PaymentMethodSelector(
           selectedMethod: selectedMethod,
           onMethodSelected: (method) {
+        
             context.read<CheckoutCubit>().setPaymentMethod(method);
           },
         ),
@@ -555,10 +644,11 @@ class _CheckoutViewState extends State<CheckoutView> {
     CheckoutState checkoutState,
     S localization,
   ) {
-    // Hard-code calculate a 10% discount if a promo code is applied
-    final hasPromoCode = checkoutState.appliedPromoCode != null;
-    final discountPercentage = hasPromoCode ? 10 : 0; // Fixed 10% discount
-    final discountAmount = hasPromoCode ? cart.subtotal * 0.1 : 0.0;
+    // Get promo code information from PromoCodeCubit
+    final promoCodeState = context.watch<PromoCodeCubit>().state;
+    final hasPromoCode = promoCodeState.hasPromoCode;
+    final discountPercentage = promoCodeState.discountPercentage;
+    final discountAmount = promoCodeState.calculateDiscount(cart.subtotal);
     
     // Calculate delivery fee
     final deliveryFee = includeDeliveryFee ? 50.0 : 0.0;
@@ -680,9 +770,10 @@ class _CheckoutViewState extends State<CheckoutView> {
     // Get user
     final user = context.read<UserCubit>().state.user;
     
-    // Calculate discount directly
-    final hasPromoCode = checkoutState.appliedPromoCode != null;
-    final discountAmount = hasPromoCode ? cart.subtotal * 0.1 : 0.0;
+    // Get promo code information from PromoCodeCubit
+    final promoCodeState = context.watch<PromoCodeCubit>().state;
+    final discountAmount = promoCodeState.calculateDiscount(cart.subtotal);
+    final promoCodeId = promoCodeState.promoCode?.id;
     
     return Container(
       width: double.infinity,
@@ -728,19 +819,19 @@ class _CheckoutViewState extends State<CheckoutView> {
               _isProcessing = true;
             });
             
-            // Override the order placement with our manual discount calculation
+            // Create order with the dynamic discount calculation
             _createOrderWithDiscount(
               context: context,
               cart: cart,
               user: user,
               orderType: widget.orderType,
               discountAmount: discountAmount,
-              promoCodeId: hasPromoCode ? checkoutState.appliedPromoCode!.id : null,
+              promoCodeId: promoCodeId,
             );
           }
         },
         isLoading: _isProcessing || checkoutState.status == CheckoutStatus.loading,
-        isEnabled: canPlaceOrder && user != null && !_isProcessing && checkoutState.status != CheckoutStatus.loading,
+        isEnabled:  canPlaceOrder && user != null && !_isProcessing && checkoutState.status != CheckoutStatus.loading,
         color: ColorsBox.primaryColor,
       ),
     );
@@ -765,6 +856,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       // Get checkout repository directly
       final checkoutRepository = RepositoryProvider.of<CheckoutRepository>(context);
       final promoCodeUsageRepository = RepositoryProvider.of<PromoCodeUsageRepository>(context);
+      final promoCodeCubit = context.read<PromoCodeCubit>();
       
       // Set loading state
       context.read<CheckoutCubit>().emit(
@@ -847,13 +939,13 @@ class _CheckoutViewState extends State<CheckoutView> {
       if (promoCodeId != null) {
         _log.info('Recording promo code usage for user ${user.id}, promo code $promoCodeId');
         
-        // Try the direct insert method first
-        bool recordSuccess = await promoCodeUsageRepository.directInsertUsage(user.id, promoCodeId);
+        // Use the PromoCodeCubit to record usage
+        bool recordSuccess = await promoCodeCubit.recordPromoCodeUsage(user.id, promoCodeId);
         
-        // If direct insert fails, try the regular method
+        // If that fails, try the repository directly
         if (!recordSuccess) {
-          _log.warning('Direct insert failed, trying regular insert method');
-          recordSuccess = await promoCodeUsageRepository.recordPromoCodeUsage(user.id, promoCodeId);
+          _log.warning('PromoCodeCubit recording failed, trying repository directly');
+          recordSuccess = await promoCodeUsageRepository.directInsertUsage(user.id, promoCodeId);
         }
         
         if (!recordSuccess) {
