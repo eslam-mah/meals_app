@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Use the auth cubit to sign in
     context.read<AuthCubit>().signInWithPassword(email, password);
-    await context.read<UserCubit>().loadUser();
+     context.read<UserCubit>().loadUser();
   }
 
   void _createAccount() {
@@ -73,12 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     // Navigate to sign up flow
-    context.go(SignUpScreen.routeName);
+    GoRouter.of(context).go(SignUpScreen.routeName);
   }
 
   void _goToSignUp() {
     // Navigate to the email auth screen for signup
-    context.go(SignUpScreen.routeName);
+    GoRouter.of(context).go(SignUpScreen.routeName);
   }
 
   void _forgotPassword() {
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
           } else if (state.status == app_auth.AuthStatus.authenticated) {
             // Navigate to the main app after successful login
-            context.go(MainView.mainPath);
+            GoRouter.of(context).go(MainView.mainPath);
           } else if (state.status ==
               app_auth.AuthStatus.passwordResetEmailSent) {
             // Show a success message about password reset email

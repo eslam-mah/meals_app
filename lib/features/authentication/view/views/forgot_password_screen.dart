@@ -110,7 +110,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             );
             
             // Navigate back to login
-            context.go(LoginScreen.routeName);
+            GoRouter.of(context).go(LoginScreen.routeName);
           }
         }
       },

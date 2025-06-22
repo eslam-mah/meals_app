@@ -7,6 +7,7 @@ import 'package:meals_app/features/feedback/feedback_router.dart';
 import 'package:meals_app/features/food_details/food_details_router.dart';
 import 'package:meals_app/features/home/main_router.dart';
 import 'package:meals_app/features/location/location_router.dart';
+import 'package:meals_app/features/orders_history/orders_history_router.dart';
 import 'package:meals_app/features/profile/profile_router.dart';
 import 'package:meals_app/features/onboarding/view/views/onboarding_screen.dart';
 import 'package:meals_app/features/settings/settings_router.dart';
@@ -54,6 +55,8 @@ class AppRouter {
       ...FeedbackRouter.goRoutes,
       // food details routes
       ...FoodDetailsRouter.goRoutes,
+      // orders history routes
+      ...OrdersHistoryRouter.goRoutes,
     ],
   );
 } 

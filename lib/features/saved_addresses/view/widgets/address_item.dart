@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/features/saved_addresses/data/models/address_model.dart';
@@ -117,12 +118,12 @@ class AddressItem extends StatelessWidget {
                         content: Text(localization.areYouSureYouWantToDeleteThisAddress),
                         actions: [
                           TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () => GoRouter.of(context).pop(),
                             child: Text(localization.cancel),
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              GoRouter.of(context).pop();
                               addressCubit.deleteAddress(address.id);
                             },
                             child: Text(

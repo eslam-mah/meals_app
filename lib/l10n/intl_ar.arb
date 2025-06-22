@@ -284,5 +284,19 @@
   "retryingConnection": "إعادة محاولة الاتصال...",
   "reconnecting": "إعادة الاتصال...",
   "orderReadyNotificationTitle": "تأكيد الطلب",
-  "orderReadyNotificationBody": "سيكون طلبك جاهزًا خلال 30 دقيقة"
+  "orderReadyNotificationBody": "سيكون طلبك جاهزًا خلال 30 دقيقة",
+  
+  "ordersHistory": "سجل الطلبات",
+  "active": "نشط",
+  "delivered": "تم التوصيل",
+  "cancelled": "ملغي",
+  "errorLoadingOrders": "خطأ في تحميل الطلبات",
+  "noOrdersFound": "لا توجد طلبات",
+  "pending": "قيد التنفيذ",
+  "cancelOrder": "إلغاء الطلب",
+  "cashPayment": "الدفع نقداً",
+  "creditCardPayment": "الدفع ببطاقة الائتمان",
+  "totalPrice": "السعر الإجمالي",
+  "currency": "جنيه",
+  "pickupFrom": "استلام من"
 }

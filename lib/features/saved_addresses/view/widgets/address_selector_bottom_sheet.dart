@@ -97,7 +97,7 @@ class AddressSelectorBottomSheet extends StatelessWidget {
         // Add address button
         InkWell(
           onTap: () {
-            Navigator.pop(context);
+            GoRouter.of(context).pop();
             context.push(SavedAddressesView.savedAddressesPath);
           },
           child: Container(
@@ -166,7 +166,7 @@ class AddressSelectorBottomSheet extends StatelessWidget {
     return InkWell(
       onTap: () {
         onAddressSelected(address);
-        Navigator.pop(context);
+        GoRouter.of(context).pop();
       },
       borderRadius: BorderRadius.circular(12.r),
       child: Container(

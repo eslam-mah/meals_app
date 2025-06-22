@@ -52,58 +52,7 @@ class _CartViewState extends State<CartView> {
     super.dispose();
   }
 
-  // /// Initialize connectivity monitoring
-  // Future<void> _initConnectivity() async {
-  //   if (!mounted) return;
-    
-  //   _log.info('Initializing connectivity monitoring');
-    
-  //   // Check initial connectivity status
-  //   _isConnected = await _connectivityService.forceCheck();
-  //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
-    
-  //   // If initially disconnected, show dialog
-  //   if (!_isConnected && mounted && !_isDialogShowing) {
-  //     _log.info('Initially disconnected, showing dialog');
-  //     _showConnectivityDialog();
-  //   }
-    
-  //   // Listen for connectivity changes
-  //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
-  //   _log.info('Connectivity listener set up');
-  // }
   
-  // /// Handle changes in connectivity status
-  // void _handleConnectivityChange(bool isConnected) {
-  //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
-    
-  //   if (!mounted) {
-  //     _log.warning('Widget not mounted during connectivity change');
-  //     return;
-  //   }
-    
-  //   // Only show dialog if we transition from connected to disconnected
-  //   if (_isConnected && !isConnected && !_isDialogShowing) {
-  //     _log.info('Connection lost, showing dialog immediately');
-  //     _showConnectivityDialog();
-  //   }
-    
-  //   setState(() {
-  //     _isConnected = isConnected;
-  //   });
-  // }
-  
-  // /// Show connectivity dialog when connection is lost
-  // void _showConnectivityDialog() {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         snackBarAnimationStyle:  AnimationStyle(curve: ElasticInCurve()),
-  //             SnackBar(
-                
-  //               content: Text(S.of(context).noInternetConnection),
-  //               backgroundColor: Colors.red,
-  //             ),
-  //           );
-  // }
 
   void _loadCart() {
     // if (!_isConnected) return;
@@ -160,7 +109,7 @@ class _CartViewState extends State<CartView> {
         if (cartItems.isEmpty) {
           return PopScope(
             canPop: false,
-            onPopInvoked: _handlePopInvoked,
+            onPopInvokedWithResult: (didPop, result) => _handlePopInvoked(didPop),
             child: Scaffold(
               appBar: _buildAppBar(context, localization, 0),
               body: Center(
@@ -195,7 +144,7 @@ class _CartViewState extends State<CartView> {
 
         return PopScope(
           canPop: false,
-          onPopInvoked: _handlePopInvoked,
+          onPopInvokedWithResult: (didPop, result) => _handlePopInvoked(didPop),
           child: Scaffold(
             backgroundColor: Colors.grey.shade100,
             appBar: _buildAppBar(context, localization, localCart.itemCount),
@@ -269,48 +218,7 @@ class _CartViewState extends State<CartView> {
     );
   }
 
-  Widget _buildSpecialRequestsSection(BuildContext context, S localization, String? currentInstructions) {
-    if (currentInstructions != null && _specialInstructionsController.text.isEmpty) {
-      _specialInstructionsController.text = currentInstructions;
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('${localization.specialRequests} (${localization.optional})',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.black)),
-        SizedBox(height: 4.h),
-        Text(localization.noExtrasAllowed,
-            style: TextStyle(fontSize: 14.sp, color: Colors.grey)),
-        SizedBox(height: 12.h),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: TextField(
-            controller: _specialInstructionsController,
-            maxLines: 3,
-            onChanged: (value) {
-                context.read<CartCubit>().setSpecialInstructions(value);
-              
-            },
-            decoration: InputDecoration(
-              hintText: localization.typeYourSpecialRequestsHere,
-              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14.sp),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: EdgeInsets.all(16.r),
-              filled: true,
-              fillColor: Colors.white,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+ 
 
   Widget _buildPriceSummarySection(BuildContext context, S localization, Cart cart) {
     return Column(

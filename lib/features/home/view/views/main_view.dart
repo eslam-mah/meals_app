@@ -29,6 +29,7 @@ class _MainViewState extends State<MainView> {
     super.initState();
     _checkAuthStatus();
     _initializeUserCubit();
+    
   }
   
   void _initializeUserCubit() {

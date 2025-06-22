@@ -2789,6 +2789,136 @@ class S {
       args: [],
     );
   }
+
+  /// `سجل الطلبات`
+  String get ordersHistory {
+    return Intl.message(
+      'سجل الطلبات',
+      name: 'ordersHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `نشط`
+  String get active {
+    return Intl.message(
+      'نشط',
+      name: 'active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم التوصيل`
+  String get delivered {
+    return Intl.message(
+      'تم التوصيل',
+      name: 'delivered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ملغي`
+  String get cancelled {
+    return Intl.message(
+      'ملغي',
+      name: 'cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خطأ في تحميل الطلبات`
+  String get errorLoadingOrders {
+    return Intl.message(
+      'خطأ في تحميل الطلبات',
+      name: 'errorLoadingOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا توجد طلبات`
+  String get noOrdersFound {
+    return Intl.message(
+      'لا توجد طلبات',
+      name: 'noOrdersFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `قيد التنفيذ`
+  String get pending {
+    return Intl.message(
+      'قيد التنفيذ',
+      name: 'pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إلغاء الطلب`
+  String get cancelOrder {
+    return Intl.message(
+      'إلغاء الطلب',
+      name: 'cancelOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الدفع نقداً`
+  String get cashPayment {
+    return Intl.message(
+      'الدفع نقداً',
+      name: 'cashPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الدفع ببطاقة الائتمان`
+  String get creditCardPayment {
+    return Intl.message(
+      'الدفع ببطاقة الائتمان',
+      name: 'creditCardPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `السعر الإجمالي`
+  String get totalPrice {
+    return Intl.message(
+      'السعر الإجمالي',
+      name: 'totalPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `جنيه`
+  String get currency {
+    return Intl.message(
+      'جنيه',
+      name: 'currency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `استلام من`
+  String get pickupFrom {
+    return Intl.message(
+      'استلام من',
+      name: 'pickupFrom',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

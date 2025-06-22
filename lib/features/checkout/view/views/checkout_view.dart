@@ -26,7 +26,6 @@ import 'package:meals_app/features/checkout/view/widgets/promo_code_field.dart';
 import 'package:meals_app/features/checkout/data/repositories/checkout_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:async';
 import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
 
 class CheckoutView extends StatefulWidget {
@@ -854,7 +853,6 @@ class _CheckoutViewState extends State<CheckoutView> {
     
     try {
       // Get checkout repository directly
-      final checkoutRepository = RepositoryProvider.of<CheckoutRepository>(context);
       final promoCodeUsageRepository = RepositoryProvider.of<PromoCodeUsageRepository>(context);
       final promoCodeCubit = context.read<PromoCodeCubit>();
       
@@ -993,7 +991,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       
       // Navigate to success page
       if (mounted) {
-        GoRouter.of(context).push('/checkout/success?orderId=${orderId}');
+        GoRouter.of(context).go('/checkout/success?orderId=${orderId}');
       }
     } catch (e) {
       // Reset processing state

@@ -68,9 +68,9 @@ class FoodDetailsState extends Equatable {
     
     double total = food!.price;
     
-    // Add size price if selected
+    // Replace base price with size price if selected
     if (selectedSize != null) {
-      total += selectedSize!.price;
+      total = selectedSize!.price;
     }
     
     // Add extras prices

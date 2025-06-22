@@ -159,122 +159,125 @@ class _MenuViewState extends State<MenuView> {
   Widget build(BuildContext context) {
     final S localization = S.of(context);
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(context, localization),
-
-            Expanded(
-              child: Stack(
-                children: [
-                  RefreshIndicator(
-                    key: _refreshIndicatorKey,
-                    color: ColorsBox.primaryColor,
-                    onRefresh: () async {
-                      // if (!_isConnected) {
-                      //   _showConnectivityDialog();
-                      //   return;
-                      // }
-                      final foodCubit = context.read<FoodCubit>();
-                      await foodCubit.loadMenuItems(refresh: true);
-                    },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      controller: _scrollController,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const DeliveryLocation(),
-
-                          // Menu section title
-                          _buildSectionTitle(localization.menu),
-
-                          // Menu items list
-                          BlocBuilder<FoodCubit, FoodState>(
-                            buildWhen:
-                                (previous, current) =>
-                                    previous.menuItems != current.menuItems ||
-                                    previous.menuStatus != current.menuStatus,
-                            builder: (context, state) {
-                              if (state.menuStatus == FoodStatus.loading &&
-                                  state.menuItems.isEmpty) {
-                                return _buildMenuItemsShimmer();
-                              }
-
-                              if (state.menuStatus == FoodStatus.error) {
-                                return Center(
-                                  child: CustomErrorWidget(
-                                    errorMessage:
-                                        localization.errorLoadingMenuItems,
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 20.h,
-                                    ),
-                                  ),
-                                );
-                              }
-
-                              if (state.menuItems.isEmpty) {
-                                return SizedBox();
-                              }
-
-                              return Column(
-                                children: [
-                                  // Menu items list
-                                  ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16.w,
-                                    ),
-                                    itemCount: state.menuItems.length,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(bottom: 12.h),
-                                        child: MealCard(
-                                          food: state.menuItems[index],
-                                        ),
-                                      );
-                                    },
-                                  ),
-
-                                  // Loading indicator at the bottom when loading more
-                                  if (state.menuStatus ==
-                                      FoodStatus.loadingMore)
-                                    Padding(
+    return  PopScope(
+          canPop: false,
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(context, localization),
+      
+              Expanded(
+                child: Stack(
+                  children: [
+                    RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      color: ColorsBox.primaryColor,
+                      onRefresh: () async {
+                        // if (!_isConnected) {
+                        //   _showConnectivityDialog();
+                        //   return;
+                        // }
+                        final foodCubit = context.read<FoodCubit>();
+                        await foodCubit.loadMenuItems(refresh: true);
+                      },
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        controller: _scrollController,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const DeliveryLocation(),
+      
+                            // Menu section title
+                            _buildSectionTitle(localization.menu),
+      
+                            // Menu items list
+                            BlocBuilder<FoodCubit, FoodState>(
+                              buildWhen:
+                                  (previous, current) =>
+                                      previous.menuItems != current.menuItems ||
+                                      previous.menuStatus != current.menuStatus,
+                              builder: (context, state) {
+                                if (state.menuStatus == FoodStatus.loading &&
+                                    state.menuItems.isEmpty) {
+                                  return _buildMenuItemsShimmer();
+                                }
+      
+                                if (state.menuStatus == FoodStatus.error) {
+                                  return Center(
+                                    child: CustomErrorWidget(
+                                      errorMessage:
+                                          localization.errorLoadingMenuItems,
                                       padding: EdgeInsets.symmetric(
-                                        vertical: 16.h,
+                                        vertical: 20.h,
                                       ),
-                                      child: _buildMenuItemShimmer(),
                                     ),
-
-                                  // Add some bottom padding to ensure we can scroll
-                                  SizedBox(height: 80.h),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
+                                  );
+                                }
+      
+                                if (state.menuItems.isEmpty) {
+                                  return SizedBox();
+                                }
+      
+                                return Column(
+                                  children: [
+                                    // Menu items list
+                                    ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w,
+                                      ),
+                                      itemCount: state.menuItems.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(bottom: 12.h),
+                                          child: MealCard(
+                                            food: state.menuItems[index],
+                                          ),
+                                        );
+                                      },
+                                    ),
+      
+                                    // Loading indicator at the bottom when loading more
+                                    if (state.menuStatus ==
+                                        FoodStatus.loadingMore)
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 16.h,
+                                        ),
+                                        child: _buildMenuItemShimmer(),
+                                      ),
+      
+                                    // Add some bottom padding to ensure we can scroll
+                                    SizedBox(height: 80.h),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-
-                  // Cart indicator at the bottom
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: const CartIndicator(),
-                  ),
-                ],
+      
+                    // Cart indicator at the bottom
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: const CartIndicator(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

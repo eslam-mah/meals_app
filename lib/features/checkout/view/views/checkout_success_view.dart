@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
+import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/generated/l10n.dart';
 
@@ -116,7 +117,8 @@ class CheckoutSuccessView extends StatelessWidget {
   }
   
   void _navigateToHome(BuildContext context) {
+
     // Navigate to main view and clear the navigation stack
-    GoRouter.of(context).pushReplacement(MainView.mainPath);
+    GoRouter.of(context).push(MainView.mainPath);
   }
 } 

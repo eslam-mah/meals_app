@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
@@ -135,7 +136,7 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
       }
 
       if (success && mounted) {
-        Navigator.pop(context);
+        GoRouter.of(context).pop();
       }
     } catch (e) {
       // Show error message

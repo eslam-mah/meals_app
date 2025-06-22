@@ -165,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               await context.read<UserCubit>().loadUser();
               if (mounted) {
                 // Navigate directly to the main view
-                context.go(MainView.mainPath);
+                GoRouter.of(context).go(MainView.mainPath);
               }
             });
           }
@@ -236,48 +236,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: _validateName,
                     ),
                     
+                    
                     SizedBox(height: 16.h),
                     
                     // Phone input
-                    TextFormField(
+                    CustomTextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
                       validator: _validatePhone,
                       onChanged: _onInputChanged,
-                      style: TextStyle(
-                        color: theme.colorScheme.onSurface,
-                        fontSize: 16.sp,
-                      ),
+                      labelText: localization.phoneNumber,
+                      hintText: "01xxxxxxxxx",
+                      prefixIcon: Icon(Icons.phone, color: Colors.grey),
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(11),
                         FilteringTextInputFormatter.digitsOnly,
                       ],
-                      decoration: InputDecoration(
-                        labelText: localization.phoneNumber,
-                        hintText: "01xxxxxxxxx",
-                        prefixIcon: Icon(Icons.phone, color: Colors.grey),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 16.h,
-                        ),
-                      ),
                     ),
                     
                     SizedBox(height: 16.h),
                     
-                    // Location input
-                    Text(
-                      localization.location,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
-                    ),
+                   
                     
                     SizedBox(height: 8.h),
                     
@@ -389,7 +368,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              context.go(LoginScreen.routeName);
+                              GoRouter.of(context).go(LoginScreen.routeName);
                             },
                             child: Text(
                               localization.signIn,

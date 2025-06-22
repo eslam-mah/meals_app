@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الوصول إلى الموقع"),
         "accountDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الحساب"),
         "accountInfo": MessageLookupByLibrary.simpleMessage("معلومات الحساب"),
+        "active": MessageLookupByLibrary.simpleMessage("نشط"),
         "addAddress": MessageLookupByLibrary.simpleMessage("إضافة عنوان"),
         "addItemsToYourCart":
             MessageLookupByLibrary.simpleMessage("أضف عناصر إلى سلتك للمتابعة"),
@@ -70,9 +71,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "cairo": MessageLookupByLibrary.simpleMessage("القاهرة"),
         "callSupport": MessageLookupByLibrary.simpleMessage("اتصل بالدعم"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+        "cancelOrder": MessageLookupByLibrary.simpleMessage("إلغاء الطلب"),
+        "cancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
         "cart": MessageLookupByLibrary.simpleMessage("السلة"),
         "cashOnDelivery":
             MessageLookupByLibrary.simpleMessage("الدفع عند الاستلام"),
+        "cashPayment": MessageLookupByLibrary.simpleMessage("الدفع نقداً"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
         "checkout": MessageLookupByLibrary.simpleMessage("الدفع"),
@@ -100,6 +104,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "createPasswordForEmail":
             MessageLookupByLibrary.simpleMessage("إنشاء كلمة مرور لحسابك"),
         "creditCard": MessageLookupByLibrary.simpleMessage("بطاقة ائتمان"),
+        "creditCardPayment":
+            MessageLookupByLibrary.simpleMessage("الدفع ببطاقة الائتمان"),
+        "currency": MessageLookupByLibrary.simpleMessage("جنيه"),
         "currentPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الحالية"),
         "dakahlia": MessageLookupByLibrary.simpleMessage("الدقهلية"),
@@ -109,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."),
         "deleteAddress": MessageLookupByLibrary.simpleMessage("حذف العنوان"),
         "deleteMyAccount": MessageLookupByLibrary.simpleMessage("حذف حسابي"),
+        "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
         "delivery": MessageLookupByLibrary.simpleMessage("توصيل"),
         "deliveryAddress":
             MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
@@ -158,6 +166,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("خطأ في تحميل عناصر القائمة"),
         "errorLoadingOffers":
             MessageLookupByLibrary.simpleMessage("خطأ في تحميل العروض"),
+        "errorLoadingOrders":
+            MessageLookupByLibrary.simpleMessage("خطأ في تحميل الطلبات"),
         "errorLoadingRecommendations":
             MessageLookupByLibrary.simpleMessage("خطأ في تحميل التوصيات"),
         "extras": MessageLookupByLibrary.simpleMessage("إضافات"),
@@ -258,6 +268,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "لا توجد عناصر متاحة في القائمة"),
         "noOffersAvailable":
             MessageLookupByLibrary.simpleMessage("لا توجد عروض متاحة"),
+        "noOrdersFound": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
         "noPickupBranchSelected":
             MessageLookupByLibrary.simpleMessage("لم يتم تحديد فرع الاستلام"),
         "noRecommendationsAvailable":
@@ -289,6 +300,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تأكيد الطلب"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
         "orderType": MessageLookupByLibrary.simpleMessage("نوع الطلب"),
+        "ordersHistory": MessageLookupByLibrary.simpleMessage("سجل الطلبات"),
         "otpResent":
             MessageLookupByLibrary.simpleMessage("تم إعادة إرسال رمز التحقق"),
         "otpSentToEmail": MessageLookupByLibrary.simpleMessage(
@@ -310,6 +322,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("كلمات المرور غير متطابقة"),
         "paymentMethod": MessageLookupByLibrary.simpleMessage("طريقة الدفع"),
+        "pending": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
         "personalDetails":
             MessageLookupByLibrary.simpleMessage("التفاصيل الشخصية"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
@@ -320,6 +333,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم هاتفك"),
         "pickup": MessageLookupByLibrary.simpleMessage("استلام"),
         "pickupBranch": MessageLookupByLibrary.simpleMessage("فرع الاستلام"),
+        "pickupFrom": MessageLookupByLibrary.simpleMessage("استلام من"),
         "pickupFromBranch":
             MessageLookupByLibrary.simpleMessage("استلم طلبك من الفرع المحدد"),
         "placeOrder": MessageLookupByLibrary.simpleMessage("تقديم الطلب"),
@@ -420,6 +434,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("شكرا لطلبك!"),
         "theRealThing": MessageLookupByLibrary.simpleMessage("الشيء الحقيقي."),
         "total": MessageLookupByLibrary.simpleMessage("المجموع"),
+        "totalPrice": MessageLookupByLibrary.simpleMessage("السعر الإجمالي"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
         "typeYourFeedback":
             MessageLookupByLibrary.simpleMessage("اكتب تعليقك..."),

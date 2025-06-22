@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meals_app/features/authentication/view/widgets/custom_text_form_field.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class CitySelector extends StatefulWidget {
@@ -123,10 +124,22 @@ class _CitySelectorState extends State<CitySelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // City dropdown
+        Text(
+          localization.selectYourCity,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+            color: theme.primaryColor,
+          ),
+        ),
+        
+        SizedBox(height: 8.h),
+        
         Container(
           decoration: BoxDecoration(
-            color: theme.inputDecorationTheme.fillColor,
+            color: Colors.grey.shade100,
             borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: Colors.grey.shade300),
           ),
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: DropdownButtonHideUnderline(
@@ -162,78 +175,27 @@ class _CitySelectorState extends State<CitySelector> {
         SizedBox(height: 16.h),
         
         // Area field
-        Text(
-          localization.area,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onSurface,
-          ),
-        ),
-        
-        SizedBox(height: 8.h),
-        
-        TextFormField(
+        CustomTextFormField(
           controller: _areaController,
-          decoration: InputDecoration(
-            hintText: localization.areaHint,
-            fillColor: theme.inputDecorationTheme.fillColor,
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 16.h,
-            ),
-          ),
-          style: TextStyle(
-            color: theme.colorScheme.onSurface,
-            fontSize: 16.sp,
-          ),
+          labelText: localization.area,
+          hintText: localization.areaHint,
           validator: widget.areaValidator,
           onChanged: widget.onAreaChanged,
+          prefixIcon: Icon(Icons.location_on_outlined, color: Colors.grey),
         ),
         
         SizedBox(height: 16.h),
         
         // Street and building field
-        Text(
-          localization.streetAndBuilding,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onSurface,
-          ),
-        ),
-        
-        SizedBox(height: 8.h),
-        
-        // Address input field
-        TextFormField(
+        CustomTextFormField(
           controller: _addressController,
-          decoration: InputDecoration(
-            hintText: localization.streetAndBuildingHint,
-            fillColor: theme.inputDecorationTheme.fillColor,
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 16.h,
-            ),
-          ),
-          style: TextStyle(
-            color: theme.colorScheme.onSurface,
-            fontSize: 16.sp,
-          ),
-          maxLines: 2,
-          minLines: 1,
+          labelText: localization.streetAndBuilding,
+          hintText: localization.streetAndBuildingHint,
           validator: widget.addressValidator,
           onChanged: widget.onAddressChanged,
+          prefixIcon: Icon(Icons.home_outlined, color: Colors.grey),
+          maxLines: 2,
+          minLines: 1,
         ),
       ],
     );

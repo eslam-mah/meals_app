@@ -49,14 +49,14 @@ class _HomeViewState extends State<HomeView> {
   void _initializeUserCubit() {
     // Ensure UserCubit is initialized and loads user data
     if (UserCubit.instance.state.user == null) {
-      UserCubit.instance.loadUser();
+      context.read<UserCubit>().loadUser();
     }
   }
 
   void _loadInitialData() {
     final foodCubit = context.read<FoodCubit>();
     foodCubit.loadInitialData();
-    UserCubit.instance.loadUser();
+      context.read<UserCubit>().loadUser();
   }
 
   void _setupScrollListener() {
@@ -70,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
         if (state.recommendedStatus != FoodStatus.loadingMore &&
             state.hasMoreRecommended) {
           foodCubit.loadMoreRecommendedItems();
-          UserCubit.instance.loadUser();
+      context.read<UserCubit>().loadUser();
      
         }
       }
@@ -86,236 +86,239 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final S localization = S.of(context);
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // User greeting and icons
-            _buildHeader(context, localization),
-
-            // Main content with Expanded
-            Expanded(
-              child: Stack(
-                children: [
-                  CustomRefreshIndicator(
-                    onRefresh: () async {
-                      final foodCubit = context.read<FoodCubit>();
-                      await Future.wait([
-                        foodCubit.loadRecommendedItems(refresh: true),
-                        foodCubit.loadOfferItems(refresh: true),
-                      ]);
-                    },
-                    builder: (context, child, controller) {
-                      return AnimatedBuilder(
-                        animation: controller,
-                        builder: (context, _) {
-                          return Stack(
-                            alignment: Alignment.topCenter,
-                            children: [
-                              if (controller.isLoading)
-                                Positioned(
-                                  top: 20.h * controller.value,
-                                  child: SizedBox(
-                                    height: 30.h,
-                                    width: 30.h,
-                                    child: CircularProgressIndicator(
-                                      value:
-                                          controller.isLoading
-                                              ? null
-                                              : controller.value,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        ColorsBox.primaryColor,
+    return PopScope(
+          canPop: false,
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // User greeting and icons
+              _buildHeader(context, localization),
+      
+              // Main content with Expanded
+              Expanded(
+                child: Stack(
+                  children: [
+                    CustomRefreshIndicator(
+                      onRefresh: () async {
+                        final foodCubit = context.read<FoodCubit>();
+                        await Future.wait([
+                          foodCubit.loadRecommendedItems(refresh: true),
+                          foodCubit.loadOfferItems(refresh: true),
+                        ]);
+                      },
+                      builder: (context, child, controller) {
+                        return AnimatedBuilder(
+                          animation: controller,
+                          builder: (context, _) {
+                            return Stack(
+                              alignment: Alignment.topCenter,
+                              children: [
+                                if (controller.isLoading)
+                                  Positioned(
+                                    top: 20.h * controller.value,
+                                    child: SizedBox(
+                                      height: 30.h,
+                                      width: 30.h,
+                                      child: CircularProgressIndicator(
+                                        value:
+                                            controller.isLoading
+                                                ? null
+                                                : controller.value,
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                          ColorsBox.primaryColor,
+                                        ),
+                                        strokeWidth: 2,
                                       ),
-                                      strokeWidth: 2,
                                     ),
                                   ),
+                                Transform.translate(
+                                  offset: Offset(0, 60.h * controller.value),
+                                  child: child,
                                 ),
-                              Transform.translate(
-                                offset: Offset(0, 60.h * controller.value),
-                                child: child,
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Delivery location
-                          const DeliveryLocation(),
-
-                          SizedBox(height: 16.h),
-
-                          // Hot offers section
-
-                          // Hot offers horizontal list
-                          BlocBuilder<FoodCubit, FoodState>(
-                            buildWhen:
-                                (previous, current) =>
-                                    previous.offerItems !=
-                                        current.offerItems ||
-                                    previous.offerStatus !=
-                                        current.offerStatus,
-                            builder: (context, state) {
-                              if (state.offerStatus == FoodStatus.loading) {
-                                return _buildOfferItemsShimmer();
-                              }
-                          
-                              if (state.offerStatus == FoodStatus.error) {
-                                return CustomErrorWidget(
-                                  errorMessage: Intl.getCurrentLocale() == 'ar' 
-                                    ? 'خطأ في تحميل العروض'
-                                    : 'Error loading offers',
-                                  padding: EdgeInsets.symmetric(vertical: 20.h),
-                                );
-                              }
-                          
-                              if (state.offerItems.isEmpty) {
-                                return SizedBox.shrink();
-                              }
-                          
-                              return SizedBox(
-                                                            height: state.offerItems.isNotEmpty ? 225.h : 0,
-
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  padding: EdgeInsets.only(left: 16.w),
-                                  itemCount: state.offerItems.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        if (state.offerItems.isNotEmpty) ...[
-                                          _buildSectionTitle(
-                                            localization.offers,
-                                          ),
-                                                          
-                                          SizedBox(height: 12.h),
-                                        ],
-                                        HotOfferCard(
-                                          food: state.offerItems[index],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-
-                          SizedBox(height: 30.h),
-
-                          // Recommended section
-                          _buildSectionTitle(localization.recommended),
-
-                          SizedBox(height: 8.h),
-
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Text(
-                              localization.recommendedDescription,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: Colors.grey.shade600,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 16.h),
-
-                          // Recommended meals list
-                          BlocBuilder<FoodCubit, FoodState>(
-                            buildWhen:
-                                (previous, current) =>
-                                    previous.recommendedItems !=
-                                        current.recommendedItems ||
-                                    previous.recommendedStatus !=
-                                        current.recommendedStatus,
-                            builder: (context, state) {
-                              if (state.recommendedStatus ==
-                                      FoodStatus.loading &&
-                                  state.recommendedItems.isEmpty) {
-                                return _buildRecommendedItemsShimmer();
-                              }
-
-                              if (state.recommendedStatus == FoodStatus.error &&
-                                  state.recommendedItems.isEmpty) {
-                                return CustomErrorWidget(
-                                  errorMessage: Intl.getCurrentLocale() == 'ar' 
-                                    ? 'خطأ في تحميل التوصيات'
-                                    : 'Error loading recommendations',
-                                  padding: EdgeInsets.symmetric(vertical: 40.h),
-                                );
-                              }
-
-                              if (state.recommendedItems.isEmpty) {
-                                return CustomErrorWidget(
-                                  errorMessage: Intl.getCurrentLocale() == 'ar'
-                                    ? 'لا توجد توصيات متاحة'
-                                    : 'No recommendations available',
-                                  padding: EdgeInsets.symmetric(vertical: 40.h),
-                                  textColor: Colors.grey,
-                                  icon: Icons.no_meals_outlined,
-                                );
-                              }
-
-                              return Column(
-                                children: [
-                                  // Recommended items list
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16.w,
-                                    ),
-                                    itemCount: state.recommendedItems.length,
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Delivery location
+                            const DeliveryLocation(),
+      
+                            SizedBox(height: 16.h),
+      
+                            // Hot offers section
+      
+                            // Hot offers horizontal list
+                            BlocBuilder<FoodCubit, FoodState>(
+                              buildWhen:
+                                  (previous, current) =>
+                                      previous.offerItems !=
+                                          current.offerItems ||
+                                      previous.offerStatus !=
+                                          current.offerStatus,
+                              builder: (context, state) {
+                                if (state.offerStatus == FoodStatus.loading) {
+                                  return _buildOfferItemsShimmer();
+                                }
+                            
+                                if (state.offerStatus == FoodStatus.error) {
+                                  return CustomErrorWidget(
+                                    errorMessage: Intl.getCurrentLocale() == 'ar' 
+                                      ? 'خطأ في تحميل العروض'
+                                      : 'Error loading offers',
+                                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                                  );
+                                }
+                            
+                                if (state.offerItems.isEmpty) {
+                                  return SizedBox.shrink();
+                                }
+                            
+                                return SizedBox(
+                                                              height: state.offerItems.isNotEmpty ? 225.h : 0,
+      
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.only(left: 16.w),
+                                    itemCount: state.offerItems.length,
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(bottom: 12.h),
-                                        child: RecommendedItem(
-                                          food: state.recommendedItems[index],
-                                        ),
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          if (state.offerItems.isNotEmpty) ...[
+                                            _buildSectionTitle(
+                                              localization.offers,
+                                            ),
+                                                            
+                                            SizedBox(height: 12.h),
+                                          ],
+                                          HotOfferCard(
+                                            food: state.offerItems[index],
+                                          ),
+                                        ],
                                       );
                                     },
                                   ),
-
-                                  // Loading indicator at the bottom when loading more
-                                  if (state.recommendedStatus ==
-                                      FoodStatus.loadingMore)
-                                    Padding(
+                                );
+                              },
+                            ),
+      
+                            SizedBox(height: 30.h),
+      
+                            // Recommended section
+                            _buildSectionTitle(localization.recommended),
+      
+                            SizedBox(height: 8.h),
+      
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Text(
+                                localization.recommendedDescription,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ),
+      
+                            SizedBox(height: 16.h),
+      
+                            // Recommended meals list
+                            BlocBuilder<FoodCubit, FoodState>(
+                              buildWhen:
+                                  (previous, current) =>
+                                      previous.recommendedItems !=
+                                          current.recommendedItems ||
+                                      previous.recommendedStatus !=
+                                          current.recommendedStatus,
+                              builder: (context, state) {
+                                if (state.recommendedStatus ==
+                                        FoodStatus.loading &&
+                                    state.recommendedItems.isEmpty) {
+                                  return _buildRecommendedItemsShimmer();
+                                }
+      
+                                if (state.recommendedStatus == FoodStatus.error &&
+                                    state.recommendedItems.isEmpty) {
+                                  return CustomErrorWidget(
+                                    errorMessage: Intl.getCurrentLocale() == 'ar' 
+                                      ? 'خطأ في تحميل التوصيات'
+                                      : 'Error loading recommendations',
+                                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                                  );
+                                }
+      
+                                if (state.recommendedItems.isEmpty) {
+                                  return CustomErrorWidget(
+                                    errorMessage: Intl.getCurrentLocale() == 'ar'
+                                      ? 'لا توجد توصيات متاحة'
+                                      : 'No recommendations available',
+                                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                                    textColor: Colors.grey,
+                                    icon: Icons.no_meals_outlined,
+                                  );
+                                }
+      
+                                return Column(
+                                  children: [
+                                    // Recommended items list
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       padding: EdgeInsets.symmetric(
-                                        vertical: 16.h,
+                                        horizontal: 16.w,
                                       ),
-                                      child: _buildRecommendedItemShimmer(),
+                                      itemCount: state.recommendedItems.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(bottom: 12.h),
+                                          child: RecommendedItem(
+                                            food: state.recommendedItems[index],
+                                          ),
+                                        );
+                                      },
                                     ),
-
-                                  // Extra space at the bottom for the cart indicator
-                                  SizedBox(height: 80.h),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
+      
+                                    // Loading indicator at the bottom when loading more
+                                    if (state.recommendedStatus ==
+                                        FoodStatus.loadingMore)
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 16.h,
+                                        ),
+                                        child: _buildRecommendedItemShimmer(),
+                                      ),
+      
+                                    // Extra space at the bottom for the cart indicator
+                                    SizedBox(height: 80.h),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-
-                  // Cart indicator at the bottom
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: const CartIndicator(),
-                  ),
-                ],
+      
+                    // Cart indicator at the bottom
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: const CartIndicator(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

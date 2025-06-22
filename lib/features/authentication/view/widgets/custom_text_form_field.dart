@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 
@@ -13,6 +14,9 @@ class CustomTextFormField extends StatefulWidget {
   final void Function(String)? onChanged;
   final bool readOnly;
   final VoidCallback? onTap;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLines;
+  final int? minLines;
 
   const CustomTextFormField({
     super.key,
@@ -26,6 +30,9 @@ class CustomTextFormField extends StatefulWidget {
     this.onChanged,
     this.readOnly = false,
     this.onTap,
+    this.inputFormatters,
+    this.maxLines = 1,
+    this.minLines,
   });
 
   @override
@@ -67,6 +74,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           validator: widget.validator,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          inputFormatters: widget.inputFormatters,
+          maxLines: widget.isPassword ? 1 : widget.maxLines,
+          minLines: widget.minLines,
           decoration: InputDecoration(
             hintText: widget.hintText,
             prefixIcon: widget.prefixIcon,

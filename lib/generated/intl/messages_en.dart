@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountDetails":
             MessageLookupByLibrary.simpleMessage("Account details"),
         "accountInfo": MessageLookupByLibrary.simpleMessage("Account info"),
+        "active": MessageLookupByLibrary.simpleMessage("Active"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addItemsToYourCart": MessageLookupByLibrary.simpleMessage(
             "Add items to your cart to continue"),
@@ -72,9 +73,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "cairo": MessageLookupByLibrary.simpleMessage("Cairo"),
         "callSupport": MessageLookupByLibrary.simpleMessage("Call support"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancelOrder": MessageLookupByLibrary.simpleMessage("Cancel Order"),
+        "cancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
         "cashOnDelivery":
             MessageLookupByLibrary.simpleMessage("Cash on Delivery"),
+        "cashPayment": MessageLookupByLibrary.simpleMessage("Cash Payment"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
         "checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
@@ -102,6 +106,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "createPasswordForEmail": MessageLookupByLibrary.simpleMessage(
             "Create a password for your account"),
         "creditCard": MessageLookupByLibrary.simpleMessage("Credit Card"),
+        "creditCardPayment":
+            MessageLookupByLibrary.simpleMessage("Credit Card Payment"),
+        "currency": MessageLookupByLibrary.simpleMessage("EGP"),
         "currentPassword":
             MessageLookupByLibrary.simpleMessage("Current password"),
         "dakahlia": MessageLookupByLibrary.simpleMessage("Dakahlia"),
@@ -112,6 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAddress": MessageLookupByLibrary.simpleMessage("Delete Address"),
         "deleteMyAccount":
             MessageLookupByLibrary.simpleMessage("Delete My Account"),
+        "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
         "delivery": MessageLookupByLibrary.simpleMessage("Delivery"),
         "deliveryAddress":
             MessageLookupByLibrary.simpleMessage("Delivery Address"),
@@ -162,6 +170,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Error loading menu items"),
         "errorLoadingOffers":
             MessageLookupByLibrary.simpleMessage("Error loading offers"),
+        "errorLoadingOrders":
+            MessageLookupByLibrary.simpleMessage("Error loading orders"),
         "errorLoadingRecommendations": MessageLookupByLibrary.simpleMessage(
             "Error loading recommendations"),
         "extras": MessageLookupByLibrary.simpleMessage("Extras"),
@@ -265,6 +275,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No menu items available"),
         "noOffersAvailable":
             MessageLookupByLibrary.simpleMessage("No offers available"),
+        "noOrdersFound":
+            MessageLookupByLibrary.simpleMessage("No orders found"),
         "noPickupBranchSelected":
             MessageLookupByLibrary.simpleMessage("No pickup branch selected"),
         "noRecommendationsAvailable": MessageLookupByLibrary.simpleMessage(
@@ -296,6 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Order Confirmation"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
         "orderType": MessageLookupByLibrary.simpleMessage("Order Type"),
+        "ordersHistory": MessageLookupByLibrary.simpleMessage("Orders History"),
         "otpResent": MessageLookupByLibrary.simpleMessage(
             "Verification code has been resent"),
         "otpSentToEmail": MessageLookupByLibrary.simpleMessage(
@@ -317,6 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
         "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
+        "pending": MessageLookupByLibrary.simpleMessage("Pending"),
         "personalDetails":
             MessageLookupByLibrary.simpleMessage("Personal Details"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
@@ -327,6 +341,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter your phone number"),
         "pickup": MessageLookupByLibrary.simpleMessage("Pickup"),
         "pickupBranch": MessageLookupByLibrary.simpleMessage("Pickup Branch"),
+        "pickupFrom": MessageLookupByLibrary.simpleMessage("Pickup from"),
         "pickupFromBranch": MessageLookupByLibrary.simpleMessage(
             "Pick up your order from selected branch"),
         "placeOrder": MessageLookupByLibrary.simpleMessage("Place Order"),
@@ -427,6 +442,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Thank you for your order!"),
         "theRealThing": MessageLookupByLibrary.simpleMessage("The Real Thing."),
         "total": MessageLookupByLibrary.simpleMessage("Total"),
+        "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "typeYourFeedback":
             MessageLookupByLibrary.simpleMessage("Type your feedback..."),
