@@ -40,32 +40,33 @@ class CheckoutView extends StatefulWidget {
 
 class _CheckoutViewState extends State<CheckoutView> {
   final Logger _log = Logger('CheckoutView');
-  final TextEditingController _specialRequestController = TextEditingController();
+  final TextEditingController _specialRequestController =
+      TextEditingController();
   String? _specialRequest;
   bool _isProcessing = false;
   // bool _isConnected = true;
   // bool _isDialogShowing = false;
   // StreamSubscription<bool>? _connectivitySubscription;
   // final ConnectivityService _connectivityService = ConnectivityService.instance;
-  
+
   @override
   void initState() {
     super.initState();
     // _initConnectivity();
-    
+
     // Ensure we have addresses loaded if delivery is selected
     final cart = context.read<CartCubit>().state.cart;
     if (cart.deliveryType == 'delivery') {
       context.read<AddressCubit>().loadUserAddresses();
     }
-    
+
     // Initialize special request from cart
     _specialRequest = cart.specialInstructions;
     if (_specialRequest != null) {
       _specialRequestController.text = _specialRequest!;
     }
   }
-  
+
   @override
   void dispose() {
     // _connectivitySubscription?.cancel();
@@ -77,61 +78,61 @@ class _CheckoutViewState extends State<CheckoutView> {
   /// Initialize connectivity monitoring
   // Future<void> _initConnectivity() async {
   //   if (!mounted) return;
-    
+
   //   _log.info('Initializing connectivity monitoring');
-    
+
   //   // Check initial connectivity status
   //   _isConnected = await _connectivityService.forceCheck();
   //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
-    
+
   //   // If initially disconnected, show dialog
   //   if (!_isConnected && mounted && !_isDialogShowing) {
   //     _log.info('Initially disconnected, showing dialog');
   //     _showConnectivityDialog();
   //   }
-    
+
   //   // Listen for connectivity changes
   //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
   //   _log.info('Connectivity listener set up');
   // }
-  
+
   // /// Handle changes in connectivity status
   // void _handleConnectivityChange(bool isConnected) {
   //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
-    
+
   //   if (!mounted) {
   //     _log.warning('Widget not mounted during connectivity change');
   //     return;
   //   }
-    
+
   //   // Only show dialog if we transition from connected to disconnected
   //   if (_isConnected && !isConnected && !_isDialogShowing) {
   //     _log.info('Connection lost, showing dialog immediately');
   //     _showConnectivityDialog();
   //   }
-    
+
   //   setState(() {
   //     _isConnected = isConnected;
   //   });
   // }
-  
+
   // /// Show connectivity dialog when connection is lost
   // void _showConnectivityDialog() {
   //   if (!mounted || _isDialogShowing) return;
-    
+
   //   _log.info('Showing connectivity dialog');
   //   _isDialogShowing = true;
-    
+
   //   ConnectivityDialog.show(
   //     context,
   //     onConnected: () {
   //       _log.info('Connection restored callback from dialog');
-        
+
   //       if (mounted) {
   //         setState(() {
   //           _isDialogShowing = false;
   //         });
-          
+
   //         // Reload necessary data when connection is restored
   //         final cart = context.read<CartCubit>().state.cart;
   //         if (cart.deliveryType == 'delivery') {
@@ -150,15 +151,15 @@ class _CheckoutViewState extends State<CheckoutView> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    
+
     return BlocConsumer<CheckoutCubit, CheckoutState>(
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) {
         if (state.status == CheckoutStatus.success && state.order != null) {
           // Navigate to success page
-          GoRouter.of(context).go(
-            "${CheckoutSuccessView.successPath}?orderId=${state.order!.id}",
-          );
+          GoRouter.of(
+            context,
+          ).go("${CheckoutSuccessView.successPath}?orderId=${state.order!.id}");
         } else if (state.status == CheckoutStatus.error) {
           // Show error snackbar
           ScaffoldMessenger.of(context).showSnackBar(
@@ -173,10 +174,10 @@ class _CheckoutViewState extends State<CheckoutView> {
         // Get cart from CartCubit
         final cartState = context.watch<CartCubit>().state;
         final cart = cartState.cart;
-        
+
         // Get addresses from AddressCubit if delivery
         final addressState = context.watch<AddressCubit>().state;
-        
+
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -192,9 +193,17 @@ class _CheckoutViewState extends State<CheckoutView> {
             foregroundColor: Colors.black,
             elevation: 0,
           ),
-          body: checkoutState.status == CheckoutStatus.loading
-              ? const Center(child: CircularProgressIndicator())
-              : _buildCheckoutContent(context, cart, checkoutState, addressState, localization, widget.orderType),
+          body:
+              checkoutState.status == CheckoutStatus.loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _buildCheckoutContent(
+                    context,
+                    cart,
+                    checkoutState,
+                    addressState,
+                    localization,
+                    widget.orderType,
+                  ),
         );
       },
     );
@@ -220,7 +229,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 // Order type info
                 _buildOrderTypeInfo(deliveryType, localization),
                 SizedBox(height: 24.h),
-                
+
                 // Order summary section
                 _buildOrderSummarySection(cart, localization),
                 SizedBox(height: 24.h),
@@ -228,34 +237,39 @@ class _CheckoutViewState extends State<CheckoutView> {
                 // Delivery address or Branch selection based on order type
                 deliveryType == 'delivery'
                     ? _buildDeliveryAddressSection(
-                        context, 
-                        checkoutState.selectedAddress, 
-                        addressState,
-                        localization,
-                      )
+                      context,
+                      checkoutState.selectedAddress,
+                      addressState,
+                      localization,
+                    )
                     : _buildPickupBranchSection(
-                        context,
-                        checkoutState,
-                        localization,
-                      ),
+                      context,
+                      checkoutState,
+                      localization,
+                    ),
                 SizedBox(height: 24.h),
 
                 // Payment method section
-                _buildPaymentMethodSection(context, checkoutState.paymentMethod, localization),
+                _buildPaymentMethodSection(
+                  context,
+                  checkoutState.paymentMethod,
+                  localization,
+                ),
                 SizedBox(height: 24.h),
-                
+
                 // Special request field
                 _buildSpecialRequestField(context, localization),
                 SizedBox(height: 24.h),
-                
+
                 // Promo code section
                 const PromoCodeField(),
                 SizedBox(height: 24.h),
-                
+
                 // Price summary section
                 _buildPriceSummarySection(
-                  cart, 
-                  deliveryType == 'delivery', // Include delivery fee if delivery
+                  cart,
+                  deliveryType ==
+                      'delivery', // Include delivery fee if delivery
                   checkoutState,
                   localization,
                 ),
@@ -263,7 +277,7 @@ class _CheckoutViewState extends State<CheckoutView> {
             ),
           ),
         ),
-        
+
         // Bottom place order button
         _buildPlaceOrderButton(context, cart, checkoutState, localization),
       ],
@@ -272,7 +286,7 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   Widget _buildOrderTypeInfo(String orderType, S localization) {
     final isDelivery = orderType == 'delivery';
-    
+
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
@@ -299,20 +313,14 @@ class _CheckoutViewState extends State<CheckoutView> {
             children: [
               Text(
                 isDelivery ? localization.delivery : localization.pickup,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 4.h),
               Text(
                 isDelivery
                     ? localization.deliveryFeeApplied
                     : localization.pickupFromBranch,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 14.sp, color: Colors.grey),
               ),
             ],
           ),
@@ -327,10 +335,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       children: [
         Text(
           localization.orderSummary,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16.h),
         Container(
@@ -348,39 +353,42 @@ class _CheckoutViewState extends State<CheckoutView> {
           ),
           child: Column(
             children: [
-              ...cart.items.map((item) => Padding(
-                padding: EdgeInsets.only(bottom: 12.h),
-                child: Row(
-                  children: [
-                    Text(
-                      '${item.quantity}x',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: ColorsBox.primaryColor,
+              ...cart.items.map(
+                (item) => Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${item.quantity}x',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: ColorsBox.primaryColor,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Text(
-                        item.name,
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${item.totalPrice.toStringAsFixed(2)} EGP',
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                    Text(
-                      '${item.totalPrice.toStringAsFixed(2)} EGP',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              )),
-              if (cart.specialInstructions != null && cart.specialInstructions!.isNotEmpty) ...[
+              ),
+              if (cart.specialInstructions != null &&
+                  cart.specialInstructions!.isNotEmpty) ...[
                 Divider(height: 24.h),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -418,10 +426,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       children: [
         Text(
           localization.deliveryAddress,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16.h),
         InkWell(
@@ -435,66 +440,68 @@ class _CheckoutViewState extends State<CheckoutView> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
-                color: selectedAddress != null
-                    ? ColorsBox.primaryColor
-                    : Colors.grey.shade300,
+                color:
+                    selectedAddress != null
+                        ? ColorsBox.primaryColor
+                        : Colors.grey.shade300,
                 width: 1.5,
               ),
             ),
-            child: selectedAddress != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: ColorsBox.primaryColor,
-                            size: 24.r,
-                          ),
-                          SizedBox(width: 8.w),
-                          Expanded(
-                            child: Text(
-                              '${selectedAddress.city} - ${selectedAddress.area}',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
+            child:
+                selectedAddress != null
+                    ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: ColorsBox.primaryColor,
+                              size: 24.r,
+                            ),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Text(
+                                '${selectedAddress.city} - ${selectedAddress.area}',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
+                            Icon(Icons.edit, size: 20.r, color: Colors.grey),
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 32.w),
+                          child: Text(
+                            selectedAddress.address,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.grey[700],
+                            ),
                           ),
-                          Icon(Icons.edit, size: 20.r, color: Colors.grey),
-                        ],
-                      ),
-                      SizedBox(height: 8.h),
-                      Padding(
-                        padding: EdgeInsets.only(left: 32.w),
-                        child: Text(
-                          selectedAddress.address,
+                        ),
+                      ],
+                    )
+                    : Row(
+                      children: [
+                        Icon(
+                          Icons.add_location_alt_outlined,
+                          color: Colors.grey,
+                          size: 24.r,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          localization.selectDeliveryAddress,
                           style: TextStyle(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             color: Colors.grey[700],
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Icon(
-                        Icons.add_location_alt_outlined,
-                        color: Colors.grey,
-                        size: 24.r,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        localization.selectDeliveryAddress,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
           ),
         ),
         if (addressState.addresses.isEmpty) ...[
@@ -516,19 +523,20 @@ class _CheckoutViewState extends State<CheckoutView> {
     // Reload addresses every time the bottom sheet is opened
     final addressCubit = context.read<AddressCubit>();
     addressCubit.loadUserAddresses();
-    
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (modalContext) => BlocProvider.value(
-        value: addressCubit,
-        child: AddressSelectorBottomSheet(
-          onAddressSelected: (address) {
-            context.read<CheckoutCubit>().setSelectedAddress(address);
-          },
-        ),
-      ),
+      builder:
+          (modalContext) => BlocProvider.value(
+            value: addressCubit,
+            child: AddressSelectorBottomSheet(
+              onAddressSelected: (address) {
+                context.read<CheckoutCubit>().setSelectedAddress(address);
+              },
+            ),
+          ),
     );
   }
 
@@ -542,17 +550,13 @@ class _CheckoutViewState extends State<CheckoutView> {
       children: [
         Text(
           localization.pickupBranch,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16.h),
         BranchSelector(
           branches: checkoutState.availableBranches,
           selectedBranch: checkoutState.selectedBranch,
           onBranchSelected: (branch) {
-          
             context.read<CheckoutCubit>().setSelectedBranch(branch);
           },
         ),
@@ -570,16 +574,12 @@ class _CheckoutViewState extends State<CheckoutView> {
       children: [
         Text(
           localization.paymentMethod,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16.h),
         PaymentMethodSelector(
           selectedMethod: selectedMethod,
           onMethodSelected: (method) {
-        
             context.read<CheckoutCubit>().setPaymentMethod(method);
           },
         ),
@@ -593,10 +593,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       children: [
         Text(
           '${localization.specialRequests} (${localization.optional})',
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 8.h),
         Container(
@@ -622,7 +619,10 @@ class _CheckoutViewState extends State<CheckoutView> {
             },
             decoration: InputDecoration(
               hintText: localization.typeYourSpecialRequestsHere,
-              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14.sp),
+              hintStyle: TextStyle(
+                color: Colors.grey.shade400,
+                fontSize: 14.sp,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide: BorderSide.none,
@@ -648,16 +648,16 @@ class _CheckoutViewState extends State<CheckoutView> {
     final hasPromoCode = promoCodeState.hasPromoCode;
     final discountPercentage = promoCodeState.discountPercentage;
     final discountAmount = promoCodeState.calculateDiscount(cart.subtotal);
-    
+
     // Calculate delivery fee
     final deliveryFee = includeDeliveryFee ? 50.0 : 0.0;
-    
+
     // Calculate base price (subtotal + VAT)
     final baseTotal = cart.subtotal + cart.vat;
-    
+
     // Calculate final total (with discount)
     final finalTotal = baseTotal + deliveryFee - discountAmount;
-    
+
     _log.info('DISCOUNT CALCULATION:');
     _log.info('- Has promo code: $hasPromoCode');
     _log.info('- Discount percentage: $discountPercentage%');
@@ -666,7 +666,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     _log.info('- VAT: ${cart.vat}');
     _log.info('- Delivery fee: $deliveryFee');
     _log.info('- Final total: $finalTotal');
-    
+
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
@@ -733,7 +733,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     bool isDiscount = false,
   }) {
     final textColor = isDiscount ? Colors.green : Colors.black;
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -764,16 +764,18 @@ class _CheckoutViewState extends State<CheckoutView> {
     S localization,
   ) {
     // Check if order can be placed
-    final canPlaceOrder = context.read<CheckoutCubit>().canPlaceOrder(widget.orderType);
-    
+    final canPlaceOrder = context.read<CheckoutCubit>().canPlaceOrder(
+      widget.orderType,
+    );
+
     // Get user
     final user = context.read<UserCubit>().state.user;
-    
+
     // Get promo code information from PromoCodeCubit
     final promoCodeState = context.watch<PromoCodeCubit>().state;
     final discountAmount = promoCodeState.calculateDiscount(cart.subtotal);
     final promoCodeId = promoCodeState.promoCode?.id;
-    
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.r),
@@ -784,14 +786,15 @@ class _CheckoutViewState extends State<CheckoutView> {
             color: Colors.black.withOpacity(0.05),
             blurRadius: 5,
             offset: const Offset(0, -2),
-          )
+          ),
         ],
       ),
       child: CustomButton(
         title: localization.placeOrder,
         onTap: () {
           if (canPlaceOrder && user != null) {
-            if (widget.orderType == 'delivery' && checkoutState.selectedAddress == null) {
+            if (widget.orderType == 'delivery' &&
+                checkoutState.selectedAddress == null) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(localization.pleaseSelectDeliveryAddress),
@@ -801,8 +804,9 @@ class _CheckoutViewState extends State<CheckoutView> {
               );
               return;
             }
-            
-            if (widget.orderType == 'pickup' && checkoutState.selectedBranch == null) {
+
+            if (widget.orderType == 'pickup' &&
+                checkoutState.selectedBranch == null) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(localization.pleaseSelectPickupBranch),
@@ -812,12 +816,12 @@ class _CheckoutViewState extends State<CheckoutView> {
               );
               return;
             }
-            
+
             // Set processing state
             setState(() {
               _isProcessing = true;
             });
-            
+
             // Create order with the dynamic discount calculation
             _createOrderWithDiscount(
               context: context,
@@ -829,13 +833,18 @@ class _CheckoutViewState extends State<CheckoutView> {
             );
           }
         },
-        isLoading: _isProcessing || checkoutState.status == CheckoutStatus.loading,
-        isEnabled:  canPlaceOrder && user != null && !_isProcessing && checkoutState.status != CheckoutStatus.loading,
+        isLoading:
+            _isProcessing || checkoutState.status == CheckoutStatus.loading,
+        isEnabled:
+            canPlaceOrder &&
+            user != null &&
+            !_isProcessing &&
+            checkoutState.status != CheckoutStatus.loading,
         color: ColorsBox.primaryColor,
       ),
     );
   }
-  
+
   // Create order with manually calculated discount
   void _createOrderWithDiscount({
     required BuildContext context,
@@ -850,55 +859,71 @@ class _CheckoutViewState extends State<CheckoutView> {
     _log.info('- Promo code ID: $promoCodeId');
     _log.info('- Special request from cart: ${cart.specialInstructions}');
     _log.info('- Special request from field: $_specialRequest');
-    
+
     try {
       // Get checkout repository directly
-      final promoCodeUsageRepository = RepositoryProvider.of<PromoCodeUsageRepository>(context);
+      final promoCodeUsageRepository =
+          RepositoryProvider.of<PromoCodeUsageRepository>(context);
       final promoCodeCubit = context.read<PromoCodeCubit>();
-      
+
       // Set loading state
       context.read<CheckoutCubit>().emit(
-        context.read<CheckoutCubit>().state.copyWith(status: CheckoutStatus.loading),
+        context.read<CheckoutCubit>().state.copyWith(
+          status: CheckoutStatus.loading,
+        ),
       );
-      
+
       // Validate address or branch based on order type
-      if (orderType == 'delivery' && context.read<CheckoutCubit>().state.selectedAddress == null) {
+      if (orderType == 'delivery' &&
+          context.read<CheckoutCubit>().state.selectedAddress == null) {
         throw Exception('No delivery address selected');
       }
 
-      if (orderType == 'pickup' && context.read<CheckoutCubit>().state.selectedBranch == null) {
+      if (orderType == 'pickup' &&
+          context.read<CheckoutCubit>().state.selectedBranch == null) {
         throw Exception('No pickup branch selected');
       }
-      
+
       // If promo code is applied, check if it's already been used by this user
       if (promoCodeId != null) {
-        _log.info('Checking if user ${user.id} has already used promo code $promoCodeId');
-        final hasUsed = await promoCodeUsageRepository.hasUserUsedPromoCode(user.id, promoCodeId);
+        _log.info(
+          'Checking if user ${user.id} has already used promo code $promoCodeId',
+        );
+        final hasUsed = await promoCodeUsageRepository.hasUserUsedPromoCode(
+          user.id,
+          promoCodeId,
+        );
         if (hasUsed) {
           throw Exception('You have already used this promo code');
         }
       }
-      
+
       // Create order manually to ensure special request is included
       final orderId = const Uuid().v4();
       final now = DateTime.now();
-      
+
       // Calculate total price manually
       double totalPrice = cart.finalTotal;
       if (orderType == 'delivery') {
         totalPrice += 50.0; // Add delivery fee
       }
       totalPrice -= discountAmount; // Subtract discount
-      
+
       // Use the special request from the field if available, otherwise use from cart
       final specialRequest = _specialRequest ?? cart.specialInstructions;
-      
+
       // Create order JSON directly
       final Map<String, dynamic> orderJson = {
         'id': orderId,
         'user_id': user.id,
-        'address_id': orderType == 'delivery' ? context.read<CheckoutCubit>().state.selectedAddress?.id : null,
-        'branch_name': orderType == 'pickup' ? context.read<CheckoutCubit>().state.selectedBranch : null,
+        'address_id':
+            orderType == 'delivery'
+                ? context.read<CheckoutCubit>().state.selectedAddress?.id
+                : null,
+        'branch_name':
+            orderType == 'pickup'
+                ? context.read<CheckoutCubit>().state.selectedBranch
+                : null,
         'order_type': orderType,
         'payment_method': context.read<CheckoutCubit>().state.paymentMethod,
         'status': 'pending',
@@ -909,13 +934,15 @@ class _CheckoutViewState extends State<CheckoutView> {
         'updated_at': now.toIso8601String(),
         'special_request': specialRequest,
       };
-      
+
       _log.info('Order JSON: $orderJson');
-      
+
       // Insert directly to database to ensure all fields are included
       await Supabase.instance.client.from('orders').insert(orderJson);
-      _log.info('Order created with ID: $orderId, special request: $specialRequest');
-      
+      _log.info(
+        'Order created with ID: $orderId, special request: $specialRequest',
+      );
+
       // Insert order items
       for (final item in cart.items) {
         await Supabase.instance.client.from('order_items').insert({
@@ -932,20 +959,30 @@ class _CheckoutViewState extends State<CheckoutView> {
           },
         });
       }
-      
+
       // Record promo code usage if one was applied
       if (promoCodeId != null) {
-        _log.info('Recording promo code usage for user ${user.id}, promo code $promoCodeId');
-        
+        _log.info(
+          'Recording promo code usage for user ${user.id}, promo code $promoCodeId',
+        );
+
         // Use the PromoCodeCubit to record usage
-        bool recordSuccess = await promoCodeCubit.recordPromoCodeUsage(user.id, promoCodeId);
-        
+        bool recordSuccess = await promoCodeCubit.recordPromoCodeUsage(
+          user.id,
+          promoCodeId,
+        );
+
         // If that fails, try the repository directly
         if (!recordSuccess) {
-          _log.warning('PromoCodeCubit recording failed, trying repository directly');
-          recordSuccess = await promoCodeUsageRepository.directInsertUsage(user.id, promoCodeId);
+          _log.warning(
+            'PromoCodeCubit recording failed, trying repository directly',
+          );
+          recordSuccess = await promoCodeUsageRepository.directInsertUsage(
+            user.id,
+            promoCodeId,
+          );
         }
-        
+
         if (!recordSuccess) {
           _log.warning('Failed to record promo code usage');
           // Continue with order creation even if recording usage fails
@@ -954,10 +991,10 @@ class _CheckoutViewState extends State<CheckoutView> {
           _log.info('Successfully recorded promo code usage');
         }
       }
-      
+
       // Clear cart and update state
       context.read<CartCubit>().clearCart();
-      
+
       // Update checkout state with success
       context.read<CheckoutCubit>().emit(
         context.read<CheckoutCubit>().state.copyWith(
@@ -965,8 +1002,14 @@ class _CheckoutViewState extends State<CheckoutView> {
           order: OrderModel(
             id: orderId,
             userId: user.id,
-            addressId: orderType == 'delivery' ? context.read<CheckoutCubit>().state.selectedAddress?.id : null,
-            branchName: orderType == 'pickup' ? context.read<CheckoutCubit>().state.selectedBranch : null,
+            addressId:
+                orderType == 'delivery'
+                    ? context.read<CheckoutCubit>().state.selectedAddress?.id
+                    : null,
+            branchName:
+                orderType == 'pickup'
+                    ? context.read<CheckoutCubit>().state.selectedBranch
+                    : null,
             orderType: orderType,
             paymentMethod: context.read<CheckoutCubit>().state.paymentMethod,
             status: 'pending',
@@ -979,16 +1022,24 @@ class _CheckoutViewState extends State<CheckoutView> {
           ),
         ),
       );
-      
+
       // Show notification that order will be ready in 30 minutes
       _log.info('Attempting to show order confirmation notification');
       try {
-        await NotificationService().showOrderConfirmationNotification(context);
+        final S localization = S.of(context);
+
+        Future.delayed(const Duration(minutes: 1)).then((_) async {
+          await NotificationService()
+              .showOrderConfirmationNotificationWithStrings(
+                title: localization.orderReadyNotificationTitle,
+                body: localization.orderReadyNotificationBody,
+              );
+        });
         _log.info('Order confirmation notification triggered successfully');
       } catch (notificationError) {
         _log.severe('Error showing notification: $notificationError');
       }
-      
+
       // Navigate to success page
       if (mounted) {
         GoRouter.of(context).go('/checkout/success?orderId=${orderId}');
@@ -998,7 +1049,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       setState(() {
         _isProcessing = false;
       });
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
@@ -1006,7 +1057,7 @@ class _CheckoutViewState extends State<CheckoutView> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-      
+
       // Update state with error
       context.read<CheckoutCubit>().emit(
         context.read<CheckoutCubit>().state.copyWith(
@@ -1016,4 +1067,4 @@ class _CheckoutViewState extends State<CheckoutView> {
       );
     }
   }
-} 
+}
