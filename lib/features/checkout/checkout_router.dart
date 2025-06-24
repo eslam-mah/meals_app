@@ -4,12 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/checkout/data/repositories/checkout_repository.dart';
-import 'package:meals_app/features/checkout/data/repositories/promo_code_repository.dart';
-import 'package:meals_app/features/checkout/data/repositories/promo_code_usage_repository.dart';
+import 'package:meals_app/features/promo_codes/data/repositories/promo_code_repository.dart';
+import 'package:meals_app/features/promo_codes/data/repositories/promo_code_usage_repository.dart';
 import 'package:meals_app/features/checkout/view/views/checkout_success_view.dart';
 import 'package:meals_app/features/checkout/view/views/checkout_view.dart';
 import 'package:meals_app/features/checkout/view_model/cubits/checkout_cubit.dart';
-import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
+import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
 import 'package:meals_app/features/saved_addresses/data/repositories/address_repository.dart';
 import 'package:meals_app/features/saved_addresses/view_model/cubits/address_cubit.dart';
 

@@ -10,7 +10,7 @@ import 'package:meals_app/core/services/notification_service.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
-import 'package:meals_app/features/checkout/data/repositories/promo_code_usage_repository.dart';
+import 'package:meals_app/features/promo_codes/data/repositories/promo_code_usage_repository.dart';
 import 'package:meals_app/features/checkout/view/views/checkout_success_view.dart';
 import 'package:meals_app/features/checkout/view/widgets/branch_selector.dart';
 import 'package:meals_app/features/checkout/view/widgets/payment_method_selector.dart';
@@ -26,7 +26,7 @@ import 'package:meals_app/features/checkout/view/widgets/promo_code_field.dart';
 import 'package:meals_app/features/checkout/data/repositories/checkout_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
+import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String checkoutPath = '/checkout';

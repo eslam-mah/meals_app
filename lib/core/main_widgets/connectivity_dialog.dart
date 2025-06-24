@@ -154,7 +154,7 @@ class _LoadingOverlay {
             ),
           ),
     );
-    Overlay.of(context)!.insert(overlayEntry);
+    Overlay.of(context).insert(overlayEntry);
     return _LoadingOverlay._(overlayEntry);
   }
 

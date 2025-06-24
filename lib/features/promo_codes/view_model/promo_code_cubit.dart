@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:meals_app/features/checkout/data/models/promo_code_model.dart';
-import 'package:meals_app/features/checkout/data/repositories/promo_code_repository.dart';
-import 'package:meals_app/features/checkout/data/repositories/promo_code_usage_repository.dart';
+import 'package:meals_app/features/promo_codes/data/models/promo_code_model.dart';
+import 'package:meals_app/features/promo_codes/data/repositories/promo_code_repository.dart';
+import 'package:meals_app/features/promo_codes/data/repositories/promo_code_usage_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';

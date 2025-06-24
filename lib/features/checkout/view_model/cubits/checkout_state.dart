@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
-import 'package:meals_app/features/checkout/data/models/promo_code_model.dart';
+import 'package:meals_app/features/promo_codes/data/models/promo_code_model.dart';
 import 'package:meals_app/features/saved_addresses/data/models/address_model.dart';
 
 enum CheckoutStatus {

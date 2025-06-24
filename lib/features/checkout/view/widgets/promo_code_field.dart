@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/features/checkout/view_model/cubits/promo_code_cubit.dart';
+import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class PromoCodeField extends StatefulWidget {
