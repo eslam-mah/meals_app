@@ -12,6 +12,8 @@ import 'package:meals_app/features/checkout/view_model/cubits/checkout_cubit.dar
 import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
 import 'package:meals_app/features/saved_addresses/data/repositories/address_repository.dart';
 import 'package:meals_app/features/saved_addresses/view_model/cubits/address_cubit.dart';
+import 'package:meals_app/features/payment/data/paymob_repository.dart';
+import 'package:meals_app/features/payment/view_model/payment_cubit.dart';
 
 /// Router configuration for the checkout feature
 class CheckoutRouter {
@@ -53,6 +55,9 @@ class CheckoutRouter {
         RepositoryProvider(
           create: (context) => AddressRepository(),
         ),
+        RepositoryProvider(
+          create: (context) => PaymobPaymentRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -81,6 +86,12 @@ class CheckoutRouter {
             create: (context) => AddressCubit(
               addressRepository: context.read<AddressRepository>(),
             )..loadUserAddresses(),
+          ),
+          // Add the payment cubit for card payments
+          BlocProvider(
+            create: (context) => PaymentCubit(
+              paymentRepository: context.read<PaymobPaymentRepository>(),
+            ),
           ),
         ],
         child: child,

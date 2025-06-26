@@ -48,6 +48,19 @@ class AddressModel extends Equatable {
     );
   }
 
+  // Create an empty address model for placeholder usage
+  factory AddressModel.empty() {
+    return AddressModel(
+      id: const Uuid().v4(),
+      userId: '',
+      city: 'Egypt',
+      area: 'Unknown',
+      address: 'Unknown Address',
+      isPrimary: false,
+      createdAt: DateTime.now(),
+    );
+  }
+
   // Convert to JSON (for Supabase)
   Map<String, dynamic> toJson() {
     return {

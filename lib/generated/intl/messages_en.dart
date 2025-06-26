@@ -75,6 +75,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("Cancel Order"),
         "cancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
+        "cardOrderCancellationNotice": MessageLookupByLibrary.simpleMessage(
+            "Card orders cannot be cancelled. If you want to know more, call customer service."),
+        "cardPayment": MessageLookupByLibrary.simpleMessage("Card Payment"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
         "cashOnDelivery":
             MessageLookupByLibrary.simpleMessage("Cash on Delivery"),
@@ -195,6 +198,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Failed to update address"),
         "faiyum": MessageLookupByLibrary.simpleMessage("Faiyum"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
+        "feedbackRequestNotificationBody": MessageLookupByLibrary.simpleMessage(
+            "How was your experience? Tap to share your feedback with us."),
+        "feedbackRequestNotificationTitle":
+            MessageLookupByLibrary.simpleMessage("We Value Your Opinion"),
         "feedbackSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Feedback submitted successfully!"),
         "foodDescription": MessageLookupByLibrary.simpleMessage(
@@ -329,7 +336,23 @@ class MessageLookup extends MessageLookupByLibrary {
             "Password updated successfully!"),
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "payment": MessageLookupByLibrary.simpleMessage("Payment"),
+        "paymentCancelled":
+            MessageLookupByLibrary.simpleMessage("Payment Cancelled"),
+        "paymentFailed": MessageLookupByLibrary.simpleMessage("Payment Failed"),
+        "paymentFailedNotificationBody": MessageLookupByLibrary.simpleMessage(
+            "Your payment could not be processed. Please try again."),
+        "paymentFailedNotificationTitle":
+            MessageLookupByLibrary.simpleMessage("Payment Failed"),
         "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
+        "paymentProcessingError": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while processing your payment"),
+        "paymentSuccessful":
+            MessageLookupByLibrary.simpleMessage("Payment Successful"),
+        "paymentVerificationFailed":
+            MessageLookupByLibrary.simpleMessage("Payment Verification Failed"),
+        "paymentWillBeProcessed": MessageLookupByLibrary.simpleMessage(
+            "Your payment will be processed securely"),
         "pending": MessageLookupByLibrary.simpleMessage("Pending"),
         "personalDetails":
             MessageLookupByLibrary.simpleMessage("Personal Details"),
@@ -373,12 +396,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please select a pickup branch"),
         "pleaseSignInToAccessContent": MessageLookupByLibrary.simpleMessage(
             "Please sign in to access this content"),
+        "pleaseWaitForPaymentProcessing": MessageLookupByLibrary.simpleMessage(
+            "Please wait while payment is processing"),
         "portSaid": MessageLookupByLibrary.simpleMessage("Port Said"),
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
         "primary": MessageLookupByLibrary.simpleMessage("Primary"),
         "primaryAddress":
             MessageLookupByLibrary.simpleMessage("Primary Address"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+        "processingPayment":
+            MessageLookupByLibrary.simpleMessage("Processing Payment"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "promoCode": MessageLookupByLibrary.simpleMessage("Promo Code"),
         "qalyubia": MessageLookupByLibrary.simpleMessage("Qalyubia"),
@@ -404,6 +431,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter the reset token"),
         "retryingConnection":
             MessageLookupByLibrary.simpleMessage("Retrying connection..."),
+        "returnToCheckout":
+            MessageLookupByLibrary.simpleMessage("Return to Checkout"),
         "saveAddress": MessageLookupByLibrary.simpleMessage("Save Address"),
         "savedAddresses":
             MessageLookupByLibrary.simpleMessage("Saved Addresses"),
@@ -444,6 +473,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "total": MessageLookupByLibrary.simpleMessage("Total"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+        "tryAgainLater":
+            MessageLookupByLibrary.simpleMessage("Please try again later"),
         "typeYourFeedback":
             MessageLookupByLibrary.simpleMessage("Type your feedback..."),
         "typeYourSpecialRequestsHere": MessageLookupByLibrary.simpleMessage(

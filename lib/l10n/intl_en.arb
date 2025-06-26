@@ -297,5 +297,22 @@
   "creditCardPayment": "Credit Card Payment",
   "totalPrice": "Total Price",
   "currency": "EGP",
-  "pickupFrom": "Pickup from"
+  "pickupFrom": "Pickup from",
+  "payment": "Payment",
+  "paymentFailed": "Payment Failed",
+  "paymentSuccessful": "Payment Successful",
+  "paymentCancelled": "Payment Cancelled",
+  "processingPayment": "Processing Payment",
+  "paymentVerificationFailed": "Payment Verification Failed",
+  "cardPayment": "Card Payment",
+  "paymentWillBeProcessed": "Your payment will be processed securely",
+  "paymentProcessingError": "An error occurred while processing your payment",
+  "tryAgainLater": "Please try again later",
+  "returnToCheckout": "Return to Checkout",
+  "cardOrderCancellationNotice": "Card orders cannot be cancelled. If you want to know more, call customer service.",
+  "paymentFailedNotificationTitle": "Payment Failed",
+  "paymentFailedNotificationBody": "Your payment could not be processed. Please try again.",
+  "feedbackRequestNotificationTitle": "We Value Your Opinion",
+  "feedbackRequestNotificationBody": "How was your experience? Tap to share your feedback with us.",
+  "pleaseWaitForPaymentProcessing": "Please wait while payment is processing"
 }

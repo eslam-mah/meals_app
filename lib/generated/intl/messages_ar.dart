@@ -73,6 +73,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("إلغاء الطلب"),
         "cancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
+        "cardOrderCancellationNotice": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن إلغاء الطلبات المدفوعة بالبطاقة. إذا كنت ترغب في معرفة المزيد، اتصل بخدمة العملاء."),
+        "cardPayment": MessageLookupByLibrary.simpleMessage("الدفع بالبطاقة"),
         "cart": MessageLookupByLibrary.simpleMessage("السلة"),
         "cashOnDelivery":
             MessageLookupByLibrary.simpleMessage("الدفع عند الاستلام"),
@@ -191,6 +194,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("فشل في تحديث العنوان"),
         "faiyum": MessageLookupByLibrary.simpleMessage("الفيوم"),
         "feedback": MessageLookupByLibrary.simpleMessage("التعليقات"),
+        "feedbackRequestNotificationBody": MessageLookupByLibrary.simpleMessage(
+            "كيف كانت تجربتك؟ دوس هنا وقولنا رأيك."),
+        "feedbackRequestNotificationTitle":
+            MessageLookupByLibrary.simpleMessage("رأيك يهمنا"),
         "feedbackSubmittedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم إرسال التعليق بنجاح!"),
         "foodDescription": MessageLookupByLibrary.simpleMessage(
@@ -321,7 +328,23 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم تحديث كلمة المرور بنجاح!"),
         "passwordsDoNotMatch":
             MessageLookupByLibrary.simpleMessage("كلمات المرور غير متطابقة"),
+        "payment": MessageLookupByLibrary.simpleMessage("الدفع"),
+        "paymentCancelled":
+            MessageLookupByLibrary.simpleMessage("تم إلغاء الدفع"),
+        "paymentFailed": MessageLookupByLibrary.simpleMessage("فشل الدفع"),
+        "paymentFailedNotificationBody": MessageLookupByLibrary.simpleMessage(
+            "تعذر معالجة عملية الدفع الخاصة بك. يرجى المحاولة مرة أخرى."),
+        "paymentFailedNotificationTitle":
+            MessageLookupByLibrary.simpleMessage("فشل الدفع"),
         "paymentMethod": MessageLookupByLibrary.simpleMessage("طريقة الدفع"),
+        "paymentProcessingError": MessageLookupByLibrary.simpleMessage(
+            "حدث خطأ أثناء معالجة الدفع الخاص بك"),
+        "paymentSuccessful":
+            MessageLookupByLibrary.simpleMessage("تم الدفع بنجاح"),
+        "paymentVerificationFailed":
+            MessageLookupByLibrary.simpleMessage("فشل التحقق من الدفع"),
+        "paymentWillBeProcessed": MessageLookupByLibrary.simpleMessage(
+            "سيتم معالجة الدفع الخاص بك بشكل آمن"),
         "pending": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
         "personalDetails":
             MessageLookupByLibrary.simpleMessage("التفاصيل الشخصية"),
@@ -365,11 +388,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء تحديد فرع الاستلام"),
         "pleaseSignInToAccessContent": MessageLookupByLibrary.simpleMessage(
             "يرجى تسجيل الدخول للوصول إلى هذا المحتوى"),
+        "pleaseWaitForPaymentProcessing": MessageLookupByLibrary.simpleMessage(
+            "برجاء الانتظار حتى تتم معالجة الدفع"),
         "portSaid": MessageLookupByLibrary.simpleMessage("بورسعيد"),
         "preferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
         "primary": MessageLookupByLibrary.simpleMessage("رئيسي"),
         "primaryAddress": MessageLookupByLibrary.simpleMessage("عنوان رئيسي"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
+        "processingPayment":
+            MessageLookupByLibrary.simpleMessage("جاري معالجة الدفع"),
         "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "promoCode": MessageLookupByLibrary.simpleMessage("كود الخصم"),
         "qalyubia": MessageLookupByLibrary.simpleMessage("القليوبية"),
@@ -398,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "الرجاء إدخال رمز إعادة التعيين"),
         "retryingConnection":
             MessageLookupByLibrary.simpleMessage("إعادة محاولة الاتصال..."),
+        "returnToCheckout":
+            MessageLookupByLibrary.simpleMessage("العودة إلى الدفع"),
         "saveAddress": MessageLookupByLibrary.simpleMessage("حفظ العنوان"),
         "savedAddresses":
             MessageLookupByLibrary.simpleMessage("العناوين المحفوظة"),
@@ -436,6 +465,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "total": MessageLookupByLibrary.simpleMessage("المجموع"),
         "totalPrice": MessageLookupByLibrary.simpleMessage("السعر الإجمالي"),
         "tryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
+        "tryAgainLater": MessageLookupByLibrary.simpleMessage(
+            "يرجى المحاولة مرة أخرى لاحقًا"),
         "typeYourFeedback":
             MessageLookupByLibrary.simpleMessage("اكتب تعليقك..."),
         "typeYourSpecialRequestsHere":

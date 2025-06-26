@@ -113,7 +113,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               SnackBar(
                 content: Text(S.of(context).addedToCart),
                 backgroundColor: Colors.green,
-                duration: const Duration(seconds: 2),
+                duration: const Duration(milliseconds: 500),
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/core/utils/media_query_values.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
 import 'package:meals_app/features/orders_history/view_model/cubits/order_history_cubit.dart';
 import 'package:meals_app/features/orders_history/view_model/cubits/order_history_state.dart';
@@ -28,6 +27,7 @@ class OrderCard extends StatelessWidget {
     final formattedTime = DateFormat.jm().format(order.createdAt);
     
     final isPending = order.status == 'pending';
+    final isCardPayment = order.paymentMethod == 'card';
     
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -218,9 +218,30 @@ class OrderCard extends StatelessWidget {
                     ],
                   ),
                 
-                // Cancel button (only for pending orders)
+                // Cancel button (only for pending orders with cash payment) or card payment notice
                 if (isActive)
-                  BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
+                  isCardPayment 
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 16.h),
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(12.r),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(color: Colors.grey[300]!),
+                        ),
+                        child: Text(
+                          S.of(context).cardOrderCancellationNotice,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.grey[800],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                  : BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
                     builder: (context, state) {
                       final bool isCanceling = state.status == OrderHistoryStatus.cancelingOrder &&
                                               state.cancelingOrderId == order.id;

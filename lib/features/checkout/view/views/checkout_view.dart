@@ -23,10 +23,10 @@ import 'package:meals_app/features/saved_addresses/view/widgets/address_selector
 import 'package:meals_app/features/saved_addresses/view_model/cubits/address_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:meals_app/features/checkout/view/widgets/promo_code_field.dart';
-import 'package:meals_app/features/checkout/data/repositories/checkout_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
+import 'package:meals_app/features/payment/view/widgets/payment_handler.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String checkoutPath = '/checkout';
@@ -44,15 +44,10 @@ class _CheckoutViewState extends State<CheckoutView> {
       TextEditingController();
   String? _specialRequest;
   bool _isProcessing = false;
-  // bool _isConnected = true;
-  // bool _isDialogShowing = false;
-  // StreamSubscription<bool>? _connectivitySubscription;
-  // final ConnectivityService _connectivityService = ConnectivityService.instance;
 
   @override
   void initState() {
     super.initState();
-    // _initConnectivity();
 
     // Ensure we have addresses loaded if delivery is selected
     final cart = context.read<CartCubit>().state.cart;
@@ -69,84 +64,9 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   void dispose() {
-    // _connectivitySubscription?.cancel();
-    // _connectivitySubscription = null;
     _specialRequestController.dispose();
     super.dispose();
   }
-
-  /// Initialize connectivity monitoring
-  // Future<void> _initConnectivity() async {
-  //   if (!mounted) return;
-
-  //   _log.info('Initializing connectivity monitoring');
-
-  //   // Check initial connectivity status
-  //   _isConnected = await _connectivityService.forceCheck();
-  //   _log.info('Initial connectivity status: ${_isConnected ? "Connected" : "Disconnected"}');
-
-  //   // If initially disconnected, show dialog
-  //   if (!_isConnected && mounted && !_isDialogShowing) {
-  //     _log.info('Initially disconnected, showing dialog');
-  //     _showConnectivityDialog();
-  //   }
-
-  //   // Listen for connectivity changes
-  //   _connectivitySubscription = _connectivityService.onConnectivityChanged.listen(_handleConnectivityChange);
-  //   _log.info('Connectivity listener set up');
-  // }
-
-  // /// Handle changes in connectivity status
-  // void _handleConnectivityChange(bool isConnected) {
-  //   _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
-
-  //   if (!mounted) {
-  //     _log.warning('Widget not mounted during connectivity change');
-  //     return;
-  //   }
-
-  //   // Only show dialog if we transition from connected to disconnected
-  //   if (_isConnected && !isConnected && !_isDialogShowing) {
-  //     _log.info('Connection lost, showing dialog immediately');
-  //     _showConnectivityDialog();
-  //   }
-
-  //   setState(() {
-  //     _isConnected = isConnected;
-  //   });
-  // }
-
-  // /// Show connectivity dialog when connection is lost
-  // void _showConnectivityDialog() {
-  //   if (!mounted || _isDialogShowing) return;
-
-  //   _log.info('Showing connectivity dialog');
-  //   _isDialogShowing = true;
-
-  //   ConnectivityDialog.show(
-  //     context,
-  //     onConnected: () {
-  //       _log.info('Connection restored callback from dialog');
-
-  //       if (mounted) {
-  //         setState(() {
-  //           _isDialogShowing = false;
-  //         });
-
-  //         // Reload necessary data when connection is restored
-  //         final cart = context.read<CartCubit>().state.cart;
-  //         if (cart.deliveryType == 'delivery') {
-  //           context.read<AddressCubit>().loadUserAddresses();
-  //         }
-  //       } else {
-  //         _isDialogShowing = false;
-  //       }
-  //     },
-  //   ).catchError((error) {
-  //     _log.severe('Error showing dialog: $error');
-  //     _isDialogShowing = false;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -912,6 +832,25 @@ class _CheckoutViewState extends State<CheckoutView> {
       // Use the special request from the field if available, otherwise use from cart
       final specialRequest = _specialRequest ?? cart.specialInstructions;
 
+      // Check if payment method is card
+      final paymentMethod = context.read<CheckoutCubit>().state.paymentMethod;
+
+      if (paymentMethod == 'card') {
+        // Handle card payment
+        await _handleCardPayment(
+          context: context,
+          user: user,
+          orderType: orderType,
+          totalPrice: totalPrice,
+          orderId: orderId,
+          promoCodeId: promoCodeId,
+          discountAmount: discountAmount,
+          specialRequest: specialRequest,
+          cart: cart,
+        );
+        return;
+      }
+
       // Create order JSON directly
       final Map<String, dynamic> orderJson = {
         'id': orderId,
@@ -925,7 +864,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 ? context.read<CheckoutCubit>().state.selectedBranch
                 : null,
         'order_type': orderType,
-        'payment_method': context.read<CheckoutCubit>().state.paymentMethod,
+        'payment_method': paymentMethod,
         'status': 'pending',
         'total_price': totalPrice,
         'promo_code_id': promoCodeId,
@@ -1035,6 +974,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                 body: localization.orderReadyNotificationBody,
               );
         });
+           Future.delayed(const Duration(hours: 2)).then((_) async {
+          await NotificationService()
+              .showFeedbackRequestNotification(
+                title: localization.feedbackRequestNotificationTitle,
+                body: localization.feedbackRequestNotificationBody,
+              );
+        });
         _log.info('Order confirmation notification triggered successfully');
       } catch (notificationError) {
         _log.severe('Error showing notification: $notificationError');
@@ -1063,6 +1009,228 @@ class _CheckoutViewState extends State<CheckoutView> {
         context.read<CheckoutCubit>().state.copyWith(
           status: CheckoutStatus.error,
           errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  // Handle card payment flow
+  Future<void> _handleCardPayment({
+    required BuildContext context,
+    required UserModel user,
+    required String orderType,
+    required double totalPrice,
+    required String orderId,
+    String? promoCodeId,
+    required double discountAmount,
+    String? specialRequest,
+    required Cart cart,
+  }) async {
+    final S localization = S.of(context);
+    _log.info('Handling card payment for order: $orderId');
+    _log.info('Total price for payment: $totalPrice');
+
+    try {
+      // Get selected address
+      final selectedAddress =
+          context.read<CheckoutCubit>().state.selectedAddress;
+      if (orderType == 'delivery' && selectedAddress == null) {
+        throw Exception(localization.noDeliveryAddressSelected);
+      }
+
+      // Create payment handler
+      final paymentHandler = PaymentHandler(
+        context: context,
+        user: user,
+        address:
+            selectedAddress ??
+            AddressModel.empty(), // Use empty address for pickup
+        amount:
+            totalPrice
+                .toString(), // Paymob expects amount as string, will be converted to piasters in the cubit
+        orderId: orderId, // Pass the order ID to the payment handler
+        onPaymentSuccess: () async {
+          _log.info('Payment verified as successful, creating order');
+
+          try {
+            // Create order JSON
+            final now = DateTime.now();
+            final Map<String, dynamic> orderJson = {
+              'id': orderId,
+              'user_id': user.id,
+              'address_id':
+                  orderType == 'delivery' ? selectedAddress?.id : null,
+              'branch_name':
+                  orderType == 'pickup'
+                      ? context.read<CheckoutCubit>().state.selectedBranch
+                      : null,
+              'order_type': orderType,
+              'payment_method': 'card',
+              'status': 'pending',
+              'total_price': totalPrice,
+              'promo_code_id': promoCodeId,
+              'discount_amount': discountAmount,
+              'created_at': now.toIso8601String(),
+              'updated_at': now.toIso8601String(),
+              'special_request': specialRequest,
+            };
+
+            _log.info('Creating order with verified payment: $orderId');
+
+            // Insert order to database
+            await Supabase.instance.client.from('orders').insert(orderJson);
+
+            // Insert order items
+            for (final item in cart.items) {
+              await Supabase.instance.client.from('order_items').insert({
+                'id': const Uuid().v4(),
+                'order_id': orderId,
+                'menu_item_id': item.menuItemId,
+                'quantity': item.quantity,
+                'price_snapshot': (item.totalPrice * 100).toInt(),
+                'customizations': {
+                  'size': item.selectedSize?.toJson(),
+                  'extras': item.selectedExtras.map((e) => e.toJson()).toList(),
+                  'beverage': item.selectedBeverage?.toJson(),
+                  'specialInstructions': item.specialInstructions,
+                },
+              });
+            }
+            context.read<CartCubit>().clearCart();
+
+            // Record promo code usage if one was applied
+            if (promoCodeId != null) {
+              _log.info(
+                'Recording promo code usage for user ${user.id}, promo code $promoCodeId',
+              );
+              final promoCodeUsageRepository =
+                  RepositoryProvider.of<PromoCodeUsageRepository>(context);
+              final promoCodeCubit = context.read<PromoCodeCubit>();
+
+              // Use the PromoCodeCubit to record usage
+              bool recordSuccess = await promoCodeCubit.recordPromoCodeUsage(
+                user.id,
+                promoCodeId,
+              );
+
+              // If that fails, try the repository directly
+              if (!recordSuccess) {
+                _log.warning(
+                  'PromoCodeCubit recording failed, trying repository directly',
+                );
+                recordSuccess = await promoCodeUsageRepository
+                    .directInsertUsage(user.id, promoCodeId);
+              }
+
+              if (!recordSuccess) {
+                _log.warning('Failed to record promo code usage');
+              } else {
+                _log.info('Successfully recorded promo code usage');
+              }
+            }
+
+            // Update checkout state with success
+            context.read<CheckoutCubit>().emit(
+              context.read<CheckoutCubit>().state.copyWith(
+                status: CheckoutStatus.success,
+                order: OrderModel(
+                  id: orderId,
+                  userId: user.id,
+                  addressId:
+                      orderType == 'delivery' ? selectedAddress?.id : null,
+                  branchName:
+                      orderType == 'pickup'
+                          ? context.read<CheckoutCubit>().state.selectedBranch
+                          : null,
+                  orderType: orderType,
+                  paymentMethod: 'card',
+                  status: 'pending',
+                  totalPrice: totalPrice,
+                  promoCodeId: promoCodeId,
+                  discountAmount: discountAmount,
+                  createdAt: now,
+                  updatedAt: now,
+                  specialRequest: specialRequest,
+                ),
+              ),
+            );
+
+            // Show notification that order will be ready in 30 minutes
+            _log.info('Attempting to show order confirmation notification');
+        
+            // Reset processing state
+            setState(() {
+              _isProcessing = false;
+            });
+
+            // Note: Navigation to success page is now handled directly by the PaymentWebView
+          } catch (e) {
+            _log.severe('Error creating order after payment: $e');
+
+            // Reset processing state
+              _isProcessing = false;
+            
+
+      
+          }
+        },
+        onPaymentError: (error) {
+          _log.severe('Payment error: $error');
+
+          // Reset processing state
+          setState(() {
+            _isProcessing = false;
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${localization.paymentFailed}: $error'),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+
+          // Update checkout state with error
+          context.read<CheckoutCubit>().emit(
+            context.read<CheckoutCubit>().state.copyWith(
+              status: CheckoutStatus.error,
+              errorMessage: '${localization.paymentFailed}: $error',
+            ),
+          );
+        },
+        onPaymentCancelled: () {
+          _log.info('Payment cancelled by user');
+
+          // Reset processing state
+          setState(() {
+            _isProcessing = false;
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(localization.paymentCancelled),
+              backgroundColor: Colors.orange,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        },
+      );
+
+      // Process payment
+      await paymentHandler.processCardPayment();
+    } catch (e) {
+      _log.severe('Error in payment flow: $e');
+
+      // Reset processing state
+      setState(() {
+        _isProcessing = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
         ),
       );
     }

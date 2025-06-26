@@ -217,6 +217,9 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.white,
                 selectedItemColor: ColorsBox.primaryColor,
                 unselectedItemColor: Colors.grey,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                type: BottomNavigationBarType.fixed,
               ),
               inputDecorationTheme: InputDecorationTheme(
                 fillColor: Colors.grey.shade200,

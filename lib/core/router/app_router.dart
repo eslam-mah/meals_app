@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meals_app/core/services/notification_service.dart';
 import 'package:meals_app/features/authentication/authentication_router.dart';
 import 'package:meals_app/features/cart/cart_router.dart';
 import 'package:meals_app/features/checkout/checkout_router.dart';
@@ -24,6 +25,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: SplashScreen.routeName,
+    navigatorKey: NotificationService.navigatorKey,
     routes: [
       // splash screen route
       GoRoute(

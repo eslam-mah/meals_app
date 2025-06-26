@@ -2919,6 +2919,176 @@ class S {
       args: [],
     );
   }
+
+  /// `الدفع`
+  String get payment {
+    return Intl.message(
+      'الدفع',
+      name: 'payment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل الدفع`
+  String get paymentFailed {
+    return Intl.message(
+      'فشل الدفع',
+      name: 'paymentFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم الدفع بنجاح`
+  String get paymentSuccessful {
+    return Intl.message(
+      'تم الدفع بنجاح',
+      name: 'paymentSuccessful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم إلغاء الدفع`
+  String get paymentCancelled {
+    return Intl.message(
+      'تم إلغاء الدفع',
+      name: 'paymentCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `جاري معالجة الدفع`
+  String get processingPayment {
+    return Intl.message(
+      'جاري معالجة الدفع',
+      name: 'processingPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل التحقق من الدفع`
+  String get paymentVerificationFailed {
+    return Intl.message(
+      'فشل التحقق من الدفع',
+      name: 'paymentVerificationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الدفع بالبطاقة`
+  String get cardPayment {
+    return Intl.message(
+      'الدفع بالبطاقة',
+      name: 'cardPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `سيتم معالجة الدفع الخاص بك بشكل آمن`
+  String get paymentWillBeProcessed {
+    return Intl.message(
+      'سيتم معالجة الدفع الخاص بك بشكل آمن',
+      name: 'paymentWillBeProcessed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حدث خطأ أثناء معالجة الدفع الخاص بك`
+  String get paymentProcessingError {
+    return Intl.message(
+      'حدث خطأ أثناء معالجة الدفع الخاص بك',
+      name: 'paymentProcessingError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يرجى المحاولة مرة أخرى لاحقًا`
+  String get tryAgainLater {
+    return Intl.message(
+      'يرجى المحاولة مرة أخرى لاحقًا',
+      name: 'tryAgainLater',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `العودة إلى الدفع`
+  String get returnToCheckout {
+    return Intl.message(
+      'العودة إلى الدفع',
+      name: 'returnToCheckout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا يمكن إلغاء الطلبات المدفوعة بالبطاقة. إذا كنت ترغب في معرفة المزيد، اتصل بخدمة العملاء.`
+  String get cardOrderCancellationNotice {
+    return Intl.message(
+      'لا يمكن إلغاء الطلبات المدفوعة بالبطاقة. إذا كنت ترغب في معرفة المزيد، اتصل بخدمة العملاء.',
+      name: 'cardOrderCancellationNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل الدفع`
+  String get paymentFailedNotificationTitle {
+    return Intl.message(
+      'فشل الدفع',
+      name: 'paymentFailedNotificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعذر معالجة عملية الدفع الخاصة بك. يرجى المحاولة مرة أخرى.`
+  String get paymentFailedNotificationBody {
+    return Intl.message(
+      'تعذر معالجة عملية الدفع الخاصة بك. يرجى المحاولة مرة أخرى.',
+      name: 'paymentFailedNotificationBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `رأيك يهمنا`
+  String get feedbackRequestNotificationTitle {
+    return Intl.message(
+      'رأيك يهمنا',
+      name: 'feedbackRequestNotificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيف كانت تجربتك؟ دوس هنا وقولنا رأيك.`
+  String get feedbackRequestNotificationBody {
+    return Intl.message(
+      'كيف كانت تجربتك؟ دوس هنا وقولنا رأيك.',
+      name: 'feedbackRequestNotificationBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `برجاء الانتظار حتى تتم معالجة الدفع`
+  String get pleaseWaitForPaymentProcessing {
+    return Intl.message(
+      'برجاء الانتظار حتى تتم معالجة الدفع',
+      name: 'pleaseWaitForPaymentProcessing',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

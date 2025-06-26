@@ -401,18 +401,18 @@ Widget _buildHeader(BuildContext context, S localization) {
                   }
                 },
                 child: Ink(
-                  width: 45.w,
-                  height: 45.h,
-                  decoration: BoxDecoration(
-                    color: ColorsBox.primaryColor.withOpacity(0.2),
-                    shape: BoxShape.circle,
+                    width: 45.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      color: ColorsBox.primaryColor.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: ColorsBox.primaryColor,
+                      size: 25.r,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.shopping_basket_outlined,
-                    color: ColorsBox.primaryColor,
-                    size: 25.r,
-                  ),
-                ),
               ),
             ),
           ],

@@ -192,7 +192,6 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
                     vertical: 12.h,
                   ),
                 ),
-                textCapitalization: TextCapitalization.characters,
                 textInputAction: TextInputAction.done,
                 enabled: !state.isLoading,
               ),

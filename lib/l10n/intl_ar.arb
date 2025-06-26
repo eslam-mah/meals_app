@@ -298,5 +298,22 @@
   "creditCardPayment": "الدفع ببطاقة الائتمان",
   "totalPrice": "السعر الإجمالي",
   "currency": "جنيه",
-  "pickupFrom": "استلام من"
+  "pickupFrom": "استلام من",
+  "payment": "الدفع",
+  "paymentFailed": "فشل الدفع",
+  "paymentSuccessful": "تم الدفع بنجاح",
+  "paymentCancelled": "تم إلغاء الدفع",
+  "processingPayment": "جاري معالجة الدفع",
+  "paymentVerificationFailed": "فشل التحقق من الدفع",
+  "cardPayment": "الدفع بالبطاقة",
+  "paymentWillBeProcessed": "سيتم معالجة الدفع الخاص بك بشكل آمن",
+  "paymentProcessingError": "حدث خطأ أثناء معالجة الدفع الخاص بك",
+  "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقًا",
+  "returnToCheckout": "العودة إلى الدفع",
+  "cardOrderCancellationNotice": "لا يمكن إلغاء الطلبات المدفوعة بالبطاقة. إذا كنت ترغب في معرفة المزيد، اتصل بخدمة العملاء.",
+  "paymentFailedNotificationTitle": "فشل الدفع",
+  "paymentFailedNotificationBody": "تعذر معالجة عملية الدفع الخاصة بك. يرجى المحاولة مرة أخرى.",
+  "feedbackRequestNotificationTitle": "رأيك يهمنا",
+  "feedbackRequestNotificationBody": "كيف كانت تجربتك؟ دوس هنا وقولنا رأيك.",
+  "pleaseWaitForPaymentProcessing": "برجاء الانتظار حتى تتم معالجة الدفع"
 }

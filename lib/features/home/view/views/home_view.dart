@@ -462,11 +462,11 @@ class _HomeViewState extends State<HomeView> {
                     width: 45.w,
                     height: 45.h,
                     decoration: BoxDecoration(
-                      color: ColorsBox.primaryColor.withOpacity(0.2),
+                      color: ColorsBox.primaryColor.withOpacity(0.1),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      Icons.shopping_basket_outlined,
+                      Icons.shopping_cart_outlined,
                       color: ColorsBox.primaryColor,
                       size: 25.r,
                     ),
