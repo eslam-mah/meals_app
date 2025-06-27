@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +101,67 @@ void main() async {
     // Initialize UserCubit
     UserCubit.initialize(UserRepository());
     log.info('UserCubit initialized');
+    final supabase = Supabase.instance.client;
+    final userId = supabase.auth.currentUser?.id;
+    await FirebaseMessaging.instance.requestPermission();
+    await FirebaseMessaging.instance.getAPNSToken();
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+
+    print('ddddd____$fcmToken');
+
+    if (fcmToken != null) {
+      // Check if token already exists in the database
+      final existingTokens = await supabase
+          .from('notification_tokens')
+          .select()
+          .eq('token', fcmToken);
+      
+      // Only insert if the token doesn't already exist
+      if (existingTokens.isEmpty) {
+        await supabase.from('notification_tokens').insert({
+          'user_id': userId, // May be null, but that's acceptable
+          'token': fcmToken,
+          'created_at': DateTime.now().toIso8601String(),
+          'platform': Platform.isAndroid ? 'android' : 'ios',
+        });
+        log.info('New FCM token stored in database');
+      } else {
+        log.info('FCM token already exists in database, skipping insertion');
+      }
+    }
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      // Check if token already exists in the database
+      final existingTokens = await supabase
+          .from('notification_tokens')
+          .select()
+          .eq('token', fcmToken);
+      
+      // Only insert if the token doesn't already exist
+      if (existingTokens.isEmpty) {
+        await supabase.from('notification_tokens').insert({
+          'user_id': userId, // May be null, but that's acceptable
+          'token': fcmToken,
+          'created_at': DateTime.now().toIso8601String(),
+          'platform': Platform.isAndroid ? 'android' : 'ios',
+        });
+        log.info('New refreshed FCM token stored in database');
+      } else {
+        log.info('Refreshed FCM token already exists in database, skipping insertion');
+      }
+    });
+    //  FirebaseMessaging.onMessage.listen((payload) {
+    //   final notification = payload.notification;
+    //   if (notification != null) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         backgroundColor: ColorsBox.primaryColor,
+    //         content: Text('${notification.title} ${notification.body}'),
+    //         behavior: SnackBarBehavior.floating,
+    //       ),
+    //     );
+    //   }
+    //  });
 
     // Keep splash screen a bit longer (optional - for better user experience)
     await Future.delayed(const Duration(milliseconds: 500));
@@ -123,62 +185,11 @@ void main() async {
 /// - Applies theme based on the current language
 /// - Sets up localization
 /// - Configures routing
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   /// Creates a MyApp widget.
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    final supabase = Supabase.instance.client;
-
-    supabase.auth.onAuthStateChange.listen((event) async {
-      // if (event.event == AuthChangeEvent.signedIn) {
-      await FirebaseMessaging.instance.requestPermission();
-      await FirebaseMessaging.instance.getAPNSToken();
-      final fcmToken = await FirebaseMessaging.instance.getToken();
-
-      print('ddddd____$fcmToken');
-
-      if (fcmToken != null) {
-        _setFcmToken(fcmToken, supabase.auth.currentUser?.id, supabase);
-      }
-      // }
-    });
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-      await _setFcmToken(fcmToken, supabase.auth.currentUser?.id, supabase);
-    });
-     FirebaseMessaging.onMessage.listen((payload) {
-      final notification = payload.notification;
-      if (notification != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: ColorsBox.primaryColor,
-            content: Text('${notification.title} ${notification.body}'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-     });
-  }
- 
-  Future<void> _setFcmToken(
-    String fcmToken,
-    String? userId,
-    SupabaseClient supabase,
-  ) async {
-    await supabase.from('notification_tokens').upsert({
-      'user_id': userId,
-      'token': fcmToken,
-      'created_at': DateTime.now().toIso8601String(),
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // Configure system UI appearance
