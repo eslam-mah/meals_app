@@ -416,18 +416,7 @@ class Cart extends Equatable {
     return copyWith(deliveryType: type);
   }
 
-  /// Helper method to compare two lists of extras
-  bool _areExtrasEqual(List<FoodExtra> list1, List<FoodExtra> list2) {
-    if (list1.length != list2.length) return false;
-    
-    for (int i = 0; i < list1.length; i++) {
-      if (!list2.any((e) => e.nameEn == list1[i].nameEn)) {
-        return false;
-      }
-    }
-    
-    return true;
-  }
+
 
   /// Convert to JSON for storage
   Map<String, dynamic> toJson() {

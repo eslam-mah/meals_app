@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +22,7 @@ import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.d
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_state.dart';
 import 'package:meals_app/core/config/supabase_options.dart';
+import 'package:meals_app/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'generated/l10n.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
@@ -27,7 +30,7 @@ import 'package:meals_app/features/profile/data/repositories/user_repository.dar
 
 /// Application entry point that initializes required services and configurations
 /// before launching the app.
-/// 
+///
 /// This function:
 /// 1. Preserves splash screen during initialization
 /// 2. Sets up logging
@@ -37,6 +40,7 @@ import 'package:meals_app/features/profile/data/repositories/user_repository.dar
 /// 6. Initializes user data management
 /// 7. Initializes notification service
 /// 8. Launches the app UI
+/// 9. Initializes Firebase
 void main() async {
   // Keep the splash screen displayed until initialization is complete
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +62,12 @@ void main() async {
   log.info('Starting application');
 
   try {
+    // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    log.info('Firebase initialized');
+
     // Initialize SharedPreferences
     await SharedPrefs.init();
     log.info('SharedPreferences initialized');
@@ -72,7 +82,9 @@ void main() async {
 
     // Test connectivity at startup
     final isConnected = await ConnectivityService.instance.checkConnection();
-    log.info('Initial connectivity test: ${isConnected ? "Connected" : "Disconnected"}');
+    log.info(
+      'Initial connectivity test: ${isConnected ? "Connected" : "Disconnected"}',
+    );
 
     // Initialize notification service
     await NotificationService().init();
@@ -104,16 +116,68 @@ void main() async {
 
 /// Root application widget that configures the app's theme, localization,
 /// state management providers, and routing.
-/// 
+///
 /// This class:
 /// - Sets up system UI appearance
 /// - Configures BLoC providers for state management
 /// - Applies theme based on the current language
 /// - Sets up localization
 /// - Configures routing
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   /// Creates a MyApp widget.
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    final supabase = Supabase.instance.client;
+
+    supabase.auth.onAuthStateChange.listen((event) async {
+      // if (event.event == AuthChangeEvent.signedIn) {
+      await FirebaseMessaging.instance.requestPermission();
+      await FirebaseMessaging.instance.getAPNSToken();
+      final fcmToken = await FirebaseMessaging.instance.getToken();
+
+      print('ddddd____$fcmToken');
+
+      if (fcmToken != null) {
+        _setFcmToken(fcmToken, supabase.auth.currentUser?.id, supabase);
+      }
+      // }
+    });
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      await _setFcmToken(fcmToken, supabase.auth.currentUser?.id, supabase);
+    });
+     FirebaseMessaging.onMessage.listen((payload) {
+      final notification = payload.notification;
+      if (notification != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorsBox.primaryColor,
+            content: Text('${notification.title} ${notification.body}'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+     });
+  }
+ 
+  Future<void> _setFcmToken(
+    String fcmToken,
+    String? userId,
+    SupabaseClient supabase,
+  ) async {
+    await supabase.from('notification_tokens').upsert({
+      'user_id': userId,
+      'token': fcmToken,
+      'created_at': DateTime.now().toIso8601String(),
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +330,7 @@ class MyApp extends StatelessWidget {
 
 /// A wrapper widget that provides responsive layout adaptation and
 /// connectivity monitoring for the application.
-/// 
+///
 /// This widget:
 /// - Initializes responsive layout management
 /// - Monitors network connectivity
@@ -277,7 +341,7 @@ class _AppWithResponsive extends StatefulWidget {
   final Widget child;
 
   /// Creates an _AppWithResponsive widget.
-  /// 
+  ///
   /// The [child] parameter is required and represents the main app content.
   const _AppWithResponsive({required this.child});
 
@@ -289,86 +353,93 @@ class _AppWithResponsive extends StatefulWidget {
 class _AppWithResponsiveState extends State<_AppWithResponsive> {
   /// Logger instance for this class.
   final Logger _log = Logger('AppWithResponsive');
-  
+
   /// Subscription to connectivity status updates.
   StreamSubscription<bool>? _connectivitySubscription;
-  
+
   /// Tracks the previous connectivity state to detect changes.
   bool _wasConnected = true;
-  
+
   /// Flag to prevent showing multiple connectivity dialogs.
   bool _isDialogShowing = false;
-  
+
   @override
   void initState() {
     super.initState();
     _log.info('AppWithResponsive initialized');
-    
+
     // Initialize after first frame is rendered
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initConnectivity();
     });
   }
-  
+
   /// Initializes connectivity monitoring and sets up the initial connection status.
-  /// 
+  ///
   /// This method:
   /// - Checks the current connection status
   /// - Displays a dialog if initially disconnected
   /// - Sets up a listener for connectivity changes
   Future<void> _initConnectivity() async {
     if (!mounted) return;
-    
+
     _log.info('Initializing connectivity monitoring');
-    
+
     // Force an immediate quick check
     final isConnected = await ConnectivityService.instance.forceCheck();
-    _log.info('Initial connectivity status: ${isConnected ? "Connected" : "Disconnected"}');
+    _log.info(
+      'Initial connectivity status: ${isConnected ? "Connected" : "Disconnected"}',
+    );
     _wasConnected = isConnected;
-    
+
     // If initially disconnected, show dialog
     if (!isConnected && mounted && !_isDialogShowing) {
       _log.info('Initially disconnected, showing dialog');
       _showConnectivityDialog();
     }
-    
+
     // Listen for connectivity changes
-    _connectivitySubscription = ConnectivityService.instance.onConnectivityChanged.listen(_handleConnectivityChange);
+    _connectivitySubscription = ConnectivityService
+        .instance
+        .onConnectivityChanged
+        .listen(_handleConnectivityChange);
     _log.info('Connectivity listener set up');
   }
-  
+
   /// Handles changes in network connectivity status.
-  /// 
+  ///
   /// Shows a dialog when connectivity is lost (transitioning from connected to disconnected).
-  /// 
+  ///
   /// [isConnected] - The current connection status.
   void _handleConnectivityChange(bool isConnected) {
-    _log.info('Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}');
-    
+    _log.info(
+      'Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}',
+    );
+
     if (!mounted) {
       _log.warning('Widget not mounted during connectivity change');
       return;
     }
-    
+
     // Only show dialog if we transition from connected to disconnected
     if (_wasConnected && !isConnected && !_isDialogShowing) {
       _log.info('Connection lost, showing dialog immediately');
       _showConnectivityDialog();
     }
-    
+
     _wasConnected = isConnected;
   }
-  
+
   /// Displays the connectivity alert dialog when network connection is lost.
-  /// 
+  ///
   /// The dialog remains visible until connectivity is restored or the user
   /// dismisses it. It includes retry functionality to check for connectivity.
   void _showConnectivityDialog() {
     if (!mounted || _isDialogShowing) return;
-    
+
     _log.info('Showing connectivity dialog');
     _isDialogShowing = true;
-    
+
     ConnectivityDialog.show(
       context,
       onConnected: () {
@@ -388,7 +459,7 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
       _isDialogShowing = false;
     });
   }
-  
+
   @override
   void dispose() {
     _log.info('AppWithResponsive disposing');

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
   final Logger _logger = Logger('NotificationService');
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   factory NotificationService() {
     return _instance;
@@ -53,7 +54,7 @@ class NotificationService {
 
   void _onDidReceiveNotificationResponse(NotificationResponse response) {
     _logger.info('Notification clicked: ${response.payload}');
-    
+
     // Handle notification tap based on payload
     if (response.payload == 'feedback') {
       _logger.info('Navigating to feedback page');
@@ -135,7 +136,7 @@ class NotificationService {
       notificationDetails,
     );
   }
-  
+
   // Show feedback request notification
   Future<void> showFeedbackRequestNotification({
     required String title,

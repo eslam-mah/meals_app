@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:logging/logging.dart';
-import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
-import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:meals_app/features/home/data/repositories/food_repository.dart';
 import 'package:meals_app/features/profile/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
