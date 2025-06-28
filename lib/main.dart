@@ -18,6 +18,7 @@ import 'package:meals_app/core/services/notification_service.dart';
 import 'package:meals_app/core/services/storage_service.dart';
 import 'package:meals_app/core/utils/shared_prefs.dart';
 import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
+import 'package:meals_app/core/main_widgets/custom_notification.dart';
 import 'package:meals_app/features/authentication/data/auth_repository.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
@@ -28,6 +29,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'generated/l10n.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/profile/data/repositories/user_repository.dart';
+
+/// Global key to access ScaffoldMessengerState from anywhere in the app
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 /// Application entry point that initializes required services and configurations
 /// before launching the app.
@@ -150,18 +155,29 @@ void main() async {
         log.info('Refreshed FCM token already exists in database, skipping insertion');
       }
     });
-    //  FirebaseMessaging.onMessage.listen((payload) {
-    //   final notification = payload.notification;
-    //   if (notification != null) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //         backgroundColor: ColorsBox.primaryColor,
-    //         content: Text('${notification.title} ${notification.body}'),
-    //         behavior: SnackBarBehavior.floating,
-    //       ),
-    //     );
-    //   }
-    //  });
+     
+    // Set up Firebase message listener
+    FirebaseMessaging.onMessage.listen((payload) {
+      final notification = payload.notification;
+      if (notification != null) {
+        log.info('Received Firebase message: ${notification.title}');
+        
+        // Show notification using global ScaffoldMessenger when available
+        if (rootScaffoldMessengerKey.currentState != null) {
+          CustomNotification.showWithScaffoldMessenger(
+            scaffoldMessenger: rootScaffoldMessengerKey.currentState!,
+            title: notification.title ?? 'New Notification',
+            message: notification.body ?? '',
+            icon: Icons.fastfood,
+            backgroundColor: ColorsBox.primaryColor,
+            duration: const Duration(seconds: 5),
+          
+          );
+        } else {
+          log.warning('ScaffoldMessengerState not available yet to show notification');
+        }
+      }
+    });
 
     // Keep splash screen a bit longer (optional - for better user experience)
     await Future.delayed(const Duration(milliseconds: 500));
@@ -189,7 +205,6 @@ class MyApp extends StatelessWidget {
   /// Creates a MyApp widget.
   const MyApp({super.key});
 
-  @override
   @override
   Widget build(BuildContext context) {
     // Configure system UI appearance
@@ -257,6 +272,7 @@ class MyApp extends StatelessWidget {
           );
 
           return MaterialApp.router(
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
             title: 'Meals App',
             theme: ThemeData(
@@ -368,6 +384,9 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
   /// Subscription to connectivity status updates.
   StreamSubscription<bool>? _connectivitySubscription;
 
+  /// Subscription to Firebase messaging
+  StreamSubscription<RemoteMessage>? _firebaseMessageSubscription;
+
   /// Tracks the previous connectivity state to detect changes.
   bool _wasConnected = true;
 
@@ -476,6 +495,8 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
     _log.info('AppWithResponsive disposing');
     _connectivitySubscription?.cancel();
     _connectivitySubscription = null;
+    _firebaseMessageSubscription?.cancel();
+    _firebaseMessageSubscription = null;
     super.dispose();
   }
 
