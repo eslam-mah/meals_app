@@ -152,7 +152,6 @@ class _HomeViewState extends State<HomeView> {
       
                             SizedBox(height: 16.h),
       
-                            // Hot offers section
       
                             // Hot offers horizontal list
                             BlocBuilder<FoodCubit, FoodState>(
@@ -180,31 +179,25 @@ class _HomeViewState extends State<HomeView> {
                                   return SizedBox.shrink();
                                 }
                             
-                                return SizedBox(
-                                                              height: state.offerItems.isNotEmpty ? 225.h : 0,
-      
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.only(left: 16.w),
-                                    itemCount: state.offerItems.length,
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          if (state.offerItems.isNotEmpty) ...[
-                                            _buildSectionTitle(
-                                              localization.offers,
-                                            ),
-                                                            
-                                            SizedBox(height: 12.h),
-                                          ],
-                                          HotOfferCard(
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _buildSectionTitle(localization.offers),
+                                    SizedBox(height: 12.h),
+                                    SizedBox(
+                                      height: 180.h,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        padding: EdgeInsets.only(left: 16.w),
+                                        itemCount: state.offerItems.length,
+                                        itemBuilder: (context, index) {
+                                          return HotOfferCard(
                                             food: state.offerItems[index],
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
                             ),

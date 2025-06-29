@@ -95,6 +95,9 @@ class _MainViewState extends State<MainView> {
       listener: (context, state) {
         if (state.status == app_auth.AuthStatus.unauthenticated) {
           _showLoginPrompt();
+
+        }else if (state.status == app_auth.AuthStatus.authenticated) {
+          context.read<UserCubit>().loadUser();
         }
       },
       child: Scaffold(

@@ -14,7 +14,7 @@ class CartItem extends Equatable {
   final int quantity;
   final FoodSize? selectedSize;
   final List<FoodExtra> selectedExtras;
-  final FoodBeverage? selectedBeverage;
+  final List<FoodBeverage> selectedBeverage;
   final double totalPrice;
   final String? specialInstructions;
   final DateTime createdAt;
@@ -31,7 +31,7 @@ class CartItem extends Equatable {
     required this.quantity,
     this.selectedSize,
     this.selectedExtras = const [],
-    this.selectedBeverage,
+    this.selectedBeverage = const [],
     required this.totalPrice,
     this.specialInstructions,
     required this.createdAt,
@@ -65,7 +65,7 @@ class CartItem extends Equatable {
     int? quantity,
     FoodSize? selectedSize,
     List<FoodExtra>? selectedExtras,
-    FoodBeverage? selectedBeverage,
+    List<FoodBeverage>? selectedBeverage,
     double? totalPrice,
     String? specialInstructions,
     DateTime? createdAt,
@@ -94,15 +94,17 @@ class CartItem extends Equatable {
     required int quantity,
     FoodSize? selectedSize,
     List<FoodExtra>? selectedExtras,
-    FoodBeverage? selectedBeverage,
+    List<FoodBeverage>? selectedBeverage,
     String? specialInstructions,
   }) {
     // Calculate the total price for a single item
-    double itemPrice = food.price;
+    double itemPrice;
     
-    // Add size price if selected
+    // Replace base price with size price if selected, otherwise use base price
     if (selectedSize != null) {
-      itemPrice += selectedSize.price;
+      itemPrice = selectedSize.price;
+    } else {
+      itemPrice = food.price;
     }
     
     // Add extras prices
@@ -113,8 +115,10 @@ class CartItem extends Equatable {
     }
     
     // Add beverage price if selected
-    if (selectedBeverage != null) {
-      itemPrice += selectedBeverage.price;
+    if (selectedBeverage != null && selectedBeverage.isNotEmpty) {
+      for (final beverage in selectedBeverage) {
+        itemPrice += beverage.price;
+      }
     }
     
     // Calculate total price (item price * quantity)
@@ -132,7 +136,7 @@ class CartItem extends Equatable {
       quantity: quantity,
       selectedSize: selectedSize,
       selectedExtras: selectedExtras ?? const [],
-      selectedBeverage: selectedBeverage,
+      selectedBeverage: selectedBeverage ?? const [],
       totalPrice: totalPrice,
       specialInstructions: specialInstructions,
       createdAt: DateTime.now(),
@@ -145,7 +149,7 @@ class CartItem extends Equatable {
     final Map<String, dynamic> customization = {
       'size': selectedSize?.toJson(),
       'extras': selectedExtras.map((e) => e.toJson()).toList(),
-      'beverage': selectedBeverage?.toJson(),
+      'beverage': selectedBeverage.map((e) => e.toJson()).toList(),
       'specialInstructions': specialInstructions,
     };
 
@@ -181,9 +185,11 @@ class CartItem extends Equatable {
       }
       
       // Parse beverage
-      FoodBeverage? selectedBeverage;
-      if (customization['beverage'] != null) {
-        selectedBeverage = FoodBeverage.fromJson(customization['beverage']);
+      List<FoodBeverage> selectedBeverage = [];
+      if (customization['beverage'] != null && customization['beverage'] is List) {
+        selectedBeverage = (customization['beverage'] as List)
+            .map((e) => FoodBeverage.fromJson(e))
+            .toList();
       }
 
       // Use food details if provided, otherwise use minimal info
@@ -192,12 +198,24 @@ class CartItem extends Equatable {
       double price = foodDetails?.price ?? 0.0;
       
       // Calculate total price
-      double itemPrice = price;
-      if (selectedSize != null) itemPrice += selectedSize.price;
+      double itemPrice;
+      // Replace base price with size price if selected
+      if (selectedSize != null) {
+        itemPrice = selectedSize.price;
+      } else {
+        itemPrice = price;
+      }
+      
+      // Add extras prices
       for (var extra in selectedExtras) {
         itemPrice += extra.price;
       }
-      if (selectedBeverage != null) itemPrice += selectedBeverage.price;
+      
+      // Add beverage prices
+      for (var beverage in selectedBeverage) {
+        itemPrice += beverage.price;
+      }
+      
       
       final quantity = json['quantity'] as int? ?? 1;
       final totalPrice = itemPrice * quantity;
@@ -270,13 +288,13 @@ class CartItem extends Equatable {
     }
     
     // Check if beverage matches
-    if ((selectedBeverage == null && other.selectedBeverage != null) ||
-        (selectedBeverage != null && other.selectedBeverage == null)) {
+    if ((selectedBeverage.isEmpty && other.selectedBeverage.isNotEmpty) ||
+        (selectedBeverage.isNotEmpty && other.selectedBeverage.isEmpty)) {
       return false;
     }
     
-    if (selectedBeverage != null && other.selectedBeverage != null &&
-        selectedBeverage!.nameEn != other.selectedBeverage!.nameEn) {
+    if (selectedBeverage.isNotEmpty && other.selectedBeverage.isNotEmpty &&
+        selectedBeverage.first.nameEn != other.selectedBeverage.first.nameEn) {
       return false;
     }
     

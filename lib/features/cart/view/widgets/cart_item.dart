@@ -206,10 +206,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         ),
                       ],
                       
-                      if (widget.item.selectedBeverage != null) ...[
+                      if (widget.item.selectedBeverage.isNotEmpty) ...[
                         SizedBox(height: 4.h),
                         Text(
-                          'Beverage: ${widget.item.selectedBeverage!.nameEn}',
+                          'Beverage: ${widget.item.selectedBeverage.map((e) => e.nameEn).join(', ')}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: Colors.grey.shade600,

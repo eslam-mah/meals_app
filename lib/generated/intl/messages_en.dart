@@ -295,15 +295,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "onboardingDesc1": MessageLookupByLibrary.simpleMessage(
             "Get all your loved foods in one place, you just place the order we do the rest"),
         "onboardingDesc2": MessageLookupByLibrary.simpleMessage(
-            "Get all your loved foods in one place, you just place the order we do the rest"),
+            "Take advantage of exclusive offers and regularly updated promo codes to save more on your favorite orders"),
         "onboardingDesc3": MessageLookupByLibrary.simpleMessage(
-            "Get all your loved foods in one place, you just place the order we do the rest"),
+            "We guarantee your order will reach you in the shortest possible time with the highest quality standards"),
         "onboardingTitle1":
             MessageLookupByLibrary.simpleMessage("All your favorites"),
-        "onboardingTitle2":
-            MessageLookupByLibrary.simpleMessage("Order from chosen chef"),
+        "onboardingTitle2": MessageLookupByLibrary.simpleMessage(
+            "Exclusive Offers & Promo Codes"),
         "onboardingTitle3":
-            MessageLookupByLibrary.simpleMessage("Free delivery offers"),
+            MessageLookupByLibrary.simpleMessage("Fast & Efficient Delivery"),
         "optional": MessageLookupByLibrary.simpleMessage("Optional"),
         "order": MessageLookupByLibrary.simpleMessage("Order"),
         "orderID": MessageLookupByLibrary.simpleMessage("Order ID"),

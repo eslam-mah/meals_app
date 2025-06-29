@@ -7,13 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/core/services/connectivity_service.dart';
-import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
 import 'package:meals_app/core/utils/media_query_values.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
-import 'package:meals_app/features/cart/view_model/cubits/cart_state.dart';
 import 'package:meals_app/features/food_details/view/widgets/add_to_cart_button.dart';
 import 'package:meals_app/features/food_details/view/widgets/beverage_selector.dart';
 import 'package:meals_app/features/food_details/view/widgets/extras_selector.dart';
@@ -24,7 +21,6 @@ import 'package:meals_app/features/home/view/views/main_view.dart';
 import 'package:meals_app/features/profile/data/models/user_model.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
-import 'package:uuid/uuid.dart';
 import 'dart:async';
 import 'package:shimmer/shimmer.dart';
 
@@ -375,8 +371,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                         SizedBox(height: 8.h),
                         BeverageSelector(
                           beverages: food.beverages,
-                          selectedBeverage: state.selectedBeverage,
-                          onBeverageSelected:
+                          selectedBeverages: state.selectedBeverage,
+                          onBeverageToggled:
                               (beverage) => context
                                   .read<FoodDetailsCubit>()
                                   .selectBeverage(beverage),

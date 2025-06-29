@@ -287,15 +287,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "onboardingDesc1": MessageLookupByLibrary.simpleMessage(
             "احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي"),
         "onboardingDesc2": MessageLookupByLibrary.simpleMessage(
-            "احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي"),
+            "استفد من العروض الحصرية وأكواد الخصم المتجددة لتوفير المزيد على طلباتك المفضلة"),
         "onboardingDesc3": MessageLookupByLibrary.simpleMessage(
-            "احصل على جميع الأطعمة المفضلة لديك في مكان واحد، فقط قم بالطلب ونحن نقوم بالباقي"),
+            "نضمن لك وصول طلبك في أسرع وقت ممكن وبأعلى معايير الجودة"),
         "onboardingTitle1":
             MessageLookupByLibrary.simpleMessage("كل المفضلات لديك"),
         "onboardingTitle2":
-            MessageLookupByLibrary.simpleMessage("اطلب من الشيف المختار"),
+            MessageLookupByLibrary.simpleMessage("عروض وأكواد خصم حصرية"),
         "onboardingTitle3":
-            MessageLookupByLibrary.simpleMessage("عروض توصيل مجانية"),
+            MessageLookupByLibrary.simpleMessage("توصيل سريع وفعّال"),
         "optional": MessageLookupByLibrary.simpleMessage("اختياري"),
         "order": MessageLookupByLibrary.simpleMessage("طلب"),
         "orderID": MessageLookupByLibrary.simpleMessage("رقم الطلب"),

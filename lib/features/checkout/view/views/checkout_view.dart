@@ -882,23 +882,6 @@ class _CheckoutViewState extends State<CheckoutView> {
         'Order created with ID: $orderId, special request: $specialRequest',
       );
 
-      // Insert order items
-      for (final item in cart.items) {
-        await Supabase.instance.client.from('order_items').insert({
-          'id': const Uuid().v4(),
-          'order_id': orderId,
-          'menu_item_id': item.menuItemId,
-          'quantity': item.quantity,
-          'price_snapshot': (item.totalPrice * 100).toInt(),
-          'customizations': {
-            'size': item.selectedSize?.toJson(),
-            'extras': item.selectedExtras.map((e) => e.toJson()).toList(),
-            'beverage': item.selectedBeverage?.toJson(),
-            'specialInstructions': item.specialInstructions,
-          },
-        });
-      }
-
       // Record promo code usage if one was applied
       if (promoCodeId != null) {
         _log.info(
@@ -974,12 +957,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                 body: localization.orderReadyNotificationBody,
               );
         });
-           Future.delayed(const Duration(hours: 2)).then((_) async {
-          await NotificationService()
-              .showFeedbackRequestNotification(
-                title: localization.feedbackRequestNotificationTitle,
-                body: localization.feedbackRequestNotificationBody,
-              );
+        Future.delayed(const Duration(hours: 2)).then((_) async {
+          await NotificationService().showFeedbackRequestNotification(
+            title: localization.feedbackRequestNotificationTitle,
+            body: localization.feedbackRequestNotificationBody,
+          );
         });
         _log.info('Order confirmation notification triggered successfully');
       } catch (notificationError) {
@@ -1080,22 +1062,6 @@ class _CheckoutViewState extends State<CheckoutView> {
             // Insert order to database
             await Supabase.instance.client.from('orders').insert(orderJson);
 
-            // Insert order items
-            for (final item in cart.items) {
-              await Supabase.instance.client.from('order_items').insert({
-                'id': const Uuid().v4(),
-                'order_id': orderId,
-                'menu_item_id': item.menuItemId,
-                'quantity': item.quantity,
-                'price_snapshot': (item.totalPrice * 100).toInt(),
-                'customizations': {
-                  'size': item.selectedSize?.toJson(),
-                  'extras': item.selectedExtras.map((e) => e.toJson()).toList(),
-                  'beverage': item.selectedBeverage?.toJson(),
-                  'specialInstructions': item.specialInstructions,
-                },
-              });
-            }
             context.read<CartCubit>().clearCart();
 
             // Record promo code usage if one was applied
@@ -1157,7 +1123,7 @@ class _CheckoutViewState extends State<CheckoutView> {
 
             // Show notification that order will be ready in 30 minutes
             _log.info('Attempting to show order confirmation notification');
-        
+
             // Reset processing state
             setState(() {
               _isProcessing = false;
@@ -1168,10 +1134,7 @@ class _CheckoutViewState extends State<CheckoutView> {
             _log.severe('Error creating order after payment: $e');
 
             // Reset processing state
-              _isProcessing = false;
-            
-
-      
+            _isProcessing = false;
           }
         },
         onPaymentError: (error) {

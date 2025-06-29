@@ -56,11 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
-    
 
     // Use the auth cubit to sign in
-    context.read<AuthCubit>().signInWithPassword(email, password);
-     context.read<UserCubit>().loadUser();
+    context.read<AuthCubit>().signInWithPassword(email, password).then((_) {
+      context.read<UserCubit>().loadUser();
+    });
   }
 
   void _createAccount() {

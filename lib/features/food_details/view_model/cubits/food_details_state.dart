@@ -16,7 +16,7 @@ class FoodDetailsState extends Equatable {
   // Selected options
   final FoodSize? selectedSize;
   final List<FoodExtra> selectedExtras;
-  final FoodBeverage? selectedBeverage;
+  final List<FoodBeverage> selectedBeverage;
   
   // Total price calculation
   final double totalPrice;
@@ -27,7 +27,7 @@ class FoodDetailsState extends Equatable {
     this.errorMessage,
     this.selectedSize,
     this.selectedExtras = const [],
-    this.selectedBeverage,
+    this.selectedBeverage = const [],
     this.totalPrice = 0.0,
   });
 
@@ -48,7 +48,7 @@ class FoodDetailsState extends Equatable {
     String? errorMessage,
     FoodSize? selectedSize,
     List<FoodExtra>? selectedExtras,
-    FoodBeverage? selectedBeverage,
+    List<FoodBeverage>? selectedBeverage,
     double? totalPrice,
   }) {
     return FoodDetailsState(
@@ -78,9 +78,11 @@ class FoodDetailsState extends Equatable {
       total += extra.price;
     }
     
-    // Add beverage price if selected
-    if (selectedBeverage != null) {
-      total += selectedBeverage!.price;
+    // Add beverage price if selecte  
+    if (selectedBeverage.isNotEmpty) {
+      for (final beverage in selectedBeverage) {
+        total += beverage.price;
+      }
     }
     
     return total;

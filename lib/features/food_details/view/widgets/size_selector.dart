@@ -76,7 +76,7 @@ class SizeSelector extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    '+ EGP ${size.price.toStringAsFixed(2)}',
+                    'EGP ${size.price.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,

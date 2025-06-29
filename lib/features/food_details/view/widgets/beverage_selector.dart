@@ -4,14 +4,14 @@ import 'package:meals_app/features/home/data/models/food_model.dart';
 
 class BeverageSelector extends StatelessWidget {
   final List<FoodBeverage> beverages;
-  final FoodBeverage? selectedBeverage;
-  final Function(FoodBeverage?) onBeverageSelected;
+  final List<FoodBeverage> selectedBeverages;
+  final Function(FoodBeverage) onBeverageToggled;
 
   const BeverageSelector({
     super.key,
     required this.beverages,
-    this.selectedBeverage,
-    required this.onBeverageSelected,
+    required this.selectedBeverages,
+    required this.onBeverageToggled,
   });
 
   @override
@@ -23,16 +23,10 @@ class BeverageSelector extends StatelessWidget {
         itemCount: beverages.length,
         itemBuilder: (context, index) {
           final beverage = beverages[index];
-          final isSelected = selectedBeverage == beverage;
+          final isSelected = selectedBeverages.contains(beverage);
           
           return GestureDetector(
-            onTap: () {
-              if (isSelected) {
-                onBeverageSelected(null);
-              } else {
-                onBeverageSelected(beverage);
-              }
-            },
+            onTap: () => onBeverageToggled(beverage),
             child: Container(
               margin: EdgeInsets.only(bottom: 8.h),
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

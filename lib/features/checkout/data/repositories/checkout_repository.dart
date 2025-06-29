@@ -16,7 +16,6 @@ class CheckoutRepository {
   final Logger _log = Logger('CheckoutRepository');
   
   static const String _ordersTable = 'orders';
-  static const String _orderItemsTable = 'order_items';
   
   // Create a new order from the cart
   Future<OrderModel?> createOrder({
@@ -81,25 +80,6 @@ class CheckoutRepository {
       final result = await _supabase.from(_ordersTable).insert(orderJson).select();
       _log.info('Order insert result: $result');
       _log.info('Order created with ID: $orderId, total price: $totalPrice, promo code ID: $promoCodeId, discount: $discountAmount');
-      
-      // Insert order items
-      for (final item in cart.items) {
-        await _supabase.from(_orderItemsTable).insert({
-          'id': const Uuid().v4(),
-          'order_id': orderId,
-          'menu_item_id': item.menuItemId,
-          'quantity': item.quantity,
-          'price_snapshot': (item.totalPrice * 100).toInt(),
-          'customizations': {
-            'size': item.selectedSize?.toJson(),
-            'extras': item.selectedExtras.map((e) => e.toJson()).toList(),
-            'beverage': item.selectedBeverage?.toJson(),
-            'specialInstructions': item.specialInstructions,
-          },
-        });
-      }
-      
-      _log.info('Order items inserted successfully');
       
       // Record promo code usage if one was applied
       if (promoCodeId != null) {

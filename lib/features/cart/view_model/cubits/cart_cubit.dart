@@ -78,7 +78,7 @@ class CartCubit extends Cubit<CartState> {
     required int quantity,
     FoodSize? selectedSize,
     List<FoodExtra>? selectedExtras,
-    FoodBeverage? selectedBeverage,
+    List<FoodBeverage>? selectedBeverage,
     String? specialInstructions,
   }) async {
     emit(state.copyWith(status: CartStatus.loading));
@@ -95,7 +95,7 @@ class CartCubit extends Cubit<CartState> {
       _log.info('Adding to cart: ${food.nameEn} (ID: ${food.id})');
       _log.info('Selected size: ${selectedSize?.nameEn ?? 'None'}');
       _log.info('Selected extras: ${selectedExtras?.map((e) => e.nameEn).join(', ') ?? 'None'}');
-      _log.info('Selected beverage: ${selectedBeverage?.nameEn ?? 'None'}');
+      _log.info('Selected beverage: ${selectedBeverage?.map((e) => e.nameEn).join(', ') ?? 'None'}');
       
       // Create cart item
       final cartItem = CartItem.fromFoodModel(
@@ -141,7 +141,7 @@ class CartCubit extends Cubit<CartState> {
     required int quantity,
     FoodSize? selectedSize,
     List<FoodExtra>? selectedExtras,
-    FoodBeverage? selectedBeverage,
+    List<FoodBeverage>? selectedBeverage,
     String? specialInstructions,
   }) async {
     emit(state.copyWith(status: CartStatus.loading));
@@ -158,7 +158,7 @@ class CartCubit extends Cubit<CartState> {
       _log.info('Adding NEW item to cart: ${food.nameEn} (ID: ${food.id})');
       _log.info('Selected size: ${selectedSize?.nameEn ?? 'None'}');
       _log.info('Selected extras: ${selectedExtras?.map((e) => e.nameEn).join(', ') ?? 'None'}');
-      _log.info('Selected beverage: ${selectedBeverage?.nameEn ?? 'None'}');
+      _log.info('Selected beverage: ${selectedBeverage?.map((e) => e.nameEn).join(', ') ?? 'None'}');
       
       // Create cart item
       final cartItem = CartItem.fromFoodModel(
