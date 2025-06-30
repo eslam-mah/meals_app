@@ -211,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "gharbia": MessageLookupByLibrary.simpleMessage("الغربية"),
         "giza": MessageLookupByLibrary.simpleMessage("الجيزة"),
         "hello": m2,
+        "hideOrderItems":
+            MessageLookupByLibrary.simpleMessage("إخفاء محتويات الطلب"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "hotDeals": MessageLookupByLibrary.simpleMessage("عروض ساخنة"),
         "hotDealsDescription": MessageLookupByLibrary.simpleMessage(
@@ -271,6 +273,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "لا يُسمح بإضافات إضافية كطلب خاص."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك والمحاولة مرة أخرى."),
+        "noItemsFound":
+            MessageLookupByLibrary.simpleMessage("لا توجد عناصر لهذا الطلب"),
         "noMenuItemsAvailable": MessageLookupByLibrary.simpleMessage(
             "لا توجد عناصر متاحة في القائمة"),
         "noOffersAvailable":
@@ -299,6 +303,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "optional": MessageLookupByLibrary.simpleMessage("اختياري"),
         "order": MessageLookupByLibrary.simpleMessage("طلب"),
         "orderID": MessageLookupByLibrary.simpleMessage("رقم الطلب"),
+        "orderItems": MessageLookupByLibrary.simpleMessage("محتويات الطلب"),
+        "orderItemsLoadingFailed":
+            MessageLookupByLibrary.simpleMessage("فشل في تحميل محتويات الطلب"),
         "orderPlacedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تقديم الطلب بنجاح"),
         "orderReadyNotificationBody": MessageLookupByLibrary.simpleMessage(
@@ -392,6 +399,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "برجاء الانتظار حتى تتم معالجة الدفع"),
         "portSaid": MessageLookupByLibrary.simpleMessage("بورسعيد"),
         "preferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
+        "price": MessageLookupByLibrary.simpleMessage("السعر"),
         "primary": MessageLookupByLibrary.simpleMessage("رئيسي"),
         "primaryAddress": MessageLookupByLibrary.simpleMessage("عنوان رئيسي"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
@@ -402,7 +410,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "qalyubia": MessageLookupByLibrary.simpleMessage("القليوبية"),
         "qena": MessageLookupByLibrary.simpleMessage("قنا"),
         "rating": MessageLookupByLibrary.simpleMessage("التقييم"),
-        "recommended": MessageLookupByLibrary.simpleMessage("موصى به"),
+        "recommended": MessageLookupByLibrary.simpleMessage("الأكثر مبيعا"),
         "recommendedDescription": MessageLookupByLibrary.simpleMessage(
             "الأطباق التي يحبها عملاؤنا أكثر. جرب أكثر خياراتنا شعبية والتي ستلبي رغباتك بالتأكيد!"),
         "reconnecting":
@@ -449,6 +457,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ ما. يرجى المحاولة مرة أخرى."),
         "southSinai": MessageLookupByLibrary.simpleMessage("جنوب سيناء"),
+        "specialInstructions":
+            MessageLookupByLibrary.simpleMessage("تعليمات خاصة"),
         "specialRequests": MessageLookupByLibrary.simpleMessage("طلبات خاصة"),
         "streetAndBuilding":
             MessageLookupByLibrary.simpleMessage("الشارع والمبنى"),
@@ -483,6 +493,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "تم إرسال رمز التحقق إلى هاتفك المحمول"),
         "verify": MessageLookupByLibrary.simpleMessage("تحقق"),
         "viewCart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
+        "viewOrderItems":
+            MessageLookupByLibrary.simpleMessage("عرض محتويات الطلب"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("مرحبًا بك في تطبيق الوجبات"),
         "welcomeToMealsApp":

@@ -1,9 +1,12 @@
 import 'package:logging/logging.dart';
+import 'package:meals_app/features/checkout/data/models/order_item_model.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
+import 'package:meals_app/features/checkout/data/repositories/order_items_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrderHistoryRepository {
   final SupabaseClient _supabase = Supabase.instance.client;
+  final OrderItemsRepository _orderItemsRepository = OrderItemsRepository();
   final Logger _log = Logger('OrderHistoryRepository');
   
   static const String _ordersTable = 'orders';
@@ -67,6 +70,60 @@ class OrderHistoryRepository {
       return OrderModel.fromJson(response);
     } catch (e) {
       _log.warning('Error fetching order: $e');
+      return null;
+    }
+  }
+  
+  // Get order with its items
+  Future<Map<String, dynamic>> getOrderWithItems(String orderId) async {
+    try {
+      _log.info('Fetching order with items: $orderId');
+      
+      // Get the order
+      final order = await getOrderById(orderId);
+      if (order == null) {
+        throw Exception('Order not found');
+      }
+      
+      // Get the order items
+      final items = await _orderItemsRepository.getOrderItems(orderId);
+      
+      // Fetch menu item details for each order item
+      final enhancedItems = await Future.wait(
+        items.map((item) async {
+          final menuItem = await getMenuItemById(item.menuItemId);
+          if (menuItem != null) {
+            // Create a new order item with menu item details
+            return item.copyWith(menuItemDetails: menuItem);
+          }
+          return item;
+        }).toList(),
+      );
+      
+      return {
+        'order': order,
+        'items': enhancedItems,
+      };
+    } catch (e) {
+      _log.severe('Error fetching order with items: $e');
+      rethrow;
+    }
+  }
+  
+  /// Get menu item by ID
+  Future<Map<String, dynamic>?> getMenuItemById(String menuItemId) async {
+    try {
+      _log.info('Fetching menu item: $menuItemId');
+      
+      final response = await _supabase
+          .from('menu_items')
+          .select()
+          .eq('id', menuItemId)
+          .single();
+      
+      return response;
+    } catch (e) {
+      _log.warning('Error fetching menu item: $e');
       return null;
     }
   }

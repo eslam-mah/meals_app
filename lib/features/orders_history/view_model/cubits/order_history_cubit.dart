@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
+import 'package:meals_app/features/checkout/data/models/order_item_model.dart';
 import 'package:meals_app/features/orders_history/data/repositories/order_history_repository.dart';
 import 'package:meals_app/features/orders_history/view_model/cubits/order_history_state.dart';
 import 'package:meals_app/features/profile/data/models/user_model.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 class OrderHistoryCubit extends Cubit<OrderHistoryState> {
   final OrderHistoryRepository _orderHistoryRepository;
@@ -42,6 +44,7 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
         orders: orders,
         hasReachedMax: hasReachedMax,
         currentPage: 1, // First page loaded
+        orderItems: state.orderItems,
       ));
     } catch (e) {
       _log.severe('Failed to load orders: $e');
@@ -92,6 +95,55 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
     }
   }
   
+  // Load order items for a specific order
+  Future<void> loadOrderItems(String orderId) async {
+    // Don't reload if already loaded for this order
+    if (state.orderItems.containsKey(orderId)) {
+      emit(state.copyWith(
+        selectedOrderId: orderId,
+        status: OrderHistoryStatus.orderItemsLoaded,
+      ));
+      return;
+    }
+    
+    emit(state.copyWith(
+      status: OrderHistoryStatus.loadingOrderItems,
+      selectedOrderId: orderId,
+    ));
+    
+    try {
+      _log.info('Loading items for order: $orderId');
+      final result = await _orderHistoryRepository.getOrderWithItems(orderId);
+      
+      final List<OrderItemModel> items = result['items'] as List<OrderItemModel>;
+      _log.info('Loaded ${items.length} items for order: $orderId');
+      
+      // Debug each item's menu details
+      for (var item in items) {
+        _log.info('Item ${item.id} - menuItemId: ${item.menuItemId}');
+        _log.info('Item ${item.id} - menuItemDetails: ${item.menuItemDetails}');
+        if (item.menuItemDetails != null) {
+          final nameKey = Intl.getCurrentLocale() == 'ar' ? 'name_ar' : 'name_en';
+          _log.info('Item ${item.id} - name from details: ${item.menuItemDetails![nameKey]}');
+        }
+      }
+      
+      final updatedOrderItems = Map<String, List<OrderItemModel>>.from(state.orderItems);
+      updatedOrderItems[orderId] = items;
+      
+      emit(state.copyWith(
+        status: OrderHistoryStatus.orderItemsLoaded,
+        orderItems: updatedOrderItems,
+      ));
+    } catch (e) {
+      _log.severe('Failed to load order items: $e');
+      emit(state.copyWith(
+        status: OrderHistoryStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+  
   // Cancel an order
   Future<void> cancelOrder(String orderId) async {
     emit(state.copyWith(
@@ -135,9 +187,21 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
     }
   }
   
+  // Get order items for the currently selected order
+  List<OrderItemModel> getSelectedOrderItems() {
+    if (state.selectedOrderId == null) {
+      return [];
+    }
+    return state.orderItems[state.selectedOrderId!] ?? [];
+  }
+  
   // Refresh orders (force reload from beginning)
   Future<void> refreshOrders() async {
-    emit(const OrderHistoryState(status: OrderHistoryStatus.loading));
+    emit(OrderHistoryState(
+      status: OrderHistoryStatus.loading,
+      orderItems: state.orderItems,
+      selectedOrderId: state.selectedOrderId,
+    ));
     await loadOrders();
   }
   

@@ -970,10 +970,10 @@ class S {
     );
   }
 
-  /// `موصى به`
+  /// `الأكثر مبيعا`
   String get recommended {
     return Intl.message(
-      'موصى به',
+      'الأكثر مبيعا',
       name: 'recommended',
       desc: '',
       args: [],
@@ -3085,6 +3085,76 @@ class S {
     return Intl.message(
       'برجاء الانتظار حتى تتم معالجة الدفع',
       name: 'pleaseWaitForPaymentProcessing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `محتويات الطلب`
+  String get orderItems {
+    return Intl.message(
+      'محتويات الطلب',
+      name: 'orderItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عرض محتويات الطلب`
+  String get viewOrderItems {
+    return Intl.message(
+      'عرض محتويات الطلب',
+      name: 'viewOrderItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إخفاء محتويات الطلب`
+  String get hideOrderItems {
+    return Intl.message(
+      'إخفاء محتويات الطلب',
+      name: 'hideOrderItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا توجد عناصر لهذا الطلب`
+  String get noItemsFound {
+    return Intl.message(
+      'لا توجد عناصر لهذا الطلب',
+      name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعليمات خاصة`
+  String get specialInstructions {
+    return Intl.message(
+      'تعليمات خاصة',
+      name: 'specialInstructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `السعر`
+  String get price {
+    return Intl.message(
+      'السعر',
+      name: 'price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `فشل في تحميل محتويات الطلب`
+  String get orderItemsLoadingFailed {
+    return Intl.message(
+      'فشل في تحميل محتويات الطلب',
+      name: 'orderItemsLoadingFailed',
       desc: '',
       args: [],
     );

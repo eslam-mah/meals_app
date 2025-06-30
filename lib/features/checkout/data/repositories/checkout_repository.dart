@@ -2,6 +2,7 @@ import 'package:logging/logging.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/data/repositories/cart_repository.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
+import 'package:meals_app/features/checkout/data/repositories/order_items_repository.dart';
 import 'package:meals_app/features/promo_codes/data/repositories/promo_code_repository.dart';
 import 'package:meals_app/features/promo_codes/data/repositories/promo_code_usage_repository.dart';
 import 'package:meals_app/features/profile/data/models/user_model.dart';
@@ -13,6 +14,7 @@ class CheckoutRepository {
   final CartRepository _cartRepository = CartRepository();
   final PromoCodeRepository _promoCodeRepository = PromoCodeRepository();
   final PromoCodeUsageRepository _promoCodeUsageRepository = PromoCodeUsageRepository();
+  final OrderItemsRepository _orderItemsRepository = OrderItemsRepository();
   final Logger _log = Logger('CheckoutRepository');
   
   static const String _ordersTable = 'orders';
@@ -80,6 +82,13 @@ class CheckoutRepository {
       final result = await _supabase.from(_ordersTable).insert(orderJson).select();
       _log.info('Order insert result: $result');
       _log.info('Order created with ID: $orderId, total price: $totalPrice, promo code ID: $promoCodeId, discount: $discountAmount');
+      
+      // Create order items from cart items
+      await _orderItemsRepository.createOrderItems(
+        orderId: orderId, 
+        cartItems: cart.items,
+      );
+      _log.info('Created order items for order: $orderId');
       
       // Record promo code usage if one was applied
       if (promoCodeId != null) {

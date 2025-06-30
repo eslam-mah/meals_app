@@ -215,6 +215,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "gharbia": MessageLookupByLibrary.simpleMessage("Gharbia"),
         "giza": MessageLookupByLibrary.simpleMessage("Giza"),
         "hello": m2,
+        "hideOrderItems":
+            MessageLookupByLibrary.simpleMessage("Hide Order Items"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "hotDeals": MessageLookupByLibrary.simpleMessage("Hot Deals"),
         "hotDealsDescription": MessageLookupByLibrary.simpleMessage(
@@ -278,6 +280,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No extras are allowed as a special request."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
             "No internet connection. Please check your connection and try again."),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage(
+            "No items found for this order"),
         "noMenuItemsAvailable":
             MessageLookupByLibrary.simpleMessage("No menu items available"),
         "noOffersAvailable":
@@ -307,6 +311,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "optional": MessageLookupByLibrary.simpleMessage("Optional"),
         "order": MessageLookupByLibrary.simpleMessage("Order"),
         "orderID": MessageLookupByLibrary.simpleMessage("Order ID"),
+        "orderItems": MessageLookupByLibrary.simpleMessage("Order Items"),
+        "orderItemsLoadingFailed":
+            MessageLookupByLibrary.simpleMessage("Failed to load order items"),
         "orderPlacedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Order Placed Successfully"),
         "orderReadyNotificationBody": MessageLookupByLibrary.simpleMessage(
@@ -400,6 +407,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please wait while payment is processing"),
         "portSaid": MessageLookupByLibrary.simpleMessage("Port Said"),
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
+        "price": MessageLookupByLibrary.simpleMessage("Price"),
         "primary": MessageLookupByLibrary.simpleMessage("Primary"),
         "primaryAddress":
             MessageLookupByLibrary.simpleMessage("Primary Address"),
@@ -456,6 +464,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
             "Something went wrong. Please try again."),
         "southSinai": MessageLookupByLibrary.simpleMessage("South Sinai"),
+        "specialInstructions":
+            MessageLookupByLibrary.simpleMessage("Special Instructions"),
         "specialRequests":
             MessageLookupByLibrary.simpleMessage("SPECIAL REQUESTS"),
         "streetAndBuilding":
@@ -492,6 +502,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Verification code has been sent to your mobile phone"),
         "verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "viewCart": MessageLookupByLibrary.simpleMessage("View Cart"),
+        "viewOrderItems":
+            MessageLookupByLibrary.simpleMessage("View Order Items"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("Welcome to the Meals App"),
         "welcomeToMealsApp":

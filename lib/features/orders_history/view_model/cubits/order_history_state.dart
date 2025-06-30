@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:meals_app/features/checkout/data/models/order_item_model.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
 
 enum OrderHistoryStatus {
@@ -9,6 +10,8 @@ enum OrderHistoryStatus {
   loadingMore,
   cancelingOrder,
   orderCanceled,
+  loadingOrderItems,
+  orderItemsLoaded,
 }
 
 class OrderHistoryState extends Equatable {
@@ -18,6 +21,8 @@ class OrderHistoryState extends Equatable {
   final int currentPage;
   final String? errorMessage;
   final String? cancelingOrderId;
+  final Map<String, List<OrderItemModel>> orderItems;
+  final String? selectedOrderId;
 
   const OrderHistoryState({
     this.status = OrderHistoryStatus.initial,
@@ -26,6 +31,8 @@ class OrderHistoryState extends Equatable {
     this.currentPage = 0,
     this.errorMessage,
     this.cancelingOrderId,
+    this.orderItems = const {},
+    this.selectedOrderId,
   });
 
   @override
@@ -36,6 +43,8 @@ class OrderHistoryState extends Equatable {
         currentPage,
         errorMessage,
         cancelingOrderId,
+        orderItems,
+        selectedOrderId,
       ];
 
   OrderHistoryState copyWith({
@@ -45,6 +54,8 @@ class OrderHistoryState extends Equatable {
     int? currentPage,
     String? errorMessage,
     String? cancelingOrderId,
+    Map<String, List<OrderItemModel>>? orderItems,
+    String? selectedOrderId,
   }) {
     return OrderHistoryState(
       status: status ?? this.status,
@@ -53,6 +64,8 @@ class OrderHistoryState extends Equatable {
       currentPage: currentPage ?? this.currentPage,
       errorMessage: errorMessage,
       cancelingOrderId: cancelingOrderId,
+      orderItems: orderItems ?? this.orderItems,
+      selectedOrderId: selectedOrderId ?? this.selectedOrderId,
     );
   }
 
@@ -70,6 +83,21 @@ class OrderHistoryState extends Equatable {
     return copyWith(
       orders: orders.where((order) => order.id != orderId).toList(),
     );
+  }
+  
+  // Add order items for a specific order
+  OrderHistoryState addOrderItems(String orderId, List<OrderItemModel> items) {
+    final updatedOrderItems = Map<String, List<OrderItemModel>>.from(orderItems);
+    updatedOrderItems[orderId] = items;
+    
+    return copyWith(
+      orderItems: updatedOrderItems,
+    );
+  }
+  
+  // Get order items for a specific order
+  List<OrderItemModel> getOrderItems(String orderId) {
+    return orderItems[orderId] ?? [];
   }
   
   // Get a filtered list of orders by status

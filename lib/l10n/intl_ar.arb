@@ -94,7 +94,7 @@
   "hotDeals": "عروض ساخنة",
   "deliveryTo": "التوصيل إلى",
   "hotDealsDescription": "هذه العناصر متاحة لفترة محدودة فقط. استفد من هذه العروض الرائعة قبل فوات الأوان. جربها الآن!",
-  "recommended": "موصى به",
+  "recommended": "الأكثر مبيعا",
   "recommendedDescription": "الأطباق التي يحبها عملاؤنا أكثر. جرب أكثر خياراتنا شعبية والتي ستلبي رغباتك بالتأكيد!",
   "home": "الرئيسية",
   "menu": "القائمة",
@@ -315,5 +315,13 @@
   "paymentFailedNotificationBody": "تعذر معالجة عملية الدفع الخاصة بك. يرجى المحاولة مرة أخرى.",
   "feedbackRequestNotificationTitle": "رأيك يهمنا",
   "feedbackRequestNotificationBody": "كيف كانت تجربتك؟ دوس هنا وقولنا رأيك.",
-  "pleaseWaitForPaymentProcessing": "برجاء الانتظار حتى تتم معالجة الدفع"
+  "pleaseWaitForPaymentProcessing": "برجاء الانتظار حتى تتم معالجة الدفع",
+  
+  "orderItems": "محتويات الطلب",
+  "viewOrderItems": "عرض محتويات الطلب",
+  "hideOrderItems": "إخفاء محتويات الطلب",
+  "noItemsFound": "لا توجد عناصر لهذا الطلب",
+  "specialInstructions": "تعليمات خاصة",
+  "price": "السعر",
+  "orderItemsLoadingFailed": "فشل في تحميل محتويات الطلب"
 }

@@ -314,5 +314,13 @@
   "paymentFailedNotificationBody": "Your payment could not be processed. Please try again.",
   "feedbackRequestNotificationTitle": "We Value Your Opinion",
   "feedbackRequestNotificationBody": "How was your experience? Tap to share your feedback with us.",
-  "pleaseWaitForPaymentProcessing": "Please wait while payment is processing"
+  "pleaseWaitForPaymentProcessing": "Please wait while payment is processing",
+  
+  "orderItems": "Order Items",
+  "viewOrderItems": "View Order Items",
+  "hideOrderItems": "Hide Order Items",
+  "noItemsFound": "No items found for this order",
+  "specialInstructions": "Special Instructions",
+  "price": "Price",
+  "orderItemsLoadingFailed": "Failed to load order items"
 }

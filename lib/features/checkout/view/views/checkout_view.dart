@@ -27,6 +27,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
 import 'package:meals_app/features/payment/view/widgets/payment_handler.dart';
+import 'package:meals_app/features/checkout/data/repositories/order_items_repository.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String checkoutPath = '/checkout';
@@ -882,6 +883,14 @@ class _CheckoutViewState extends State<CheckoutView> {
         'Order created with ID: $orderId, special request: $specialRequest',
       );
 
+      // Create order items from cart items
+      final orderItemsRepository = OrderItemsRepository();
+      await orderItemsRepository.createOrderItems(
+        orderId: orderId,
+        cartItems: cart.items,
+      );
+      _log.info('Created order items for order: $orderId');
+
       // Record promo code usage if one was applied
       if (promoCodeId != null) {
         _log.info(
@@ -1061,6 +1070,14 @@ class _CheckoutViewState extends State<CheckoutView> {
 
             // Insert order to database
             await Supabase.instance.client.from('orders').insert(orderJson);
+
+            // Create order items from cart items
+            final orderItemsRepository = OrderItemsRepository();
+            await orderItemsRepository.createOrderItems(
+              orderId: orderId,
+              cartItems: cart.items,
+            );
+            _log.info('Created order items for order: $orderId');
 
             context.read<CartCubit>().clearCart();
 

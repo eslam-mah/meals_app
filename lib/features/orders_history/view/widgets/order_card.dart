@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
+import 'package:meals_app/features/orders_history/view/widgets/order_items_list.dart';
 import 'package:meals_app/features/orders_history/view_model/cubits/order_history_cubit.dart';
 import 'package:meals_app/features/orders_history/view_model/cubits/order_history_state.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 
-class OrderCard extends StatelessWidget {
+class OrderCard extends StatefulWidget {
   final OrderModel order;
   
   const OrderCard({
@@ -18,7 +19,15 @@ class OrderCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends State<OrderCard> {
+  bool _isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
+    final OrderModel order = widget.order;
     final bool isActive = order.status == 'pending';
     final bool isDelivered = order.status == 'delivered';
     
@@ -217,6 +226,40 @@ class OrderCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                
+                // Show/Hide order items button
+                Padding(
+                  padding: EdgeInsets.only(top: 16.h),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _isExpanded = !_isExpanded;
+                      });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _isExpanded ? S.of(context).hideOrderItems : S.of(context).viewOrderItems,
+                          style: TextStyle(
+                            color: ColorsBox.primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                          color: ColorsBox.primaryColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                // Order items (expanded view)
+                if (_isExpanded)
+                  OrderItemsList(orderId: order.id),
                 
                 // Cancel button (only for pending orders with cash payment) or card payment notice
                 if (isActive)
