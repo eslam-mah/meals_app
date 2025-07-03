@@ -61,7 +61,7 @@ class AddressCubit extends Cubit<AddressState> {
       }
       
       // Get user city from UserCubit
-      final userCity = UserCubit.instance.city ?? 'cairo';
+      final userCity =                        UserCubit.instance.city ?? 'cairo';
       
       _log.info('Creating address in city: $userCity');
       

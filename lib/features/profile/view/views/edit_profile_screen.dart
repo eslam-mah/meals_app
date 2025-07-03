@@ -98,9 +98,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
         GoRouter.of(context).pop();
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
         setState(() {
           _isLoading = false;
         });
@@ -111,26 +111,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void _showDeleteAccountConfirmation() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(S.of(context).confirmDeleteAccount),
-        content: Text(S.of(context).deleteAccountWarning),
-        actions: [
-          TextButton(
-            onPressed: () => GoRouter.of(context).pop(),
-            child: Text(S.of(context).cancel),
+      builder:
+          (context) => AlertDialog(
+            title: Text(S.of(context).confirmDeleteAccount),
+            content: Text(S.of(context).deleteAccountWarning),
+            actions: [
+              TextButton(
+                onPressed: () => GoRouter.of(context).pop(),
+                child: Text(S.of(context).cancel),
+              ),
+              TextButton(
+                onPressed: () {
+                  GoRouter.of(context).pop();
+                  _deleteAccount();
+                },
+                child: Text(
+                  S.of(context).delete,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              GoRouter.of(context).pop();
-              _deleteAccount();
-            },
-            child: Text(
-              S.of(context).delete,
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -138,43 +139,83 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     try {
       final userCubit = BlocProvider.of<UserCubit>(context);
       final authCubit = BlocProvider.of<AuthCubit>(context);
-      
-      // First delete user data from database
+      final supabase = Supabase.instance.client;
+
+      final user = supabase.auth.currentUser;
+      final userId = user?.id;
+
+      if (userId == null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(S.of(context).noDataAvailable)));
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+      // 5. Get all order IDs for this user
+      final ordersResponse = await supabase
+          .from('orders')
+          .select('id')
+          .eq('user_id', userId);
+
+      final orderIds =
+          (ordersResponse as List)
+              .map((order) => order['id'] as String)
+              .toList();
+
+      // 6. Delete order_items for those order IDs
+      if (orderIds.isNotEmpty) {
+        await supabase
+            .from('order_items')
+            .delete()
+            .inFilter('order_id', orderIds);
+      }
+
+      // 7. Delete orders for this user
+      await supabase.from('orders').delete().eq('user_id', userId);
+      // 1. Delete saved_addresses
+      await supabase.from('saved_addresses').delete().eq('user_id', userId);
+
+      // 2. Delete feedback
+      await supabase.from('feedback').delete().eq('user_id', userId);
+      // 4. Delete notification_tokens
+      await supabase.from('notification_tokens').delete().eq('user_id', userId);
+    
+      // 3. Delete cart
+      await supabase.from('cart').delete().eq('user_id', userId);
+
+      // 8. Delete user from your own users table if needed
       await userCubit.deleteUser();
-      
-      // Then delete the auth account using our new method
+
+      // 9. Delete user from Supabase Auth (needs service role key, via backend or Edge Function)
       final success = await authCubit.deleteAccount();
-      
+      // 10. Sign out the user
+      await authCubit.signOut();
       if (success) {
-        // Navigate to login screen
         GoRouter.of(context).go(LoginScreen.routeName);
       } else {
-        // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete account. Please try again.')),
+          SnackBar(
+            content: Text('Failed to delete account. Please try again.'),
+          ),
         );
-        
         setState(() {
           _isLoading = false;
         });
       }
     } catch (e) {
       print('Error deleting account: $e');
-      
-      // Try alternative approach - just sign out
       try {
-        // Sign out the user
         await BlocProvider.of<AuthCubit>(context).signOut();
-        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Your account has been deactivated.')),
         );
-        
-        // Navigate to login screen
         GoRouter.of(context).go(LoginScreen.routeName);
       } catch (signOutError) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -299,9 +340,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 SizedBox(height: 8.h),
 
-                PhoneInputField(
-                  controller: _phoneController,
-                ),
+                PhoneInputField(controller: _phoneController),
 
                 SizedBox(height: 48.h),
 

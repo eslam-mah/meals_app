@@ -38,23 +38,23 @@ class UserCubit extends Cubit<UserState> {
   final UserRepository _userRepository;
   final Logger _log = Logger('UserCubit');
   final StorageService _storageService = StorageService();
-  
+
   // Static instance for easy global access
   static UserCubit? _instance;
   static UserCubit get instance => _instance!;
-  
+
   /// Initialize the static instance
   static void initialize(UserRepository repository) {
     _instance ??= UserCubit._internal(repository);
   }
-  
+
   // Private constructor
   UserCubit._internal(this._userRepository) : super(const UserState());
-  
+
   // Public constructor for dependency injection (used by BlocProvider)
-  UserCubit({required UserRepository userRepository}) 
-    : _userRepository = userRepository,
-      super(const UserState()) {
+  UserCubit({required UserRepository userRepository})
+      : _userRepository = userRepository,
+        super(const UserState()) {
     _instance ??= this;
   }
 
@@ -65,7 +65,7 @@ class UserCubit extends Cubit<UserState> {
     _log.info('Loading current user data');
     try {
       final user = await _userRepository.getCurrentUser();
-      
+
       if (user != null) {
         _log.info('User data loaded successfully:');
         _log.info('User ID: ${user.id}');
@@ -78,7 +78,7 @@ class UserCubit extends Cubit<UserState> {
       } else {
         _log.warning('No user data found in database');
       }
-      
+
       // Always emit a new state to force UI updates
       emit(UserState(
         user: user,
@@ -106,7 +106,7 @@ class UserCubit extends Cubit<UserState> {
         authUser,
         form: form,
       );
-      
+
       if (newUser != null) {
         _log.info('User created successfully:');
         _log.info('User ID: ${newUser.id}');
@@ -120,7 +120,7 @@ class UserCubit extends Cubit<UserState> {
       } else {
         _log.warning('User created but returned null');
       }
-      
+
       emit(state.copyWith(
         user: newUser,
         isLoading: false,
@@ -143,7 +143,7 @@ class UserCubit extends Cubit<UserState> {
     _log.info('Updating user data for ID: ${updatedUser.id}');
     try {
       final user = await _userRepository.updateUser(updatedUser);
-      
+
       if (user != null) {
         _log.info('User updated successfully:');
         _log.info('User ID: ${user.id}');
@@ -155,7 +155,7 @@ class UserCubit extends Cubit<UserState> {
       } else {
         _log.warning('User update returned null');
       }
-      
+
       emit(state.copyWith(
         user: user,
         isLoading: false,
@@ -178,7 +178,7 @@ class UserCubit extends Cubit<UserState> {
     _log.info('Updating user with form data');
     try {
       final updatedUser = await _userRepository.updateUserWithForm(form);
-      
+
       if (updatedUser != null) {
         _log.info('User updated with form data successfully:');
         _log.info('User ID: ${updatedUser.id}');
@@ -190,7 +190,7 @@ class UserCubit extends Cubit<UserState> {
       } else {
         _log.warning('User update with form returned null');
       }
-      
+
       emit(state.copyWith(
         user: updatedUser,
         isLoading: false,
@@ -240,31 +240,31 @@ class UserCubit extends Cubit<UserState> {
       }
 
       _log.info('Creating user record from auth: ${authUser.id}');
-      
+
       // Create user record with direct Supabase query
       final userJson = {
         'id': authUser.id,
         'created_at': DateTime.now().toIso8601String(),
         'email': authUser.email ?? '',
       };
-      
+
       _log.info('Inserting user record with data: $userJson');
-      
+
       // Use upsert to either create or update
       await Supabase.instance.client
           .from('users')
           .upsert(userJson, onConflict: 'id');
-      
+
       // Fetch the created/updated user
       final response = await Supabase.instance.client
           .from('users')
           .select()
           .eq('id', authUser.id)
           .single();
-      
+
       final newUser = UserModel.fromJson(response);
       _log.info('User record confirmed in createUserFromAuth: ${newUser.id}');
-      
+
       emit(state.copyWith(
         user: newUser,
         isLoading: false,
@@ -283,7 +283,7 @@ class UserCubit extends Cubit<UserState> {
   /// Delete user account
   Future<bool> deleteUser() async {
     emit(state.copyWith(isLoading: true));
-    
+
     _log.info('Deleting user account');
     try {
       final supabase = Supabase.instance.client;
@@ -298,18 +298,18 @@ class UserCubit extends Cubit<UserState> {
         ));
         return false;
       }
-      
+
       // First delete from database
       final userId = authUser.id;
       final dbDeleteSuccess = await _userRepository.deleteUser(userId);
-      
+
       if (!dbDeleteSuccess) {
         _log.warning('Failed to delete user from database');
       }
-      
+
       // For authentication deletion, we need to use a different approach
       // The admin.deleteUser method won't work from client-side code
-      
+
       try {
         // First, try to delete the user's own account
         // This requires the user to be recently authenticated
@@ -317,7 +317,7 @@ class UserCubit extends Cubit<UserState> {
         _log.info('User auth record deleted successfully via admin API');
       } catch (adminDeleteError) {
         _log.warning('Admin delete failed: $adminDeleteError');
-        
+
         // Second approach: Use a Supabase Edge Function to delete the user
         try {
           // Get the current session for the authorization header
@@ -330,18 +330,19 @@ class UserCubit extends Cubit<UserState> {
                 'Authorization': 'Bearer ${session.accessToken}',
               },
             );
-            
+
             if (response.status != 200) {
-              throw Exception('Edge function returned status ${response.status}: ${response.data}');
+              throw Exception(
+                  'Edge function returned status ${response.status}: ${response.data}');
             }
-            
+
             _log.info('User deleted via Edge Function');
           } else {
             throw Exception('No active session for authorization');
           }
         } catch (edgeFunctionError) {
           _log.warning('Edge function approach failed: $edgeFunctionError');
-          
+
           // Third approach: Mark user as deleted in metadata
           try {
             await supabase.auth.updateUser(
@@ -355,13 +356,13 @@ class UserCubit extends Cubit<UserState> {
           }
         }
       }
-      
+
       // Clear local state
       emit(const UserState());
-      
+
       // Clear storage
       await _storageService.clearAuthData();
-      
+
       return true;
     } catch (e) {
       _log.severe('Error during user deletion: $e');
@@ -374,4 +375,27 @@ class UserCubit extends Cubit<UserState> {
       return false;
     }
   }
-} 
+
+  /// Check if the restaurant is closed (if any admin is inactive)
+  Future<bool> isRestaurantClosed() async {
+    try {
+      final supabase = Supabase.instance.client;
+      final response = await supabase
+          .from('users')
+          .select('active')
+          .eq('user_type', 'admin');
+
+      final List admins = response;
+
+      for (var admin in admins) {
+        if (admin['active'] != true) {
+          return true; // There is at least one inactive admin
+        }
+      }
+      return false; // All admins are active
+    } catch (e) {
+      _log.severe('Error checking restaurant closed status: $e');
+      return false; // If error, consider it open (change as needed)
+    }
+  }
+}

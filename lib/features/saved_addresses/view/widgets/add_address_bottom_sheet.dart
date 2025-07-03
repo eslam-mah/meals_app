@@ -36,7 +36,7 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
   void initState() {
     super.initState();
     // Get user city
-    _city = UserCubit.instance.city ?? 'cairo';
+    _city =                        UserCubit.instance.city ?? 'cairo';
 
     // If editing, prefill the form
     if (widget.addressToEdit != null) {

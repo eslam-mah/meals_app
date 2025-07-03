@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/profile/data/models/user_form.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class AuthCubit extends Cubit<app_auth.AuthState> {
   final AuthRepository _authRepository;
@@ -39,8 +40,8 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
           
           // Load user data
           try {
-            await UserCubit.instance.loadUser();
-            final userData = UserCubit.instance.state.user;
+            await                        UserCubit.instance.loadUser();
+            final userData =                        UserCubit.instance.state.user;
             
             if (userData != null) {
               _log.info('User data loaded successfully:');
@@ -125,12 +126,12 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       
       // Check if the user has a record in the database and create one if not
       try {
-        await UserCubit.instance.loadUser();
-        final userData = UserCubit.instance.state.user;
+        await                        UserCubit.instance.loadUser();
+        final userData =                        UserCubit.instance.state.user;
         
         if (userData == null && response.user != null) {
           _log.info('User record not found in database, creating one...');
-          await UserCubit.instance.createUserFromAuth();
+          await                        UserCubit.instance.createUserFromAuth();
           _log.info('User record created successfully');
         } else if (userData != null) {
           _log.info('User data loaded from database:');
@@ -370,7 +371,7 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
           }
           
           // Update UserCubit state - force a reload and emit a new state
-          await UserCubit.instance.loadUser();
+          await                        UserCubit.instance.loadUser();
 
           // Save authentication state in storage
           await _storageService.setIsAuthenticated(true);
@@ -464,7 +465,7 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
           }
           
           // Update UserCubit state - force a reload and emit a new state
-          await UserCubit.instance.loadUser();
+          await                        UserCubit.instance.loadUser();
 
           // Save authentication state in storage
           await _storageService.setIsAuthenticated(true);
@@ -533,8 +534,6 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
     try {
       emit(state.copyWith(status: app_auth.AuthStatus.loading));
       _log.info('Deleting user account');
-      
-      // Get current user
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null) {
         _log.warning('No authenticated user found for deletion');
@@ -546,32 +545,29 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
         ));
         return false;
       }
-      
-      // First try calling the Edge Function
       try {
-        _log.info('Calling delete-user Edge Function');
-        final response = await Supabase.instance.client.functions.invoke(
-          'delete-user',
-          body: {'userId': user.id},
+        _log.info('Calling delete-user Edge Function via HTTP');
+        _log.info('User ID: ${user.id}');
+        final session = Supabase.instance.client.auth.currentSession;
+        final response = await http.post(
+          Uri.parse('https://bklaalgiadeapphjlpra.supabase.co/functions/v1/delete_user'),
+          headers: {
+            'Authorization': 'Bearer \\${session?.accessToken ?? ''}',
+            'Content-Type': 'application/json',
+          },
+          body: '{"user_id": "${user.id}"}',
         );
-        
-        if (response.status != 200) {
-          throw Exception('Edge function error: ${response.data}');
+        if (response.statusCode != 200) {
+          throw Exception('Edge function error: \\${response.body}');
         }
-        
         _log.info('User deleted successfully via Edge Function');
       } catch (e) {
         _log.severe('Error deleting user via Edge Function: $e');
-        
-        // Try to sign out as a fallback
         await _authRepository.signOut();
         _log.info('User signed out as fallback');
       }
-      
-      // Clear local storage
       await _storageService.clearAuthData();
       _log.info('Local authentication data cleared');
-      
       emit(const app_auth.AuthState(status: app_auth.AuthStatus.unauthenticated));
       return true;
     } catch (e) {
@@ -579,8 +575,8 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
       emit(state.copyWith(
         status: app_auth.AuthStatus.error,
         errorMessage: Intl.getCurrentLocale() == 'ar'
-            ? 'فشل في حذف الحساب: ${e.toString()}'
-            : 'Failed to delete account: ${e.toString()}',
+            ? 'فشل في حذف الحساب: \\${e.toString()}'
+            : 'Failed to delete account: \\${e.toString()}',
       ));
       return false;
     }
@@ -590,4 +586,4 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
   void resetState() {
     emit(const app_auth.AuthState());
   }
-} 
+}

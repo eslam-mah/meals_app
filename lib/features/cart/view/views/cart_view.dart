@@ -262,12 +262,17 @@ class _CartViewState extends State<CartView> {
             color: Colors.black,
           ),
         ),
-        Text(
-          amount,
-          style: TextStyle(
-            fontSize: isLarge ? 20.sp : 16.sp,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            color: Colors.black,
+        SizedBox(
+          width: 200.w,
+          child: Text(
+            amount,
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontSize: isLarge ? 20.sp : 16.sp,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: Colors.black,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ],

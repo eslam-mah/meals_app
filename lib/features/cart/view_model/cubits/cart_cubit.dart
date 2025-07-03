@@ -46,7 +46,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -87,7 +87,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -150,7 +150,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -209,7 +209,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -270,7 +270,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -303,7 +303,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -340,7 +340,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -374,7 +374,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -407,7 +407,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }
@@ -438,7 +438,7 @@ class CartCubit extends Cubit<CartState> {
       // Get current user if authenticated
       UserModel? user;
       try {
-        user = UserCubit.instance.state.user;
+        user =                        UserCubit.instance.state.user;
       } catch (e) {
         _log.warning('UserCubit not initialized, proceeding with guest cart: $e');
       }

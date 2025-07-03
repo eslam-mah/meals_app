@@ -37,7 +37,7 @@ class _CheckoutSuccessViewState extends State<CheckoutSuccessView> {
       final cartRepository = CartRepository();
 
       // Get the current user if available
-      final user = UserCubit.instance.state.user;
+      final user =                        UserCubit.instance.state.user;
 
       // Clear the cart using the repository directly
       await cartRepository.clearCart(user: user);

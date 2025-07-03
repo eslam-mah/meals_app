@@ -41,9 +41,9 @@ class FoodDetailsRouter {
           ),
           BlocProvider<CartCubit>(
             create: (context) {
-              final repository = context.read<CartRepository>();
+              // final repository = context.read<CartRepository>();
               // Use the existing instance if available
-              return CartCubit.instance ?? CartCubit(cartRepository: repository);
+              return CartCubit.instance;
             },
           ),
         ],

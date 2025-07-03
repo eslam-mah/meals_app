@@ -59,12 +59,17 @@ class CustomOutlinedButton extends StatelessWidget {
                   icon!,
                   SizedBox(width: 8.w),
                 ],
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: isEnabled ? finalTextColor : Colors.grey.shade400,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                SizedBox(
+                  width: 300.w,
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: isEnabled ? finalTextColor : Colors.grey.shade400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],

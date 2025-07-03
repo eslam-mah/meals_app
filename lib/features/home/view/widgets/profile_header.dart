@@ -43,12 +43,16 @@ class ProfileHeader extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userName,
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                  SizedBox(
+                    width: 250.w,
+                    child: Text(
+                      userName,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   SizedBox(height: 4.h),

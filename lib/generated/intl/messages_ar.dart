@@ -280,6 +280,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noOffersAvailable":
             MessageLookupByLibrary.simpleMessage("لا توجد عروض متاحة"),
         "noOrdersFound": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
+        "noOrdersNow":
+            MessageLookupByLibrary.simpleMessage("المطعم لا يستقبل طلبات الآن"),
         "noPickupBranchSelected":
             MessageLookupByLibrary.simpleMessage("لم يتم تحديد فرع الاستلام"),
         "noRecommendationsAvailable":

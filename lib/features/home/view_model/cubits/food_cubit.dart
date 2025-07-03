@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:meals_app/features/home/data/repositories/food_repository.dart';
 import 'package:meals_app/features/home/view_model/cubits/food_state.dart';
 import 'package:intl/intl.dart';

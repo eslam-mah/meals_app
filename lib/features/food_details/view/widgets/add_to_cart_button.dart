@@ -56,10 +56,11 @@ class _AddToCartButtonState extends State<AddToCartButton> with SingleTickerProv
     _animationController.reverse();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
-    
+   
     return GestureDetector(
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,

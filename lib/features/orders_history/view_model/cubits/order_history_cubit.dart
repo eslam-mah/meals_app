@@ -208,7 +208,7 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
   // Get current user ID
   Future<String?> _getUserId() async {
     // Try to get from UserCubit first
-    final userCubit = UserCubit.instance;
+    final userCubit =                        UserCubit.instance;
     if (userCubit.hasUser) {
       return userCubit.userId;
     }

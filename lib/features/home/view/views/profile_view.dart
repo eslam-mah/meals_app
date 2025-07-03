@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/colors_box.dart';
-import 'package:meals_app/core/services/connectivity_service.dart';
-import 'package:meals_app/core/main_widgets/connectivity_dialog.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/feedback/view/views/feedback_view.dart';
 import 'package:meals_app/features/home/view/widgets/profile_header.dart';
@@ -12,7 +9,6 @@ import 'package:meals_app/features/orders_history/view/views/orders_history_view
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/saved_addresses/view/views/saved_addresses_view.dart';
 import 'package:meals_app/generated/l10n.dart';
-import 'dart:async';
 
 class ProfileView extends StatefulWidget {
   static const String profilePath = '/profile';
@@ -24,16 +20,9 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  // final Logger _log = Logger('ProfileView');
-  // bool _isConnected = true;
-  // bool _isDialogShowing = false;
-  // StreamSubscription<bool>? _connectivitySubscription;
-  // final ConnectivityService _connectivityService = ConnectivityService.instance;
-
   @override
   void initState() {
     super.initState();
-    // _initConnectivity();
     _initializeUserCubit();
   }
 
@@ -46,8 +35,8 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    return  PopScope(
-          canPop: false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -55,7 +44,7 @@ class _ProfileViewState extends State<ProfileView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20.w, top: 24.h, bottom: 8.h),
+                padding: EdgeInsets.only(left: 20.w, top: 24.h, bottom: 8.h, right: 20.w),
                 child: Text(
                   localization.profile,
                   style: TextStyle(
@@ -116,7 +105,7 @@ class _ProfileViewState extends State<ProfileView> {
                         GoRouter.of(context).push(CartView.cartPath);
                       },
                     ),
-      
+
                     ListTile(
                       leading: Icon(
                         Icons.feedback,

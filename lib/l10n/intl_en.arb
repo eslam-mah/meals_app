@@ -322,5 +322,7 @@
   "noItemsFound": "No items found for this order",
   "specialInstructions": "Special Instructions",
   "price": "Price",
-  "orderItemsLoadingFailed": "Failed to load order items"
+  "orderItemsLoadingFailed": "Failed to load order items",
+    "noOrdersNow": "The restaurant is not accepting orders now"
+
 }

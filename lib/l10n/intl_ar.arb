@@ -323,5 +323,6 @@
   "noItemsFound": "لا توجد عناصر لهذا الطلب",
   "specialInstructions": "تعليمات خاصة",
   "price": "السعر",
-  "orderItemsLoadingFailed": "فشل في تحميل محتويات الطلب"
+  "orderItemsLoadingFailed": "فشل في تحميل محتويات الطلب",
+  "noOrdersNow": "المطعم لا يستقبل طلبات الآن"
 }

@@ -3159,6 +3159,16 @@ class S {
       args: [],
     );
   }
+
+  /// `المطعم لا يستقبل طلبات الآن`
+  String get noOrdersNow {
+    return Intl.message(
+      'المطعم لا يستقبل طلبات الآن',
+      name: 'noOrdersNow',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

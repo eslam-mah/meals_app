@@ -23,6 +23,7 @@ import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'dart:async';
 import 'package:shimmer/shimmer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
   static const String routeName = '/food-details';
@@ -158,6 +159,24 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     }
   }
 
+  Future<bool> isAnyAdminInactive() async {
+    final supabase = Supabase.instance.client;
+    final response = await supabase
+        .from('users')
+        .select('active')
+        .eq('user_type', 'admin');
+
+    final List admins = response;
+
+    // If any admin is inactive (active == false or null), return true
+    for (var admin in admins) {
+      if (admin['active'] != true) {
+        return true; // There is at least one inactive admin
+      }
+    }
+    return false; // All admins are active
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
@@ -219,9 +238,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             elevation: 0,
             centerTitle: true,
             title: Text(
-              Intl.getCurrentLocale() == 'ar'
-                  ? food.nameAr
-                  : food.nameEn,
+              Intl.getCurrentLocale() == 'ar' ? food.nameAr : food.nameEn,
               style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
             ),
             leading: IconButton(
@@ -232,70 +249,66 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                  // Food Image
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100.r),
-                      ),
-                      height: context.height * 0.25,
-                      width: context.width,
-                      child:
-                          food.photoUrl != null && food.photoUrl!.isNotEmpty
-                              ? CachedNetworkImage(
-                                imageUrl: food.photoUrl!,
-                                fit: BoxFit.cover,
-
-                                placeholder:
-                                    (context, url) => Shimmer.fromColors(
-                                      baseColor: Colors.grey.shade300,
-                                      highlightColor: Colors.grey.shade100,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            12.r,
-                                          ),
-                                        ),
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                      ),
-                                    ),
-                                errorWidget:
-                                    (context, url, error) => Image.asset(
-                                      AssetsBox.logo,
-                                      fit: BoxFit.contain,
-                                    ),
-                              )
-                              : Image.asset(
-                                AssetsBox.logo,
-                                fit: BoxFit.contain,
-                              ),
+                // Food Image
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.r),
                     ),
+                    height: context.height * 0.25,
+                    width: context.width,
+                    child:
+                        food.photoUrl != null && food.photoUrl!.isNotEmpty
+                            ? CachedNetworkImage(
+                              imageUrl: food.photoUrl!,
+                              fit: BoxFit.cover,
+
+                              placeholder:
+                                  (context, url) => Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade300,
+                                    highlightColor: Colors.grey.shade100,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                      ),
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
+                                  ),
+                              errorWidget:
+                                  (context, url, error) => Image.asset(
+                                    AssetsBox.logo,
+                                    fit: BoxFit.contain,
+                                  ),
+                            )
+                            : Image.asset(AssetsBox.logo, fit: BoxFit.contain),
                   ),
+                ),
 
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    
                       SizedBox(height: 16.h),
-                
+
                       // Food Title
                       Text(
                         Intl.getCurrentLocale() == 'ar'
-                            ? food.nameAr 
+                            ? food.nameAr
                             : food.nameEn,
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                
+
                       SizedBox(height: 8.h),
-                
+
                       // Description
                       Text(
                         Intl.getCurrentLocale() == 'ar'
@@ -303,9 +316,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                             : food.descriptionEn ?? '',
                         style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                       ),
-                
+
                       SizedBox(height: 16.h),
-                
+
                       // Base Price
                       Text(
                         'EGP ${food.price.toStringAsFixed(2)}',
@@ -315,9 +328,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                           color: ColorsBox.primaryColor,
                         ),
                       ),
-                
+
                       SizedBox(height: 24.h),
-                
+
                       // Size Section (if available)
                       if (food.sizes.isNotEmpty) ...[
                         Text(
@@ -332,12 +345,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                           sizes: food.sizes,
                           selectedSize: state.selectedSize,
                           onSizeSelected:
-                              (size) =>
-                                  context.read<FoodDetailsCubit>().selectSize(size),
+                              (size) => context
+                                  .read<FoodDetailsCubit>()
+                                  .selectSize(size),
                         ),
                         SizedBox(height: 24.h),
                       ],
-                
+
                       // Extras Section (if available)
                       if (food.extras.isNotEmpty) ...[
                         Text(
@@ -358,7 +372,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                         ),
                         SizedBox(height: 24.h),
                       ],
-                
+
                       // Beverage Section (if available)
                       if (food.beverages.isNotEmpty) ...[
                         Text(
@@ -379,7 +393,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                         ),
                         SizedBox(height: 24.h),
                       ],
-                
+
                       // Total Price
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -401,7 +415,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                           ),
                         ],
                       ),
-                
+
                       SizedBox(height: 24.h),
                     ],
                   ),
@@ -411,10 +425,34 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
           ),
           bottomNavigationBar: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            child: AddToCartButton(
-              price: state.totalPrice,
-              isLoading: _isAddingToCart,
-              onPressed: () => _addToCart(context, state),
+            child: FutureBuilder<bool>(
+              future: isAnyAdminInactive(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      width: double.infinity, // Full width button style
+                    ),
+                  );
+                }
+                // لو في أي admin غير active لا تظهر الزر
+                if (snapshot.data == true) {
+                  return SizedBox();
+                }
+                // الكل active: أظهر الزر
+                return AddToCartButton(
+                  price: state.totalPrice,
+                  isLoading: _isAddingToCart,
+                  onPressed: () => _addToCart(context, state),
+                );
+              },
             ),
           ),
         );

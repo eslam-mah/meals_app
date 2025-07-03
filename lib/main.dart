@@ -25,6 +25,7 @@ import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_state.dart';
 import 'package:meals_app/core/config/supabase_options.dart';
 import 'package:meals_app/firebase_options.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'generated/l10n.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
@@ -120,7 +121,7 @@ void main() async {
           .from('notification_tokens')
           .select()
           .eq('token', fcmToken);
-      
+
       // Only insert if the token doesn't already exist
       if (existingTokens.isEmpty) {
         await supabase.from('notification_tokens').insert({
@@ -135,13 +136,26 @@ void main() async {
       }
     }
 
+    final status = await Permission.notification.status;
+    if (status.isGranted) {
+      print('Notification permission already granted.');
+      // You can put any logic here for when permission is granted
+    } else {
+      var result = await Permission.notification.request();
+      if (result.isGranted) {
+        print('Notification permission granted after request.');
+      } else {
+        print('Notification permission denied.');
+      }
+    }
+
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
       // Check if token already exists in the database
       final existingTokens = await supabase
           .from('notification_tokens')
           .select()
           .eq('token', fcmToken);
-      
+
       // Only insert if the token doesn't already exist
       if (existingTokens.isEmpty) {
         await supabase.from('notification_tokens').insert({
@@ -152,16 +166,18 @@ void main() async {
         });
         log.info('New refreshed FCM token stored in database');
       } else {
-        log.info('Refreshed FCM token already exists in database, skipping insertion');
+        log.info(
+          'Refreshed FCM token already exists in database, skipping insertion',
+        );
       }
     });
-     
+
     // Set up Firebase message listener
     FirebaseMessaging.onMessage.listen((payload) {
       final notification = payload.notification;
       if (notification != null) {
         log.info('Received Firebase message: ${notification.title}');
-        
+
         // Show notification using global ScaffoldMessenger when available
         if (rootScaffoldMessengerKey.currentState != null) {
           CustomNotification.showWithScaffoldMessenger(
@@ -171,10 +187,11 @@ void main() async {
             icon: Icons.fastfood,
             backgroundColor: ColorsBox.primaryColor,
             duration: const Duration(seconds: 5),
-          
           );
         } else {
-          log.warning('ScaffoldMessengerState not available yet to show notification');
+          log.warning(
+            'ScaffoldMessengerState not available yet to show notification',
+          );
         }
       }
     });
@@ -222,11 +239,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthCubit(authRepository: AuthRepository()),
         ),
         BlocProvider(create: (context) => LanguageCubit()),
-        BlocProvider(
-          create:
-              (context) =>
-                  UserCubit(userRepository: UserRepository())..loadUser(),
-        ),
+        BlocProvider(create: (context) => UserCubit.instance..loadUser()),
       ],
       child: BlocBuilder<LanguageCubit, LanguageState>(
         builder: (context, state) {

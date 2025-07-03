@@ -82,12 +82,17 @@ class CustomButton extends StatelessWidget {
                               ),
                         SizedBox(width: 8.w),
                       ],
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: finalTextColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
+                      SizedBox(
+                        width: 250.w,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: finalTextColor,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                             
+                          ),
+                          textAlign:  TextAlign.center,
                         ),
                       ),
                     ],
