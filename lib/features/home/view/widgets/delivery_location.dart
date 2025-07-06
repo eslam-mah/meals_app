@@ -8,6 +8,8 @@ import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/services/storage_service.dart';
+
 // 1. الدالة التي تجلب حالة المطعم من السيرفر/Supabase
 Future<bool> isRestaurantClosed() async {
   final supabase = Supabase.instance.client;
@@ -97,6 +99,8 @@ class DeliveryLocation extends StatelessWidget {
         return BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             final userLocation = state.user?.location ?? '';
+            final StorageService storageService= StorageService();
+            final isAuthenticated = storageService.isAuthenticated();
             return Container(
               padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
               decoration: BoxDecoration(
@@ -130,7 +134,7 @@ class DeliveryLocation extends StatelessWidget {
                           SizedBox(
                             width: 300.w,
                             child: Text(
-                              userLocation,
+                            isAuthenticated?  userLocation: localization.addAddress,
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,

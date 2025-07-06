@@ -193,6 +193,7 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
                   ),
                 ),
                 textInputAction: TextInputAction.done,
+                textCapitalization: TextCapitalization.characters,
                 enabled: !state.isLoading,
               ),
             ),

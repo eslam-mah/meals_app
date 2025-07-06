@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:meals_app/generated/l10n.dart';
 
@@ -18,7 +19,7 @@ class SizeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
-    
+
     return SizedBox(
       height: (sizes.length * 80).h,
       child: ListView.builder(
@@ -67,7 +68,7 @@ class SizeSelector extends StatelessWidget {
                       ),
                       SizedBox(width: 12.w),
                       Text(
-                        _getSizeDisplayName(size.nameEn, l10n),
+                        _getSizeDisplayName(Intl.getCurrentLocale() == 'ar'? size.nameAr:size.nameEn, l10n),
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,

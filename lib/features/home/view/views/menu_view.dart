@@ -291,10 +291,12 @@ class _MenuViewState extends State<MenuView> {
           BlocBuilder<UserCubit, UserState>(
             builder: (context, state) {
               final userName = state.user?.name ?? '';
+              final StorageService storageService= StorageService();
+              final isAuthenticated = storageService.isAuthenticated();
               return SizedBox(
                 width: 320.w,
                 child: Text(
-                  localization.hello(userName),
+                isAuthenticated?  localization.hello(userName): localization.welcomeToMealsApp,
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontWeight: FontWeight.bold,

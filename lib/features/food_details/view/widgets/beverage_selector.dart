@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 
 class BeverageSelector extends StatelessWidget {
@@ -64,7 +65,7 @@ class BeverageSelector extends StatelessWidget {
                       ),
                       SizedBox(width: 12.w),
                       Text(
-                        beverage.nameEn,
+                        Intl.getCurrentLocale() == 'ar'? beverage.nameAr: beverage.nameEn,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,

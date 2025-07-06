@@ -82,9 +82,7 @@ class CustomButton extends StatelessWidget {
                               ),
                         SizedBox(width: 8.w),
                       ],
-                      SizedBox(
-                        width: 250.w,
-                        child: Text(
+                     Text(
                           title,
                           style: TextStyle(
                             color: finalTextColor,
@@ -94,7 +92,6 @@ class CustomButton extends StatelessWidget {
                           ),
                           textAlign:  TextAlign.center,
                         ),
-                      ),
                     ],
                   ),
           ),
