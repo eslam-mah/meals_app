@@ -7,7 +7,6 @@ import 'package:meals_app/features/checkout/checkout_router.dart';
 import 'package:meals_app/features/feedback/feedback_router.dart';
 import 'package:meals_app/features/food_details/food_details_router.dart';
 import 'package:meals_app/features/home/main_router.dart';
-import 'package:meals_app/features/location/location_router.dart';
 import 'package:meals_app/features/orders_history/orders_history_router.dart';
 import 'package:meals_app/features/profile/profile_router.dart';
 import 'package:meals_app/features/onboarding/view/views/onboarding_screen.dart';
@@ -41,8 +40,7 @@ class AppRouter {
       ...MainRouter.goRoutes,
       // authentication routes
       ...AuthenticationRouter.goRoutes,
-      // location routes
-      ...LocationRouter.goRoutes,
+ 
       // profile routes
       ...ProfileRouter.goRoutes,
       // settings routesF

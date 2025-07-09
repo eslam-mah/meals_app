@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
@@ -41,25 +40,7 @@ class DeliveryLocation extends StatelessWidget {
     return FutureBuilder<bool>(
       future: isRestaurantClosed(),
       builder: (context, snapshot) {
-        // أثناء التحميل
-        if (!snapshot.hasData) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade200, width: 1.h),
-                ),
-              ),
-              height: 64.h, // تقريباً نفس ارتفاع اللوكيشن بار
-            ),
-          );
-        }
-
+   
         // لو المطعم مغلق (لا يستقبل طلبات)
         if (snapshot.data == true) {
           return Container(

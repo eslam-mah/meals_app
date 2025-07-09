@@ -80,6 +80,16 @@ class S {
     );
   }
 
+  /// `مرحبا بك في تطبيق المطعم`
+  String get welconeToApp {
+    return Intl.message(
+      'مرحبا بك في تطبيق المطعم',
+      name: 'welconeToApp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `ليس لديك حساب؟`
   String get dontHaveAccount {
     return Intl.message(

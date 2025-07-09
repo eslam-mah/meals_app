@@ -71,9 +71,7 @@ class _MainViewState extends State<MainView> {
   }
   
   void _handleNavItemTap(int index) {
-    // Check if authentication is required for this index
     if (index == 2 ) 
-    //|| (_currentIndex != index && !_storageService.isAuthenticated())
     {
       // Profile view or any action that requires authentication
       if (!_storageService.isAuthenticated()) {

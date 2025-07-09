@@ -134,9 +134,7 @@ class _HomeViewState extends State<HomeView> {
                                       previous.offerStatus !=
                                           current.offerStatus,
                               builder: (context, state) {
-                                if (state.offerStatus == FoodStatus.loading) {
-                                  return _buildOfferItemsShimmer();
-                                }
+                       
 
                                 if (state.offerStatus == FoodStatus.error) {
                                   return CustomErrorWidget(
@@ -201,7 +199,13 @@ class _HomeViewState extends State<HomeView> {
                                 if (state.recommendedStatus ==
                                         FoodStatus.loading &&
                                     state.recommendedItems.isEmpty) {
-                                  return _buildRecommendedItemsShimmer();
+                                  return Column(
+                                    children: [
+                                      _buildOfferItemsShimmer(),
+                                      SizedBox(height: 16.h),
+                                      _buildRecommendedItemsShimmer(),
+                                    ],
+                                  );
                                 }
 
                                 if (state.recommendedStatus ==
@@ -291,7 +295,7 @@ class _HomeViewState extends State<HomeView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 18.w),
+          padding: EdgeInsets.only(left: 18.w, right: 16.w),
           child: Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,

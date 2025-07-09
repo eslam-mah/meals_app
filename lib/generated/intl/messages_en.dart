@@ -510,6 +510,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welcome to the Meals App"),
         "welcomeToMealsApp":
             MessageLookupByLibrary.simpleMessage("WELCOME TO MEALS APP"),
+        "welconeToApp": MessageLookupByLibrary.simpleMessage(
+            "Welcome to the restaurant app"),
         "youCanTrackOrderStatus": MessageLookupByLibrary.simpleMessage(
             "You can track your order status in My Orders section"),
         "yourCartIsEmpty":

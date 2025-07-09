@@ -26,9 +26,9 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PromoCodeCubit, PromoCodeState>(
-      listenWhen: (previous, current) => 
-        previous.promoCode != current.promoCode ||
-        previous.errorMessage != current.errorMessage,
+      listenWhen: (previous, current) =>
+          previous.promoCode != current.promoCode ||
+          previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.promoCode != null && _promoController.text.isNotEmpty) {
           _promoFocusNode.unfocus();
@@ -242,4 +242,4 @@ class _PromoCodeFieldState extends State<PromoCodeField> {
       ],
     );
   }
-} 
+}
