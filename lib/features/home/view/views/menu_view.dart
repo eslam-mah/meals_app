@@ -15,7 +15,6 @@ import 'package:meals_app/features/home/view_model/cubits/food_state.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:intl/intl.dart';
 
 class MenuView extends StatefulWidget {
   static const String menuPath = '/menu';
