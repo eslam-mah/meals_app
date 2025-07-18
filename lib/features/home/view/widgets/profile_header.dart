@@ -8,9 +8,7 @@ import 'package:meals_app/features/settings/view/views/settings_view.dart';
 import 'package:meals_app/generated/l10n.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({
-    super.key,
-  });
+  const ProfileHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +18,18 @@ class ProfileHeader extends StatelessWidget {
         // Get user info from state
         final userName = state.user?.name ?? '';
         final userPhone = state.user?.phoneNumber ?? '';
-        final userInitials = userName.isNotEmpty ? userName.substring(0, userName.length > 1 ? 2 : 1) : '';
-        
+        final userInitials =
+            userName.isNotEmpty
+                ? userName.substring(0, userName.length > 1 ? 2 : 1)
+                : '';
+
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 36.r,
+                radius: 33.r,
                 backgroundColor: ColorsBox.primaryColor.withOpacity(0.2),
                 child: Text(
                   userInitials,
@@ -67,8 +68,12 @@ class ProfileHeader extends StatelessWidget {
               ),
               const Spacer(),
               IconButton(
-                icon: Icon(Icons.settings, color: ColorsBox.primaryColor, size: 32.r),
-                onPressed: (){
+                icon: Icon(
+                  Icons.settings,
+                  color: ColorsBox.primaryColor,
+                  size: 32.r,
+                ),
+                onPressed: () {
                   GoRouter.of(context).push(SettingsView.settingsPath);
                 },
                 tooltip: localization.profile,
@@ -79,4 +84,4 @@ class ProfileHeader extends StatelessWidget {
       },
     );
   }
-} 
+}
