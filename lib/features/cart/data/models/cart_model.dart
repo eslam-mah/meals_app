@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meals_app/features/home/data/models/food_model.dart';
 import 'package:uuid/uuid.dart';
@@ -130,7 +131,9 @@ class CartItem extends Equatable {
       id: const Uuid().v4(),
       userId: userId,
       menuItemId: food.id,
-      name: food.nameEn,
+      name:  Intl.getCurrentLocale() == 'ar'
+                              ?food.nameAr
+                              :food.nameEn,
       photoUrl: food.photoUrl,
       price: itemPrice,
       quantity: quantity,
@@ -193,7 +196,9 @@ class CartItem extends Equatable {
       }
 
       // Use food details if provided, otherwise use minimal info
-      String name = foodDetails?.nameEn ?? 'Unknown Item';
+      String name = Intl.getCurrentLocale() == 'ar'
+                              ?foodDetails?.nameAr??'غير معروف'
+                              :foodDetails?.nameEn ?? 'Unknown Item';
       String? photoUrl = foodDetails?.photoUrl;
       double price = foodDetails?.price ?? 0.0;
       

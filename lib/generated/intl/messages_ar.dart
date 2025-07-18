@@ -72,6 +72,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "callSupport": MessageLookupByLibrary.simpleMessage("اتصل بالدعم"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("إلغاء الطلب"),
+        "cancelPayment": MessageLookupByLibrary.simpleMessage("إلغاء الدفع"),
+        "cancelPaymentConfirmation": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد إلغاء الدفع؟"),
         "cancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
         "cardOrderCancellationNotice": MessageLookupByLibrary.simpleMessage(
             "لا يمكن إلغاء الطلبات المدفوعة بالبطاقة. إذا كنت ترغب في معرفة المزيد، اتصل بخدمة العملاء."),
@@ -263,6 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "newValley": MessageLookupByLibrary.simpleMessage("الوادي الجديد"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "no": MessageLookupByLibrary.simpleMessage("لا"),
         "noAddressesFound":
             MessageLookupByLibrary.simpleMessage("لا توجد عناوين"),
         "noDataAvailable":
@@ -503,6 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مرحبًا بك في تطبيق الوجبات"),
         "welconeToApp":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في تطبيق المطعم"),
+        "yes": MessageLookupByLibrary.simpleMessage("نعم"),
         "youCanTrackOrderStatus": MessageLookupByLibrary.simpleMessage(
             "يمكنك تتبع حالة طلبك في قسم طلباتي"),
         "yourCartIsEmpty":

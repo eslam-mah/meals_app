@@ -131,7 +131,7 @@ class _ProfileViewState extends State<ProfileView> {
                         style: TextStyle(fontSize: 17.sp),
                       ),
                       trailing: Text(
-                        '19914',
+                        '01111111111',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.sp,

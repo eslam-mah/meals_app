@@ -25,29 +25,14 @@ import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/language/cubit/language_state.dart';
 import 'package:meals_app/core/config/supabase_options.dart';
 import 'package:meals_app/firebase_options.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'generated/l10n.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
 import 'package:meals_app/features/profile/data/repositories/user_repository.dart';
 
-/// Global key to access ScaffoldMessengerState from anywhere in the app
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
-/// Application entry point that initializes required services and configurations
-/// before launching the app.
-///
-/// This function:
-/// 1. Preserves splash screen during initialization
-/// 2. Sets up logging
-/// 3. Initializes shared preferences and storage
-/// 4. Starts connectivity monitoring
-/// 5. Initializes Supabase backend connection
-/// 6. Initializes user data management
-/// 7. Initializes notification service
-/// 8. Launches the app UI
-/// 9. Initializes Firebase
 void main() async {
   // Keep the splash screen displayed until initialization is complete
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +78,7 @@ void main() async {
       'Initial connectivity test: ${isConnected ? "Connected" : "Disconnected"}',
     );
 
-    // Initialize notification service
+    // Initialize notification service (basic, without permission/token logic)
     await NotificationService().init();
     log.info('Notification service initialized');
 
@@ -107,72 +92,10 @@ void main() async {
     // Initialize UserCubit
     UserCubit.initialize(UserRepository());
     log.info('UserCubit initialized');
-    final supabase = Supabase.instance.client;
-    final userId = supabase.auth.currentUser?.id;
-    await FirebaseMessaging.instance.requestPermission();
-    await FirebaseMessaging.instance.getAPNSToken();
-    final fcmToken = await FirebaseMessaging.instance.getToken();
 
-    print('ddddd____$fcmToken');
+    // Removed: All FCM token & notification permission logic.
 
-    if (fcmToken != null) {
-      // Check if token already exists in the database
-      final existingTokens = await supabase
-          .from('notification_tokens')
-          .select()
-          .eq('token', fcmToken);
-
-      // Only insert if the token doesn't already exist
-      if (existingTokens.isEmpty) {
-        await supabase.from('notification_tokens').insert({
-          'user_id': userId, // May be null, but that's acceptable
-          'token': fcmToken,
-          'created_at': DateTime.now().toIso8601String(),
-          'platform': Platform.isAndroid ? 'android' : 'ios',
-        });
-        log.info('New FCM token stored in database');
-      } else {
-        log.info('FCM token already exists in database, skipping insertion');
-      }
-    }
-
-    final status = await Permission.notification.status;
-    if (status.isGranted) {
-      print('Notification permission already granted.');
-      // You can put any logic here for when permission is granted
-    } else {
-      var result = await Permission.notification.request();
-      if (result.isGranted) {
-        print('Notification permission granted after request.');
-      } else {
-        print('Notification permission denied.');
-      }
-    }
-
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-      // Check if token already exists in the database
-      final existingTokens = await supabase
-          .from('notification_tokens')
-          .select()
-          .eq('token', fcmToken);
-
-      // Only insert if the token doesn't already exist
-      if (existingTokens.isEmpty) {
-        await supabase.from('notification_tokens').insert({
-          'user_id': userId, // May be null, but that's acceptable
-          'token': fcmToken,
-          'created_at': DateTime.now().toIso8601String(),
-          'platform': Platform.isAndroid ? 'android' : 'ios',
-        });
-        log.info('New refreshed FCM token stored in database');
-      } else {
-        log.info(
-          'Refreshed FCM token already exists in database, skipping insertion',
-        );
-      }
-    });
-
-    // Set up Firebase message listener
+    // Set up Firebase message listener for in-app notifications
     FirebaseMessaging.onMessage.listen((payload) {
       final notification = payload.notification;
       if (notification != null) {
@@ -209,22 +132,11 @@ void main() async {
   runApp(const MyApp());
 }
 
-/// Root application widget that configures the app's theme, localization,
-/// state management providers, and routing.
-///
-/// This class:
-/// - Sets up system UI appearance
-/// - Configures BLoC providers for state management
-/// - Applies theme based on the current language
-/// - Sets up localization
-/// - Configures routing
 class MyApp extends StatelessWidget {
-  /// Creates a MyApp widget.
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Configure system UI appearance
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark,
@@ -332,7 +244,6 @@ class MyApp extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
-
                 hintStyle: TextStyle(color: Colors.grey.shade700),
               ),
               textTheme: textTheme,
@@ -368,80 +279,44 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// A wrapper widget that provides responsive layout adaptation and
-/// connectivity monitoring for the application.
-///
-/// This widget:
-/// - Initializes responsive layout management
-/// - Monitors network connectivity
-/// - Shows connectivity alerts when network is lost
-/// - Adapts UI elements to different device sizes
 class _AppWithResponsive extends StatefulWidget {
-  /// The child widget to display with responsive adaptations.
   final Widget child;
-
-  /// Creates an _AppWithResponsive widget.
-  ///
-  /// The [child] parameter is required and represents the main app content.
   const _AppWithResponsive({required this.child});
-
   @override
   State<_AppWithResponsive> createState() => _AppWithResponsiveState();
 }
 
-/// State management for the _AppWithResponsive widget.
 class _AppWithResponsiveState extends State<_AppWithResponsive> {
-  /// Logger instance for this class.
   final Logger _log = Logger('AppWithResponsive');
-
-  /// Subscription to connectivity status updates.
   StreamSubscription<bool>? _connectivitySubscription;
-
-  /// Subscription to Firebase messaging
   StreamSubscription<RemoteMessage>? _firebaseMessageSubscription;
-
-  /// Tracks the previous connectivity state to detect changes.
   bool _wasConnected = true;
-
-  /// Flag to prevent showing multiple connectivity dialogs.
   bool _isDialogShowing = false;
 
   @override
   void initState() {
     super.initState();
     _log.info('AppWithResponsive initialized');
-
-    // Initialize after first frame is rendered
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initConnectivity();
     });
   }
 
-  /// Initializes connectivity monitoring and sets up the initial connection status.
-  ///
-  /// This method:
-  /// - Checks the current connection status
-  /// - Displays a dialog if initially disconnected
-  /// - Sets up a listener for connectivity changes
   Future<void> _initConnectivity() async {
     if (!mounted) return;
 
     _log.info('Initializing connectivity monitoring');
-
-    // Force an immediate quick check
     final isConnected = await ConnectivityService.instance.forceCheck();
     _log.info(
       'Initial connectivity status: ${isConnected ? "Connected" : "Disconnected"}',
     );
     _wasConnected = isConnected;
 
-    // If initially disconnected, show dialog
     if (!isConnected && mounted && !_isDialogShowing) {
       _log.info('Initially disconnected, showing dialog');
       _showConnectivityDialog();
     }
 
-    // Listen for connectivity changes
     _connectivitySubscription = ConnectivityService
         .instance
         .onConnectivityChanged
@@ -449,11 +324,6 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
     _log.info('Connectivity listener set up');
   }
 
-  /// Handles changes in network connectivity status.
-  ///
-  /// Shows a dialog when connectivity is lost (transitioning from connected to disconnected).
-  ///
-  /// [isConnected] - The current connection status.
   void _handleConnectivityChange(bool isConnected) {
     _log.info(
       'Connectivity changed: ${isConnected ? "Connected" : "Disconnected"}',
@@ -464,7 +334,6 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
       return;
     }
 
-    // Only show dialog if we transition from connected to disconnected
     if (_wasConnected && !isConnected && !_isDialogShowing) {
       _log.info('Connection lost, showing dialog immediately');
       _showConnectivityDialog();
@@ -473,10 +342,6 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
     _wasConnected = isConnected;
   }
 
-  /// Displays the connectivity alert dialog when network connection is lost.
-  ///
-  /// The dialog remains visible until connectivity is restored or the user
-  /// dismisses it. It includes retry functionality to check for connectivity.
   void _showConnectivityDialog() {
     if (!mounted || _isDialogShowing) return;
 
@@ -515,11 +380,9 @@ class _AppWithResponsiveState extends State<_AppWithResponsive> {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize responsive manager with current context
     RM.data.init(context);
 
     return ScreenUtilInit(
-      // Set design size based on device type
       designSize:
           RM.data.deviceType == DeviceTypeView.tablet
               ? const Size(992, 1450)

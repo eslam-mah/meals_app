@@ -42,15 +42,11 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // _initConnectivity();
     _loadFoodDetails();
   }
 
   void _loadFoodDetails() {
-    // if (!_isConnected) return;
-
     if (widget.foodId != null) {
-      // Load food details using the BlocProvider
       Future.microtask(
         () => context.read<FoodDetailsCubit>().loadFoodDetails(widget.foodId!),
       );
@@ -67,10 +63,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     _log.info('Adding item to cart: ${state.food!.nameEn}');
 
     try {
-      // Get the repository directly
       final cartRepository = RepositoryProvider.of<CartRepository>(context);
 
-      // Get current user if authenticated
       UserModel? user;
       try {
         user = UserCubit.instance.state.user;
@@ -78,7 +72,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
         _log.warning('UserCubit not initialized, proceeding with guest cart');
       }
 
-      // Create cart item with a new UUID
       final cartItem = CartItem.fromFoodModel(
         food: state.food!,
         userId: user?.id,
@@ -90,7 +83,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
       _log.info('Created cart item with ID: ${cartItem.id}');
 
-      // Add as new item directly using the repository
       cartRepository
           .addNewItemToCart(cartItem, user: user)
           .then((updatedCart) {
@@ -98,14 +90,12 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               'Item added successfully. Cart now has ${updatedCart.items.length} items',
             );
 
-            // Update the CartCubit state
             context.read<CartCubit>().refreshCart();
 
             setState(() {
               _isAddingToCart = false;
             });
 
-            // Show success message
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(S.of(context).addedToCart),
@@ -119,7 +109,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               ),
             );
 
-            // Pop back after a short delay
             Future.delayed(const Duration(milliseconds: 500), () {
               if (mounted) {
                 GoRouter.of(context).push(MainView.mainPath);
@@ -133,7 +122,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               _isAddingToCart = false;
             });
 
-            // Show error message
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(S.of(context).failedToAddToCart),
@@ -165,16 +153,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
         .from('users')
         .select('active')
         .eq('user_type', 'admin');
-
     final List admins = response;
-
-    // If any admin is inactive (active == false or null), return true
     for (var admin in admins) {
       if (admin['active'] != true) {
-        return true; // There is at least one inactive admin
+        return true;
       }
     }
-    return false; // All admins are active
+    return false;
   }
 
   @override
@@ -189,6 +174,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
         if (state.status == FoodDetailsStatus.error) {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -219,6 +205,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
         final food = state.food;
         if (food == null) {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -231,200 +218,257 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
           );
         }
 
+        // Start Cool New Design
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor:  Colors.white,
+          extendBody: true,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             centerTitle: true,
-            title: Text(
-              Intl.getCurrentLocale() == 'ar' ? food.nameAr : food.nameEn,
-              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-            ),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => GoRouter.of(context).pop(),
             ),
+            title: Text(
+              Intl.getCurrentLocale() == 'ar' ? food.nameAr : food.nameEn,
+              style: TextStyle(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                // Food Image
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(100.r),
-                    ),
-                    height: context.height * 0.25,
-                    width: context.width,
-                    child:
-                        food.photoUrl != null && food.photoUrl!.isNotEmpty
-                            ? CachedNetworkImage(
-                              imageUrl: food.photoUrl!,
-                              fit: BoxFit.cover,
-
-                              placeholder:
-                                  (context, url) => Shimmer.fromColors(
-                                    baseColor: Colors.grey.shade300,
-                                    highlightColor: Colors.grey.shade100,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          12.r,
-                                        ),
-                                      ),
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                    ),
-                                  ),
-                              errorWidget:
-                                  (context, url, error) => Image.asset(
-                                    AssetsBox.logo,
-                                    fit: BoxFit.contain,
-                                  ),
-                            )
-                            : Image.asset(AssetsBox.logo, fit: BoxFit.contain),
+          body: Stack(
+            children: [
+              // Background upper color
+              Container(
+                height: context.height * 033,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(48.r),
+                    bottomRight: Radius.circular(48.r),
                   ),
                 ),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 16.h),
-
-                      // Food Title
-                      Text(
-                        Intl.getCurrentLocale() == 'ar'
-                            ? food.nameAr
-                            : food.nameEn,
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      SizedBox(height: 8.h),
-
-                      // Description
-                      Text(
-                        Intl.getCurrentLocale() == 'ar'
-                            ? food.descriptionAr ?? ''
-                            : food.descriptionEn ?? '',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.grey),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      // Base Price
-                      Text(
-                        'EGP ${food.price.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsBox.primaryColor,
-                        ),
-                      ),
-
-                      SizedBox(height: 24.h),
-
-                      // Size Section (if available)
-                      if (food.sizes.isNotEmpty) ...[
-                        Text(
-                          l10n.size,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // Hero Image
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.h),
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(28.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.07),
+                                blurRadius: 30,
+                                offset: const Offset(0, 18),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 8.h),
-                        SizeSelector(
-                          sizes: food.sizes,
-                          selectedSize: state.selectedSize,
-                          onSizeSelected:
-                              (size) => context
-                                  .read<FoodDetailsCubit>()
-                                  .selectSize(size),
-                        ),
-                        SizedBox(height: 24.h),
-                      ],
-
-                      // Extras Section (if available)
-                      if (food.extras.isNotEmpty) ...[
-                        Text(
-                          l10n.extras,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        ExtrasSelector(
-                          extras: food.extras,
-                          selectedExtras: state.selectedExtras,
-                          onExtraToggled:
-                              (extra) => context
-                                  .read<FoodDetailsCubit>()
-                                  .toggleExtra(extra),
-                        ),
-                        SizedBox(height: 24.h),
-                      ],
-
-                      // Beverage Section (if available)
-                      if (food.beverages.isNotEmpty) ...[
-                        Text(
-                          l10n.beverage,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        BeverageSelector(
-                          beverages: food.beverages,
-                          selectedBeverages: state.selectedBeverage,
-                          onBeverageToggled:
-                              (beverage) => context
-                                  .read<FoodDetailsCubit>()
-                                  .selectBeverage(beverage),
-                        ),
-                        SizedBox(height: 24.h),
-                      ],
-
-                      // Total Price
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            l10n.total,
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(28.r),
+                            child: SizedBox(
+                              height: context.height * 0.27,
+                              width: context.width * 0.7,
+                              child: food.photoUrl != null && food.photoUrl!.isNotEmpty
+                                  ? CachedNetworkImage(
+                                      imageUrl: food.photoUrl!,
+                                      fit: BoxFit.fill,
+                                      placeholder: (context, url) => Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
+                                        child: Container(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(AssetsBox.logo, fit: BoxFit.cover),
+                                    )
+                                  : Image.asset(AssetsBox.logo, fit: BoxFit.cover),
                             ),
                           ),
-                          Text(
-                            'EGP ${state.totalPrice.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: ColorsBox.primaryColor,
-                            ),
+                        ),
+                      ),
+                    ),
+                    // Card Details Section
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 20.w, top: 24.h, bottom: 32.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(32.r),
+                          topRight: Radius.circular(32.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 24,
+                            offset: const Offset(0, -6),
                           ),
                         ],
                       ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Title and Price Row
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  Intl.getCurrentLocale() == 'ar'
+                                      ? food.nameAr
+                                      : food.nameEn,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 26.sp,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.1,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w, vertical: 8.h),
+                                decoration: BoxDecoration(
+                                  color: ColorsBox.primaryColor.withOpacity(0.09),
+                                  borderRadius: BorderRadius.circular(14.r),
+                                ),
+                                child: Text(
+                                  'EGP ${food.price.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorsBox.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16.h),
 
-                      SizedBox(height: 24.h),
-                    ],
-                  ),
+                          // Description
+                          if ((Intl.getCurrentLocale() == 'ar'
+                                  ? food.descriptionAr
+                                  : food.descriptionEn)
+                              ?.isNotEmpty ?? false)
+                            Text(
+                              Intl.getCurrentLocale() == 'ar'
+                                  ? food.descriptionAr ?? ''
+                                  : food.descriptionEn ?? '',
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.4),
+                            ),
+                          SizedBox(height: 18.h),
+
+                          // Sections: Size, Extras, Beverage
+                          if (food.sizes.isNotEmpty) ...[
+                            Text(
+                              l10n.size,
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87),
+                            ),
+                            SizedBox(height: 10.h),
+                            SizeSelector(
+                              sizes: food.sizes,
+                              selectedSize: state.selectedSize,
+                              onSizeSelected: (size) => context
+                                  .read<FoodDetailsCubit>()
+                                  .selectSize(size),
+                            ),
+                            SizedBox(height: 18.h),
+                          ],
+                          if (food.extras.isNotEmpty) ...[
+                            Text(
+                              l10n.extras,
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87),
+                            ),
+                            SizedBox(height: 10.h),
+                            ExtrasSelector(
+                              extras: food.extras,
+                              selectedExtras: state.selectedExtras,
+                              onExtraToggled: (extra) => context
+                                  .read<FoodDetailsCubit>()
+                                  .toggleExtra(extra),
+                            ),
+                            SizedBox(height: 18.h),
+                          ],
+                          if (food.beverages.isNotEmpty) ...[
+                            Text(
+                              l10n.beverage,
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87),
+                            ),
+                            SizedBox(height: 10.h),
+                            BeverageSelector(
+                              beverages: food.beverages,
+                              selectedBeverages: state.selectedBeverage,
+                              onBeverageToggled: (beverage) => context
+                                  .read<FoodDetailsCubit>()
+                                  .selectBeverage(beverage),
+                            ),
+                            SizedBox(height: 18.h),
+                          ],
+
+                          // Divider
+                          Divider(
+                            height: 32.h,
+                            thickness: 1.5,
+                            color: ColorsBox.primaryColor.withOpacity(0.15),
+                          ),
+                          // Total Price Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                l10n.total,
+                                style: TextStyle(
+                                  fontSize: 19.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'EGP ${state.totalPrice.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorsBox.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           bottomNavigationBar: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            padding: EdgeInsets.only(
+                left: 18.w, right: 18.w, bottom: 18.h, top: 8.h),
             child: FutureBuilder<bool>(
               future: isAnyAdminInactive(),
               builder: (context, snapshot) {
@@ -438,15 +482,13 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      width: double.infinity, // Full width button style
+                      width: double.infinity,
                     ),
                   );
                 }
-                // لو في أي admin غير active لا تظهر الزر
                 if (snapshot.data == true) {
                   return SizedBox();
                 }
-                // الكل active: أظهر الزر
                 return AddToCartButton(
                   price: state.totalPrice,
                   isLoading: _isAddingToCart,
@@ -462,6 +504,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
   Widget _buildLoadingShimmer() {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -484,36 +527,26 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 height: 200.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(28.r),
                 ),
               ),
-
               SizedBox(height: 24.h),
-
               // Title shimmer
               Container(width: 200.w, height: 30.h, color: Colors.white),
-
               SizedBox(height: 16.h),
-
               // Description shimmer
               Container(
                 width: double.infinity,
                 height: 60.h,
                 color: Colors.white,
               ),
-
               SizedBox(height: 24.h),
-
               // Price shimmer
               Container(width: 100.w, height: 24.h, color: Colors.white),
-
               SizedBox(height: 32.h),
-
               // Section title shimmer
               Container(width: 120.w, height: 24.h, color: Colors.white),
-
               SizedBox(height: 16.h),
-
               // Options shimmer
               Row(
                 children: List.generate(
@@ -531,14 +564,10 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                   ),
                 ),
               ),
-
               SizedBox(height: 32.h),
-
               // Another section title
               Container(width: 120.w, height: 24.h, color: Colors.white),
-
               SizedBox(height: 16.h),
-
               // More options
               Column(
                 children: List.generate(

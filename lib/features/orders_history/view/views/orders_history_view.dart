@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_error_widget.dart';
-import 'package:meals_app/core/utils/media_query_values.dart';
 import 'package:meals_app/features/orders_history/view/widgets/order_card.dart';
 import 'package:meals_app/features/orders_history/view/widgets/shimmer_order_list.dart';
 import 'package:meals_app/features/orders_history/view_model/cubits/order_history_cubit.dart';

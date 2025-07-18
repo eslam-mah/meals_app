@@ -74,6 +74,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "callSupport": MessageLookupByLibrary.simpleMessage("Call support"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("Cancel Order"),
+        "cancelPayment": MessageLookupByLibrary.simpleMessage("Cancel Payment"),
+        "cancelPaymentConfirmation": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to cancel the payment?"),
         "cancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
         "cardOrderCancellationNotice": MessageLookupByLibrary.simpleMessage(
             "Card orders cannot be cancelled. If you want to know more, call customer service."),
@@ -270,6 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newPassword": MessageLookupByLibrary.simpleMessage("New password"),
         "newValley": MessageLookupByLibrary.simpleMessage("New Valley"),
         "next": MessageLookupByLibrary.simpleMessage("NEXT"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "noAddressesFound":
             MessageLookupByLibrary.simpleMessage("No Addresses Found"),
         "noDataAvailable":
@@ -512,6 +516,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("WELCOME TO MEALS APP"),
         "welconeToApp": MessageLookupByLibrary.simpleMessage(
             "Welcome to the restaurant app"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "youCanTrackOrderStatus": MessageLookupByLibrary.simpleMessage(
             "You can track your order status in My Orders section"),
         "yourCartIsEmpty":

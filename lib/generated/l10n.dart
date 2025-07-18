@@ -2420,6 +2420,46 @@ class S {
     );
   }
 
+  /// `إلغاء الدفع`
+  String get cancelPayment {
+    return Intl.message(
+      'إلغاء الدفع',
+      name: 'cancelPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `هل أنت متأكد أنك تريد إلغاء الدفع؟`
+  String get cancelPaymentConfirmation {
+    return Intl.message(
+      'هل أنت متأكد أنك تريد إلغاء الدفع؟',
+      name: 'cancelPaymentConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا`
+  String get no {
+    return Intl.message(
+      'لا',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `نعم`
+  String get yes {
+    return Intl.message(
+      'نعم',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `كود الخصم`
   String get promoCode {
     return Intl.message(

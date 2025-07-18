@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:meals_app/core/config/assets_box.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
@@ -30,13 +31,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
 
   void _handleIncrement() {
     if (!_isIncrementEnabled) return;
-    
+
     setState(() {
       _isIncrementEnabled = false;
     });
-    
+
     widget.onIncrement();
-    
+
     // Re-enable button after 1.5 seconds
     Timer(const Duration(milliseconds: 2000), () {
       if (mounted) {
@@ -46,16 +47,16 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       }
     });
   }
-  
+
   void _handleDecrement() {
     if (!_isDecrementEnabled) return;
-    
+
     setState(() {
       _isDecrementEnabled = false;
     });
-    
+
     widget.onDecrement();
-    
+
     // Re-enable button after 1.5 seconds
     Timer(const Duration(milliseconds: 1500), () {
       if (mounted) {
@@ -76,11 +77,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
         alignment: Alignment.centerRight,
         padding: EdgeInsets.only(right: 20.w),
         color: Colors.red,
-        child: Icon(
-          Icons.delete,
-          color: Colors.white,
-          size: 30.r,
-        ),
+        child: Icon(Icons.delete, color: Colors.white, size: 30.r),
       ),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -105,35 +102,39 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 // Item image
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
-                  child: widget.item.photoUrl != null && widget.item.photoUrl!.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: widget.item.photoUrl!,
-                          width: 80.w,
-                          height: 80.h,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                ColorsBox.primaryColor,
-                              ),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => Image.asset(
+                  child:
+                      widget.item.photoUrl != null &&
+                              widget.item.photoUrl!.isNotEmpty
+                          ? CachedNetworkImage(
+                            imageUrl: widget.item.photoUrl!,
+                            width: 80.w,
+                            height: 80.h,
+                            fit: BoxFit.cover,
+                            placeholder:
+                                (context, url) => Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      ColorsBox.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                            errorWidget:
+                                (context, url, error) => Image.asset(
+                                  AssetsBox.logo,
+                                  width: 80.w,
+                                  height: 80.h,
+                                  fit: BoxFit.cover,
+                                ),
+                          )
+                          : Image.asset(
                             AssetsBox.logo,
                             width: 80.w,
                             height: 80.h,
                             fit: BoxFit.cover,
                           ),
-                        )
-                      : Image.asset(
-                          AssetsBox.logo,
-                          width: 80.w,
-                          height: 80.h,
-                          fit: BoxFit.cover,
-                        ),
                 ),
                 SizedBox(width: 12.w),
-                
+
                 // Item details
                 Expanded(
                   child: Column(
@@ -155,7 +156,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          
+
                           // Remove button
                           IconButton(
                             icon: Icon(
@@ -170,7 +171,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         ],
                       ),
                       SizedBox(height: 4.h),
-                      
+
                       // Price
                       Text(
                         'EGP ${widget.item.price.toStringAsFixed(2)}',
@@ -180,23 +181,27 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           color: Colors.black87,
                         ),
                       ),
-                      
+
                       // Show selected options
                       if (widget.item.selectedSize != null) ...[
                         SizedBox(height: 4.h),
                         Text(
-                          'Size: ${widget.item.selectedSize!.nameEn}',
+                          Intl.getCurrentLocale() == 'ar'
+                              ? 'الحجم: ${widget.item.selectedSize!.nameAr}'
+                              : 'Size: ${widget.item.selectedSize!.nameEn}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: Colors.grey.shade600,
                           ),
                         ),
                       ],
-                      
+
                       if (widget.item.selectedExtras.isNotEmpty) ...[
                         SizedBox(height: 4.h),
                         Text(
-                          'Extras: ${widget.item.selectedExtras.map((e) => e.nameEn).join(", ")}',
+                          Intl.getCurrentLocale() == 'ar'
+                              ? 'الاضافات: ${widget.item.selectedExtras.map((e) => e.nameAr).join(", ")}'
+                              : 'Extras: ${widget.item.selectedExtras.map((e) => e.nameEn).join(", ")}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: Colors.grey.shade600,
@@ -205,11 +210,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                      
+
                       if (widget.item.selectedBeverage.isNotEmpty) ...[
                         SizedBox(height: 4.h),
                         Text(
-                          'Beverage: ${widget.item.selectedBeverage.map((e) => e.nameEn).join(', ')}',
+                         Intl.getCurrentLocale() == 'ar'
+                              ? 'المشروب: ${widget.item.selectedBeverage.map((e) => e.nameAr).join(", ")}'
+                              :  'Beverage: ${widget.item.selectedBeverage.map((e) => e.nameEn).join(', ')}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: Colors.grey.shade600,
@@ -221,9 +228,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 ),
               ],
             ),
-            
+
             SizedBox(height: 12.h),
-            
+
             // Quantity controls and total price
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,7 +244,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       onTap: _handleDecrement,
                       isEnabled: _isDecrementEnabled,
                     ),
-                    
+
                     // Quantity
                     Container(
                       width: 40.w,
@@ -250,7 +257,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         ),
                       ),
                     ),
-                    
+
                     // Increase button
                     _buildQuantityButton(
                       icon: Icons.add,
@@ -259,7 +266,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                     ),
                   ],
                 ),
-                
+
                 // Total price
                 Text(
                   'EGP ${widget.item.totalPrice.toStringAsFixed(2)}',
@@ -294,13 +301,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             color: isEnabled ? ColorsBox.primaryColor : Colors.grey,
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 20.r,
-          ),
+          child: Icon(icon, color: Colors.white, size: 20.r),
         ),
       ),
     );
   }
-} 
+}

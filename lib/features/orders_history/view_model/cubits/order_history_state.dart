@@ -107,7 +107,7 @@ class OrderHistoryState extends Equatable {
   
   // Get active orders (pending status)
   List<OrderModel> get activeOrders {
-    return orders.where((order) => order.status == 'pending').toList();
+    return orders.where((order) => order.status == 'pending' || order.status == 'active').toList();
   }
   
   // Get completed orders (delivered status)
