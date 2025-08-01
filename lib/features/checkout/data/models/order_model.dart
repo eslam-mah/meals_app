@@ -14,6 +14,7 @@ class OrderModel extends Equatable {
   final double totalPrice;
   final String? promoCodeId;
   final double discountAmount;
+  final double? loyaltyPointsUsed; // New field
   final DateTime createdAt;
   final DateTime updatedAt;
   final String? specialRequest;
@@ -29,6 +30,7 @@ class OrderModel extends Equatable {
     required this.totalPrice,
     this.promoCodeId,
     this.discountAmount = 0.0,
+    this.loyaltyPointsUsed, // Initialize new field
     required this.createdAt,
     required this.updatedAt,
     this.specialRequest,
@@ -46,6 +48,7 @@ class OrderModel extends Equatable {
         totalPrice,
         promoCodeId,
         discountAmount,
+        loyaltyPointsUsed, // Add to props
         createdAt,
         updatedAt,
         specialRequest,
@@ -61,6 +64,7 @@ class OrderModel extends Equatable {
     required double totalPrice,
     String? promoCodeId,
     double discountAmount = 0.0,
+    double? loyaltyPointsUsed,
     String status = 'pending',
     String? specialRequest,
   }) {
@@ -76,6 +80,7 @@ class OrderModel extends Equatable {
       totalPrice: totalPrice,
       promoCodeId: promoCodeId,
       discountAmount: discountAmount,
+      loyaltyPointsUsed: loyaltyPointsUsed,
       createdAt: now,
       updatedAt: now,
       specialRequest: specialRequest,
@@ -92,6 +97,7 @@ class OrderModel extends Equatable {
     String? branchName,
     String? promoCodeId,
     double discountAmount = 0.0,
+    double? loyaltyPointsUsed,
   }) {
     // Calculate total price (cart total + delivery fees if applicable - discount)
     double totalPrice = cart.finalTotal;
@@ -100,8 +106,11 @@ class OrderModel extends Equatable {
       totalPrice += 50.0;
     }
     
-    // Apply discount
+    // Apply discount and loyalty discount
     totalPrice -= discountAmount;
+    if (loyaltyPointsUsed != null) {
+      totalPrice -= loyaltyPointsUsed;
+    }
     
     // Ensure total price is not negative
     if (totalPrice < 0) totalPrice = 0;
@@ -118,6 +127,7 @@ class OrderModel extends Equatable {
       totalPrice: totalPrice,
       promoCodeId: promoCodeId,
       discountAmount: discountAmount,
+      loyaltyPointsUsed: loyaltyPointsUsed,
       createdAt: now,
       updatedAt: now,
       specialRequest: cart.specialInstructions,
@@ -139,6 +149,9 @@ class OrderModel extends Equatable {
       discountAmount: json['discount_amount'] != null 
           ? (json['discount_amount'] as num).toDouble() 
           : 0.0,
+      loyaltyPointsUsed: json['loyalty_points_used'] != null
+          ? (json['loyalty_points_used'] as num).toDouble()
+          : null,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       specialRequest: json['special_request'] as String?,
@@ -158,6 +171,7 @@ class OrderModel extends Equatable {
       'total_price': totalPrice,
       'promo_code_id': promoCodeId,
       'discount_amount': discountAmount,
+      'loyalty_points_used': loyaltyPointsUsed,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'special_request': specialRequest,
@@ -176,6 +190,7 @@ class OrderModel extends Equatable {
     double? totalPrice,
     String? promoCodeId,
     double? discountAmount,
+    double? loyaltyPointsUsed,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? specialRequest,
@@ -191,6 +206,7 @@ class OrderModel extends Equatable {
       totalPrice: totalPrice ?? this.totalPrice,
       promoCodeId: promoCodeId ?? this.promoCodeId,
       discountAmount: discountAmount ?? this.discountAmount,
+      loyaltyPointsUsed: loyaltyPointsUsed ?? this.loyaltyPointsUsed,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       specialRequest: specialRequest ?? this.specialRequest,

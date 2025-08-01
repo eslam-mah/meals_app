@@ -9,7 +9,8 @@ import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/authentication/view/widgets/custom_text_form_field.dart';
 import 'package:meals_app/features/authentication/view_model/cubits/auth_cubit.dart';
-import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart' as app_auth;
+import 'package:meals_app/features/authentication/view_model/cubits/auth_state.dart'
+    as app_auth;
 import 'package:meals_app/features/language/cubit/language_cubit.dart';
 import 'package:meals_app/features/profile/data/models/user_form.dart';
 import 'package:meals_app/features/profile/view/widgets/city_selector.dart';
@@ -30,10 +31,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  
+
   String? _selectedCity = 'cairo';
   String? _area;
   String? _detailedAddress;
@@ -91,9 +93,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null;
   }
 
-  void _signUp()async {
+  void _signUp() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    
+
     final email = _emailController.text.trim();
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
@@ -101,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final phoneNumber = _phoneController.text.trim();
     final cityValue = _selectedCity ?? 'cairo';
     final location = '$_area, $_detailedAddress';
-    
+
     // Validate password match
     if (password != confirmPassword) {
       setState(() {
@@ -109,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
       return;
     }
-    
+
     // Create a UserForm with the collected data
     final userForm = UserForm(
       name: name,
@@ -117,11 +119,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       city: cityValue,
       location: location,
       userType: 'user',
+      loyaltyPoints: 500,
     );
-    
+
     // Use the auth cubit for sign up with profile details
-    context.read<AuthCubit>().signUpWithEmailAndProfile(email, password, userForm);
-   await context.read<UserCubit>().loadUser();
+    context.read<AuthCubit>().signUpWithEmailAndProfile(
+      email,
+      password,
+      userForm,
+    );
+    await context.read<UserCubit>().loadUser();
   }
 
   void _onInputChanged(String _) {
@@ -142,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final localization = S.of(context);
     final isLTR = Directionality.of(context) == TextDirection.ltr;
     final theme = Theme.of(context);
-    
+
     return BlocListener<AuthCubit, app_auth.AuthState>(
       listener: (context, state) {
         if (state.status == app_auth.AuthStatus.loading) {
@@ -154,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           setState(() {
             _isLoading = false;
           });
-          
+
           if (state.status == app_auth.AuthStatus.error) {
             setState(() {
               _errorMessage = state.errorMessage;
@@ -194,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                     ),
-                    
+
                     // Title
                     Text(
                       localization.signUp,
@@ -204,9 +211,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    
+
                     SizedBox(height: 20.h),
-                    
+
                     // Email input
                     CustomTextFormField(
                       controller: _emailController,
@@ -222,9 +229,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       },
                     ),
-                    
+
                     SizedBox(height: 16.h),
-                    
+
                     // Name input
                     CustomTextFormField(
                       controller: _nameController,
@@ -235,10 +242,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onChanged: _onInputChanged,
                       validator: _validateName,
                     ),
-                    
-                    
+
                     SizedBox(height: 16.h),
-                    
+
                     // Phone input
                     CustomTextFormField(
                       controller: _phoneController,
@@ -253,13 +259,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                       ],
                     ),
-                    
+
                     SizedBox(height: 16.h),
-                    
-                   
-                    
+
                     SizedBox(height: 8.h),
-                    
+
                     CitySelector(
                       initialCity: _selectedCity,
                       initialArea: _area,
@@ -284,9 +288,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       areaValidator: _validateArea,
                       addressValidator: _validateAddress,
                     ),
-                    
+
                     SizedBox(height: 16.h),
-                    
+
                     // Password input
                     CustomTextFormField(
                       controller: _passwordController,
@@ -305,9 +309,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       },
                     ),
-                    
+
                     SizedBox(height: 16.h),
-                    
+
                     // Confirm Password input
                     CustomTextFormField(
                       controller: _confirmPasswordController,
@@ -326,22 +330,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       },
                     ),
-                    
+
                     // Error message
                     if (_errorMessage != null)
                       Padding(
                         padding: EdgeInsets.only(top: 16.h),
                         child: Text(
                           _errorMessage!,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.red,
-                          ),
+                          style: TextStyle(fontSize: 14.sp, color: Colors.red),
                         ),
                       ),
-                    
+
                     SizedBox(height: 24.h),
-                    
+
                     // Sign up button
                     CustomButton(
                       title: localization.signUp,
@@ -351,9 +352,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       isLoading: _isLoading,
                       isEnabled: _isFormValid,
                     ),
-                    
+
                     SizedBox(height: 16.h),
-                    
+
                     // Login option
                     Center(
                       child: Row(
@@ -382,7 +383,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
-                    
+
                     // Language switch
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -408,4 +409,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-} 
+}

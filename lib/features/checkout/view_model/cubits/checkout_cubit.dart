@@ -43,6 +43,12 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     emit(state.copyWith(selectedAddress: address));
   }
 
+  // Set use loyalty points
+  void setUseLoyaltyPoints(bool use) {
+    _log.info('Setting use loyalty points: $use');
+    emit(state.copyWith(useLoyaltyPoints: use));
+  }
+
   // Apply promo code
   Future<void> applyPromoCode(String code) async {
     if (code.isEmpty) {

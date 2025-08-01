@@ -1050,10 +1050,10 @@ class S {
     );
   }
 
-  /// `نقاط الولاء`
+  /// `النقاط`
   String get loyaltyPoints {
     return Intl.message(
-      'نقاط الولاء',
+      'النقاط',
       name: 'loyaltyPoints',
       desc: '',
       args: [],
@@ -1265,6 +1265,46 @@ class S {
     return Intl.message(
       'اكتب طلباتك الخاصة هنا...',
       name: 'typeYourSpecialRequestsHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `هل تريد استخدام النقاط الخاصة بك؟`
+  String get wantToUseYourLoyaltyPoints {
+    return Intl.message(
+      'هل تريد استخدام النقاط الخاصة بك؟',
+      name: 'wantToUseYourLoyaltyPoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `نقطة متاحة`
+  String get pointsAvailable {
+    return Intl.message(
+      'نقطة متاحة',
+      name: 'pointsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خصم يصل إلى`
+  String get discountUpTo {
+    return Intl.message(
+      'خصم يصل إلى',
+      name: 'discountUpTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `خصم النقاط`
+  String get loyaltyDiscount {
+    return Intl.message(
+      'خصم النقاط',
+      name: 'loyaltyDiscount',
       desc: '',
       args: [],
     );
@@ -2660,20 +2700,20 @@ class S {
     );
   }
 
-  /// `لم يتم تحديد عنوان التوصيل`
+  /// `الرجاء اختيار عنوان التوصيل.`
   String get noDeliveryAddressSelected {
     return Intl.message(
-      'لم يتم تحديد عنوان التوصيل',
+      'الرجاء اختيار عنوان التوصيل.',
       name: 'noDeliveryAddressSelected',
       desc: '',
       args: [],
     );
   }
 
-  /// `لم يتم تحديد فرع الاستلام`
+  /// `الرجاء اختيار فرع الاستلام.`
   String get noPickupBranchSelected {
     return Intl.message(
-      'لم يتم تحديد فرع الاستلام',
+      'الرجاء اختيار فرع الاستلام.',
       name: 'noPickupBranchSelected',
       desc: '',
       args: [],
@@ -2820,20 +2860,20 @@ class S {
     );
   }
 
-  /// `تأكيد الطلب`
+  /// `طلبك جاهز تقريباً!`
   String get orderReadyNotificationTitle {
     return Intl.message(
-      'تأكيد الطلب',
+      'طلبك جاهز تقريباً!',
       name: 'orderReadyNotificationTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `سيكون طلبك جاهزًا خلال 30 دقيقة`
+  /// `وجبتك اللذيذة ستكون جاهزة للاستلام أو التوصيل خلال حوالي 30 دقيقة. استمتع!`
   String get orderReadyNotificationBody {
     return Intl.message(
-      'سيكون طلبك جاهزًا خلال 30 دقيقة',
+      'وجبتك اللذيذة ستكون جاهزة للاستلام أو التوصيل خلال حوالي 30 دقيقة. استمتع!',
       name: 'orderReadyNotificationBody',
       desc: '',
       args: [],
@@ -3110,20 +3150,20 @@ class S {
     );
   }
 
-  /// `رأيك يهمنا`
+  /// `كيف كانت وجبتك؟`
   String get feedbackRequestNotificationTitle {
     return Intl.message(
-      'رأيك يهمنا',
+      'كيف كانت وجبتك؟',
       name: 'feedbackRequestNotificationTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `كيف كانت تجربتك؟ دوس هنا وقولنا رأيك.`
+  /// `نود أن نسمع رأيك في طلبك الأخير. اضغط هنا لترك مراجعة!`
   String get feedbackRequestNotificationBody {
     return Intl.message(
-      'كيف كانت تجربتك؟ دوس هنا وقولنا رأيك.',
+      'نود أن نسمع رأيك في طلبك الأخير. اضغط هنا لترك مراجعة!',
       name: 'feedbackRequestNotificationBody',
       desc: '',
       args: [],
@@ -3215,6 +3255,76 @@ class S {
     return Intl.message(
       'المطعم لا يستقبل طلبات الآن',
       name: 'noOrdersNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `استخدام النقاط`
+  String get useLoyaltyPoints {
+    return Intl.message(
+      'استخدام النقاط',
+      name: 'useLoyaltyPoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `نقاط`
+  String get points {
+    return Intl.message(
+      'نقاط',
+      name: 'points',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `النقاط الحالية الخاصة بك`
+  String get yourCurrentLoyaltyPoints {
+    return Intl.message(
+      'النقاط الحالية الخاصة بك',
+      name: 'yourCurrentLoyaltyPoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيفية كسب النقاط:`
+  String get howToEarnPointsTitle {
+    return Intl.message(
+      'كيفية كسب النقاط:',
+      name: 'howToEarnPointsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تكسب النقطة واحدة لكل 1 جنيه مصري تنفقه على الطلبات. تُمنح النقاط بعد تسليم طلبك أو استلامه بنجاح.`
+  String get howToEarnPointsDescription {
+    return Intl.message(
+      'تكسب النقطة واحدة لكل 1 جنيه مصري تنفقه على الطلبات. تُمنح النقاط بعد تسليم طلبك أو استلامه بنجاح.',
+      name: 'howToEarnPointsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيفية استخدام النقاط:`
+  String get howToUsePointsTitle {
+    return Intl.message(
+      'كيفية استخدام النقاط:',
+      name: 'howToUsePointsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يمكنك استخدام النقاط الخاصة بك للحصول على خصومات على طلباتك المستقبلية. يمكن استبدال كل 100 نقطة بخصم قدره 1 جنيه مصري. يمكنك اختيار تطبيق نقاطك المتاحة أثناء الدفع.`
+  String get howToUsePointsDescription {
+    return Intl.message(
+      'يمكنك استخدام النقاط الخاصة بك للحصول على خصومات على طلباتك المستقبلية. يمكن استبدال كل 100 نقطة بخصم قدره 1 جنيه مصري. يمكنك اختيار تطبيق نقاطك المتاحة أثناء الدفع.',
+      name: 'howToUsePointsDescription',
       desc: '',
       args: [],
     );

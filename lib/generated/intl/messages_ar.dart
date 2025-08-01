@@ -141,6 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "didntReceiveCode":
             MessageLookupByLibrary.simpleMessage("لم تستلم الرمز؟"),
         "discount": MessageLookupByLibrary.simpleMessage("خصم"),
+        "discountUpTo": MessageLookupByLibrary.simpleMessage("خصم يصل إلى"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
@@ -198,9 +199,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "faiyum": MessageLookupByLibrary.simpleMessage("الفيوم"),
         "feedback": MessageLookupByLibrary.simpleMessage("التعليقات"),
         "feedbackRequestNotificationBody": MessageLookupByLibrary.simpleMessage(
-            "كيف كانت تجربتك؟ دوس هنا وقولنا رأيك."),
+            "نود أن نسمع رأيك في طلبك الأخير. اضغط هنا لترك مراجعة!"),
         "feedbackRequestNotificationTitle":
-            MessageLookupByLibrary.simpleMessage("رأيك يهمنا"),
+            MessageLookupByLibrary.simpleMessage("كيف كانت وجبتك؟"),
         "feedbackSubmittedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم إرسال التعليق بنجاح!"),
         "foodDescription": MessageLookupByLibrary.simpleMessage(
@@ -228,6 +229,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ما مدى رضاك عن سرعة الخدمة؟"),
         "howSatisfiedWithOverallService": MessageLookupByLibrary.simpleMessage(
             "ما مدى رضاك عن الخدمة بشكل عام؟"),
+        "howToEarnPointsDescription": MessageLookupByLibrary.simpleMessage(
+            "تكسب النقطة واحدة لكل 1 جنيه مصري تنفقه على الطلبات. تُمنح النقاط بعد تسليم طلبك أو استلامه بنجاح."),
+        "howToEarnPointsTitle":
+            MessageLookupByLibrary.simpleMessage("كيفية كسب النقاط:"),
+        "howToUsePointsDescription": MessageLookupByLibrary.simpleMessage(
+            "يمكنك استخدام النقاط الخاصة بك للحصول على خصومات على طلباتك المستقبلية. يمكن استبدال كل 100 نقطة بخصم قدره 1 جنيه مصري. يمكنك اختيار تطبيق نقاطك المتاحة أثناء الدفع."),
+        "howToUsePointsTitle":
+            MessageLookupByLibrary.simpleMessage("كيفية استخدام النقاط:"),
         "invalidOrExpiredPromoCode": MessageLookupByLibrary.simpleMessage(
             "كود الخصم غير صالح أو منتهي الصلاحية"),
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
@@ -251,7 +260,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "locationPermissionPermanentlyDenied":
             MessageLookupByLibrary.simpleMessage("تم رفض إذن الموقع بشكل دائم"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
-        "loyaltyPoints": MessageLookupByLibrary.simpleMessage("نقاط الولاء"),
+        "loyaltyDiscount": MessageLookupByLibrary.simpleMessage("خصم النقاط"),
+        "loyaltyPoints": MessageLookupByLibrary.simpleMessage("النقاط"),
         "luxor": MessageLookupByLibrary.simpleMessage("الأقصر"),
         "markAsPrimary":
             MessageLookupByLibrary.simpleMessage("تعيين كعنوان رئيسي"),
@@ -271,8 +281,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لا توجد عناوين"),
         "noDataAvailable":
             MessageLookupByLibrary.simpleMessage("لا توجد بيانات متاحة"),
-        "noDeliveryAddressSelected":
-            MessageLookupByLibrary.simpleMessage("لم يتم تحديد عنوان التوصيل"),
+        "noDeliveryAddressSelected": MessageLookupByLibrary.simpleMessage(
+            "الرجاء اختيار عنوان التوصيل."),
         "noExtrasAllowed": MessageLookupByLibrary.simpleMessage(
             "لا يُسمح بإضافات إضافية كطلب خاص."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
@@ -287,7 +297,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noOrdersNow":
             MessageLookupByLibrary.simpleMessage("المطعم لا يستقبل طلبات الآن"),
         "noPickupBranchSelected":
-            MessageLookupByLibrary.simpleMessage("لم يتم تحديد فرع الاستلام"),
+            MessageLookupByLibrary.simpleMessage("الرجاء اختيار فرع الاستلام."),
         "noRecommendationsAvailable":
             MessageLookupByLibrary.simpleMessage("لا توجد توصيات متاحة"),
         "noSavedAddresses":
@@ -315,9 +325,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderPlacedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تقديم الطلب بنجاح"),
         "orderReadyNotificationBody": MessageLookupByLibrary.simpleMessage(
-            "سيكون طلبك جاهزًا خلال 30 دقيقة"),
+            "وجبتك اللذيذة ستكون جاهزة للاستلام أو التوصيل خلال حوالي 30 دقيقة. استمتع!"),
         "orderReadyNotificationTitle":
-            MessageLookupByLibrary.simpleMessage("تأكيد الطلب"),
+            MessageLookupByLibrary.simpleMessage("طلبك جاهز تقريباً!"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
         "orderType": MessageLookupByLibrary.simpleMessage("نوع الطلب"),
         "ordersHistory": MessageLookupByLibrary.simpleMessage("سجل الطلبات"),
@@ -403,6 +413,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "يرجى تسجيل الدخول للوصول إلى هذا المحتوى"),
         "pleaseWaitForPaymentProcessing": MessageLookupByLibrary.simpleMessage(
             "برجاء الانتظار حتى تتم معالجة الدفع"),
+        "points": MessageLookupByLibrary.simpleMessage("نقاط"),
+        "pointsAvailable": MessageLookupByLibrary.simpleMessage("نقطة متاحة"),
         "portSaid": MessageLookupByLibrary.simpleMessage("بورسعيد"),
         "preferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
@@ -491,6 +503,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAddress": MessageLookupByLibrary.simpleMessage("تحديث العنوان"),
         "useCurrentLocation":
             MessageLookupByLibrary.simpleMessage("استخدام الموقع الحالي"),
+        "useLoyaltyPoints":
+            MessageLookupByLibrary.simpleMessage("استخدام النقاط"),
         "userNotAuthenticated":
             MessageLookupByLibrary.simpleMessage("المستخدم غير مصادق عليه"),
         "vat": MessageLookupByLibrary.simpleMessage("ضريبة القيمة المضافة"),
@@ -501,6 +515,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewCart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
         "viewOrderItems":
             MessageLookupByLibrary.simpleMessage("عرض محتويات الطلب"),
+        "wantToUseYourLoyaltyPoints": MessageLookupByLibrary.simpleMessage(
+            "هل تريد استخدام النقاط الخاصة بك؟"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("مرحبًا بك في تطبيق الوجبات"),
         "welcomeToMealsApp":
@@ -512,6 +528,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "يمكنك تتبع حالة طلبك في قسم طلباتي"),
         "yourCartIsEmpty":
             MessageLookupByLibrary.simpleMessage("سلة التسوق فارغة"),
+        "yourCurrentLoyaltyPoints":
+            MessageLookupByLibrary.simpleMessage("النقاط الحالية الخاصة بك"),
         "yourExactCoordinatesWereCaptured":
             MessageLookupByLibrary.simpleMessage(
                 "تم التقاط إحداثيات موقعك بدقة")

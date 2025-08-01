@@ -10,8 +10,10 @@ class UserModel extends Equatable {
   final String? city;
   final String? location;
   final String? userType;
+  final int? loyaltyPoints;
 
   const UserModel({
+    this.loyaltyPoints,
     required this.id,
     required this.createdAt,
     required this.email,
@@ -24,22 +26,20 @@ class UserModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        createdAt,
-        email,
-        name,
-        phoneNumber,
-        city,
-        location,
-        userType,
-      ];
+    id,
+    createdAt,
+    email,
+    name,
+    phoneNumber,
+    city,
+    location,
+    userType,
+    loyaltyPoints,
+  ];
 
   // Create an empty user
-  factory UserModel.empty() => UserModel(
-        id: '',
-        createdAt: DateTime.now(),
-        email: '',
-      );
+  factory UserModel.empty() =>
+      UserModel(id: '', createdAt: DateTime.now(), email: '');
 
   // Create from JSON (from Supabase)
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -52,6 +52,7 @@ class UserModel extends Equatable {
       city: json['city'] as String?,
       location: json['location'] as String?,
       userType: json['user_type'] as String?,
+      loyaltyPoints: json['loyalty_points'] as int?,
     );
   }
 
@@ -66,6 +67,7 @@ class UserModel extends Equatable {
       'city': city,
       'location': location,
       'user_type': userType,
+      'loyalty_points': loyaltyPoints,
     };
   }
 
@@ -88,9 +90,11 @@ class UserModel extends Equatable {
     String? city,
     String? location,
     String? userType,
+    int? loyaltyPoints
   }) {
     return UserModel(
       id: id ?? this.id,
+      loyaltyPoints: loyaltyPoints?? this.loyaltyPoints,
       createdAt: createdAt ?? this.createdAt,
       email: email ?? this.email,
       name: name ?? this.name,
@@ -100,4 +104,4 @@ class UserModel extends Equatable {
       userType: userType ?? this.userType,
     );
   }
-} 
+}

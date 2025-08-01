@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/feedback/view/views/feedback_view.dart';
+import 'package:meals_app/features/home/view/widgets/loyalty_points_info_bottom_sheet.dart';
 import 'package:meals_app/features/home/view/widgets/profile_header.dart';
 import 'package:meals_app/features/orders_history/view/views/orders_history_view.dart';
 import 'package:meals_app/features/profile/view_model/user_cubit.dart';
@@ -32,6 +34,19 @@ class _ProfileViewState extends State<ProfileView> {
     }
   }
 
+  void _showLoyaltyPointsInfo(BuildContext context) {
+    final user = context.read<UserCubit>().state.user;
+    final int points = user?.loyaltyPoints ?? 0;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder:
+          (modalContext) => LoyaltyPointsInfoBottomSheet(loyaltyPoints: points),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
@@ -44,7 +59,12 @@ class _ProfileViewState extends State<ProfileView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20.w, top: 24.h, bottom: 8.h, right: 20.w),
+                padding: EdgeInsets.only(
+                  left: 20.w,
+                  top: 24.h,
+                  bottom: 8.h,
+                  right: 20.w,
+                ),
                 child: Text(
                   localization.profile,
                   style: TextStyle(
@@ -105,7 +125,20 @@ class _ProfileViewState extends State<ProfileView> {
                         GoRouter.of(context).push(CartView.cartPath);
                       },
                     ),
-
+                    ListTile(
+                      leading: Icon(
+                        Icons.stars_sharp,
+                        color: ColorsBox.primaryColor,
+                        size: 28.r,
+                      ),
+                      title: Text(
+                        localization.loyaltyPoints,
+                        style: TextStyle(fontSize: 17.sp),
+                      ),
+                      onTap: () {
+                        _showLoyaltyPointsInfo(context);
+                      },
+                    ),
                     ListTile(
                       leading: Icon(
                         Icons.feedback,

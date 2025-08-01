@@ -75,6 +75,7 @@ class UserCubit extends Cubit<UserState> {
         _log.info('City: ${user.city ?? "Not set"}');
         _log.info('Location: ${user.location ?? "Not set"}');
         _log.info('User Type: ${user.userType ?? "Not set"}');
+        _log.info('loyalty points: ${user.loyaltyPoints ?? "Not set"}');
       } else {
         _log.warning('No user data found in database');
       }
@@ -375,6 +376,52 @@ class UserCubit extends Cubit<UserState> {
       return false;
     }
   }
+/// Get how many loyalty points can be used for discount (in multiples of 100)
+int getAvailableLoyaltyPoints(double orderTotal) {
+  final points = state.user?.loyaltyPoints ?? 0;
+  // Cannot redeem more points than the order value allows
+  final maxByOrder = (orderTotal.floor()) * 100;
+  return (points ~/ 100) * 100 > maxByOrder ? maxByOrder : (points ~/ 100) * 100;
+}
+
+/// Get the EGP value of loyalty discount for this order
+double getLoyaltyDiscount(double orderTotal) {
+  final usablePoints = getAvailableLoyaltyPoints(orderTotal);
+  return usablePoints / 100.0;
+}
+Future<void> addLoyaltyPoints(int points) async {
+  if (points <= 0) return;
+  final userId = state.user?.id;
+  final current = state.user?.loyaltyPoints ?? 0;
+  if (userId == null) return;
+  final newPoints = current + points;
+  await Supabase.instance.client
+      .from('users')
+      .update({'loyalty_points': newPoints})
+      .eq('id', userId);
+  emit(state.copyWith(user: state.user?.copyWith(loyaltyPoints: newPoints)));
+}
+/// Deduct points from user after using loyalty discount
+Future<void> deductLoyaltyPoints(int points) async {
+  if (points <= 0) return;
+  final currentPoints = state.user?.loyaltyPoints ?? 0;
+  final userId = state.user?.id;
+  if (userId == null) return;
+  final newPoints = (currentPoints - points).clamp(0, 999999999); // No negatives
+  await Supabase.instance.client
+      .from('users')
+      .update({'loyalty_points': newPoints})
+      .eq('id', userId);
+  // Update local state
+  emit(state.copyWith(
+    user: state.user?.copyWith(loyaltyPoints: newPoints),
+  ));
+}
+
+/// (Optional) Reload user from DB to sync points after order
+Future<void> reloadUser() async {
+  await loadUser();
+}
 
   /// Check if the restaurant is closed (if any admin is inactive)
   Future<bool> isRestaurantClosed() async {

@@ -9,8 +9,10 @@ class UserForm {
   final String? city;
   final String? location;
   final String? userType;
+  final int? loyaltyPoints;
 
   const UserForm({
+    this.loyaltyPoints,
     this.name,
     this.phoneNumber,
     this.city,
@@ -29,6 +31,7 @@ class UserForm {
       city: city,
       location: location,
       userType: userType ?? 'user',
+      loyaltyPoints: loyaltyPoints
     );
   }
 
@@ -43,6 +46,7 @@ class UserForm {
       'city': city,
       'location': location,
       'user_type': userType ?? 'user',
+      'loyalty_points': loyaltyPoints
     };
   }
 
@@ -57,6 +61,7 @@ class UserForm {
       city: user.city,
       location: user.location,
       userType: user.userType ?? 'user',
+      loyaltyPoints: user.loyaltyPoints
     );
   }
 
@@ -67,6 +72,7 @@ class UserForm {
     String? city,
     String? location,
     String? userType,
+    int? loyaltyPoints
   }) {
     return UserForm(
       name: name ?? this.name,
@@ -74,6 +80,7 @@ class UserForm {
       city: city ?? this.city,
       location: location ?? this.location,
       userType: userType ?? this.userType,
+      loyaltyPoints: loyaltyPoints?? this.loyaltyPoints
     );
   }
 } 

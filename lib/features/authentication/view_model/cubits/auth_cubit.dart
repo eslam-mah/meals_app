@@ -357,7 +357,7 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
                 .upsert(userJson, onConflict: 'id');
             _log.info('User record created with upsert');
           }
-          
+       
           // Fetch to verify
           try {
             final result = await Supabase.instance.client
@@ -433,7 +433,8 @@ class AuthCubit extends Cubit<app_auth.AuthState> {
             'phone_number': userForm.phoneNumber,
             'city': userForm.city,
             'location': userForm.location,
-            'user_type': userForm.userType ?? 'user'
+            'user_type': userForm.userType ?? 'user',
+            'loyalty_points': userForm.loyaltyPoints ?? 500
           };
           
           _log.info('Inserting user JSON data with profile details');

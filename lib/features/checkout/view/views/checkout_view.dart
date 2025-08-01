@@ -6,7 +6,6 @@ import 'package:logging/logging.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_button.dart';
 import 'package:meals_app/core/services/notification_service.dart';
-
 import 'package:meals_app/features/cart/data/models/cart_model.dart';
 import 'package:meals_app/features/cart/view_model/cubits/cart_cubit.dart';
 import 'package:meals_app/features/checkout/data/models/order_model.dart';
@@ -23,6 +22,7 @@ import 'package:meals_app/features/saved_addresses/view/widgets/address_selector
 import 'package:meals_app/features/saved_addresses/view_model/cubits/address_cubit.dart';
 import 'package:meals_app/generated/l10n.dart';
 import 'package:meals_app/features/checkout/view/widgets/promo_code_field.dart';
+import 'package:meals_app/features/home/view/widgets/loyalty_points_info_bottom_sheet.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:meals_app/features/promo_codes/view_model/promo_code_cubit.dart';
@@ -45,6 +45,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       TextEditingController();
   String? _specialRequest;
   bool _isProcessing = false;
+  bool _useLoyaltyPoints = false; // Default: don't use
 
   @override
   void initState() {
@@ -184,6 +185,13 @@ class _CheckoutViewState extends State<CheckoutView> {
 
                 // Promo code section
                 const PromoCodeField(),
+                SizedBox(height: 24.h),
+
+                // Loyalty Points Toggle
+                if (context.read<UserCubit>().state.user?.loyaltyPoints !=
+                        null &&
+                    context.read<UserCubit>().state.user!.loyaltyPoints! > 0)
+                  _buildLoyaltyPointsToggle(context, localization),
                 SizedBox(height: 24.h),
 
                 // Price summary section
@@ -558,6 +566,39 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
+  Widget _buildLoyaltyPointsToggle(BuildContext context, S localization) {
+    final user = context.read<UserCubit>().state.user;
+    final int points = user?.loyaltyPoints ?? 0;
+    final double maxDiscount =
+        (points / 100).floorToDouble(); // 100 points = 1 EGP
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 12.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Text(
+              "${localization.wantToUseYourLoyaltyPoints} "
+              "(${points} ${localization.pointsAvailable}) "
+              "(${localization.discountUpTo} ${maxDiscount.toStringAsFixed(2)} EGP)",
+              style: TextStyle(fontSize: 15.sp),
+            ),
+          ),
+          Switch(
+            value: _useLoyaltyPoints,
+            onChanged:
+                points < 100
+                    ? null
+                    : (v) => setState(() => _useLoyaltyPoints = v),
+          ),
+        ],
+      ),
+    );
+  }
+
+ 
+
   Widget _buildPriceSummarySection(
     Cart cart,
     bool includeDeliveryFee,
@@ -565,6 +606,11 @@ class _CheckoutViewState extends State<CheckoutView> {
     S localization,
   ) {
     // Get promo code information from PromoCodeCubit
+    final user = context.read<UserCubit>().state.user;
+    final int userPoints = user?.loyaltyPoints ?? 0;
+    final double loyaltyDiscount =
+        _useLoyaltyPoints ? (userPoints / 100).floorToDouble() : 0.0;
+
     final promoCodeState = context.watch<PromoCodeCubit>().state;
     final hasPromoCode = promoCodeState.hasPromoCode;
     final discountPercentage = promoCodeState.discountPercentage;
@@ -576,8 +622,15 @@ class _CheckoutViewState extends State<CheckoutView> {
     // Calculate base price (subtotal + VAT)
     final baseTotal = cart.subtotal + cart.vat;
 
-    // Calculate final total (with discount)
-    final finalTotal = baseTotal + deliveryFee - discountAmount;
+    double subtotalAfterPromo = baseTotal - discountAmount;
+    double loyaltyPointsUsed = 0.0;
+    if (_useLoyaltyPoints) {
+      loyaltyPointsUsed = (userPoints / 100).floorToDouble();
+      if (loyaltyPointsUsed > subtotalAfterPromo + deliveryFee) {
+        loyaltyPointsUsed = subtotalAfterPromo + deliveryFee;
+      }
+    }
+    final finalTotal = subtotalAfterPromo + deliveryFee - loyaltyPointsUsed;
 
     _log.info('DISCOUNT CALCULATION:');
     _log.info('- Has promo code: $hasPromoCode');
@@ -586,6 +639,7 @@ class _CheckoutViewState extends State<CheckoutView> {
     _log.info('- Discount amount: $discountAmount');
     _log.info('- VAT: ${cart.vat}');
     _log.info('- Delivery fee: $deliveryFee');
+    _log.info('- Loyalty Points Used: $loyaltyPointsUsed');
     _log.info('- Final total: $finalTotal');
 
     return Container(
@@ -627,6 +681,15 @@ class _CheckoutViewState extends State<CheckoutView> {
             _buildPriceRow(
               label: '${localization.discount} ($discountPercentage%)',
               amount: '-${discountAmount.toStringAsFixed(2)} EGP',
+              isBold: false,
+              isDiscount: true,
+            ),
+          ],
+          if (_useLoyaltyPoints && loyaltyPointsUsed > 0) ...[
+            SizedBox(height: 8.h),
+            _buildPriceRow(
+              label: '${localization.loyaltyDiscount}',
+              amount: '-${loyaltyPointsUsed.toStringAsFixed(2)} EGP',
               isBold: false,
               isDiscount: true,
             ),
@@ -697,6 +760,26 @@ class _CheckoutViewState extends State<CheckoutView> {
     final discountAmount = promoCodeState.calculateDiscount(cart.subtotal);
     final promoCodeId = promoCodeState.promoCode?.id;
 
+    // Calculate loyalty discount
+    final int userPoints = user?.loyaltyPoints ?? 0;
+    double loyaltyPointsUsed = 0.0;
+    if (_useLoyaltyPoints) {
+      final baseTotal = cart.subtotal + cart.vat;
+      final deliveryFee = widget.orderType == 'delivery' ? 50.0 : 0.0;
+      double subtotalAfterPromo = baseTotal - discountAmount;
+      loyaltyPointsUsed = (userPoints / 100).floorToDouble();
+      if (loyaltyPointsUsed > subtotalAfterPromo + deliveryFee) {
+        loyaltyPointsUsed = subtotalAfterPromo + deliveryFee;
+      }
+    }
+
+    final finalTotal =
+        (cart.subtotal +
+            cart.vat +
+            (widget.orderType == 'delivery' ? 50.0 : 0.0)) -
+        discountAmount -
+        loyaltyPointsUsed;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.r),
@@ -751,6 +834,9 @@ class _CheckoutViewState extends State<CheckoutView> {
               orderType: widget.orderType,
               discountAmount: discountAmount,
               promoCodeId: promoCodeId,
+              loyaltyPointsUsed: loyaltyPointsUsed,
+              userPoints: userPoints,
+              finalTotal: finalTotal,
             );
           }
         },
@@ -774,10 +860,16 @@ class _CheckoutViewState extends State<CheckoutView> {
     required String orderType,
     required double discountAmount,
     String? promoCodeId,
+    required double loyaltyPointsUsed,
+    required int userPoints,
+    required double finalTotal,
   }) async {
     _log.info('CREATING ORDER WITH DISCOUNT:');
     _log.info('- Discount amount: $discountAmount');
     _log.info('- Promo code ID: $promoCodeId');
+    _log.info('- Loyalty points used: $loyaltyPointsUsed');
+    _log.info('- User points: $userPoints');
+    _log.info('- Final total: $finalTotal');
     _log.info('- Special request from cart: ${cart.specialInstructions}');
     _log.info('- Special request from field: $_specialRequest');
 
@@ -823,13 +915,6 @@ class _CheckoutViewState extends State<CheckoutView> {
       final orderId = const Uuid().v4();
       final now = DateTime.now();
 
-      // Calculate total price manually
-      double totalPrice = cart.finalTotal;
-      if (orderType == 'delivery') {
-        totalPrice += 50.0; // Add delivery fee
-      }
-      totalPrice -= discountAmount; // Subtract discount
-
       // Use the special request from the field if available, otherwise use from cart
       final specialRequest = _specialRequest ?? cart.specialInstructions;
 
@@ -842,12 +927,15 @@ class _CheckoutViewState extends State<CheckoutView> {
           context: context,
           user: user,
           orderType: orderType,
-          totalPrice: totalPrice,
+          totalPrice: finalTotal,
           orderId: orderId,
           promoCodeId: promoCodeId,
           discountAmount: discountAmount,
           specialRequest: specialRequest,
           cart: cart,
+          loyaltyPointsUsed: loyaltyPointsUsed,
+          userPoints: userPoints,
+          finalTotal: finalTotal,
         );
         return;
       }
@@ -867,9 +955,10 @@ class _CheckoutViewState extends State<CheckoutView> {
         'order_type': orderType,
         'payment_method': paymentMethod,
         'status': 'pending',
-        'total_price': totalPrice,
+        'total_price': finalTotal,
         'promo_code_id': promoCodeId,
         'discount_amount': discountAmount,
+        'loyalty_points_used': loyaltyPointsUsed, // New field
         'created_at': now.toIso8601String(),
         'updated_at': now.toIso8601String(),
         'special_request': specialRequest,
@@ -923,6 +1012,22 @@ class _CheckoutViewState extends State<CheckoutView> {
         }
       }
 
+      // Deduct loyalty points from the user in the database if used:
+      if (loyaltyPointsUsed > 0) {
+        final int pointsToDeduct = (loyaltyPointsUsed * 100).toInt();
+        await context.read<UserCubit>().deductLoyaltyPoints(pointsToDeduct);
+        _log.info(
+          'Deducted $pointsToDeduct loyalty points from user ${user.id}',
+        );
+      }
+
+      // Award new points based on what was paid:
+      final int pointsEarned = finalTotal.floor();
+      if (pointsEarned > 0 && loyaltyPointsUsed == 0) {
+        await context.read<UserCubit>().addLoyaltyPoints(pointsEarned);
+        _log.info('Awarded $pointsEarned loyalty points to user ${user.id}');
+      }
+
       // Clear cart and update state
       context.read<CartCubit>().clearCart();
 
@@ -944,9 +1049,10 @@ class _CheckoutViewState extends State<CheckoutView> {
             orderType: orderType,
             paymentMethod: context.read<CheckoutCubit>().state.paymentMethod,
             status: 'pending',
-            totalPrice: totalPrice,
+            totalPrice: finalTotal,
             promoCodeId: promoCodeId,
             discountAmount: discountAmount,
+            loyaltyPointsUsed: loyaltyPointsUsed, // New field
             createdAt: now,
             updatedAt: now,
             specialRequest: specialRequest,
@@ -979,7 +1085,9 @@ class _CheckoutViewState extends State<CheckoutView> {
 
       // Navigate to success page
       if (mounted) {
-        GoRouter.of(context).go('/checkout/success?orderId=${orderId}');
+        GoRouter.of(
+          context,
+        ).go('/checkout/success?orderId=${orderId}&pointsEarned=$pointsEarned');
       }
     } catch (e) {
       // Reset processing state
@@ -1016,6 +1124,9 @@ class _CheckoutViewState extends State<CheckoutView> {
     required double discountAmount,
     String? specialRequest,
     required Cart cart,
+    required double loyaltyPointsUsed,
+    required int userPoints,
+    required double finalTotal,
   }) async {
     final S localization = S.of(context);
     _log.info('Handling card payment for order: $orderId');
@@ -1058,14 +1169,32 @@ class _CheckoutViewState extends State<CheckoutView> {
               'order_type': orderType,
               'payment_method': 'card',
               'status': 'pending',
-              'total_price': totalPrice,
+              'total_price': finalTotal,
               'promo_code_id': promoCodeId,
               'discount_amount': discountAmount,
+              'loyalty_points_used': loyaltyPointsUsed, // New field
               'created_at': now.toIso8601String(),
               'updated_at': now.toIso8601String(),
               'special_request': specialRequest,
             };
+            if (loyaltyPointsUsed > 0) {
+              final int pointsToDeduct = (loyaltyPointsUsed * 100).toInt();
+              await context.read<UserCubit>().deductLoyaltyPoints(
+                pointsToDeduct,
+              );
+              _log.info(
+                'Deducted $pointsToDeduct loyalty points from user ${user.id}',
+              );
+            }
 
+            // Award new points based on what was paid:
+            final int pointsEarned = finalTotal.floor();
+            if (pointsEarned > 0 && loyaltyPointsUsed == 0) {
+              await context.read<UserCubit>().addLoyaltyPoints(pointsEarned);
+              _log.info(
+                'Awarded $pointsEarned loyalty points to user ${user.id}',
+              );
+            }
             _log.info('Creating order with verified payment: $orderId');
 
             // Insert order to database
@@ -1128,9 +1257,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                   orderType: orderType,
                   paymentMethod: 'card',
                   status: 'pending',
-                  totalPrice: totalPrice,
+                  totalPrice: finalTotal,
                   promoCodeId: promoCodeId,
                   discountAmount: discountAmount,
+                  loyaltyPointsUsed: loyaltyPointsUsed, // New field
                   createdAt: now,
                   updatedAt: now,
                   specialRequest: specialRequest,

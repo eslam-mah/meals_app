@@ -173,6 +173,8 @@ class UserRepository {
         phoneNumber: form.phoneNumber,
         city: form.city,
         location: form.location,
+        loyaltyPoints: form.loyaltyPoints,
+
         userType: form.userType ?? 'user', // Default to 'user' if not specified
       );
       

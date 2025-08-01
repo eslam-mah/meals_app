@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/main_widgets/custom_error_widget.dart';
@@ -9,6 +10,7 @@ import 'package:meals_app/features/authentication/view/views/login_screen.dart';
 import 'package:meals_app/features/cart/view/views/cart_view.dart';
 import 'package:meals_app/features/cart/view/widgets/cart_indicator.dart';
 import 'package:meals_app/features/home/view/widgets/delivery_location.dart';
+import 'package:meals_app/features/home/view/widgets/loyalty_points_info_bottom_sheet.dart';
 import 'package:meals_app/features/home/view/widgets/meal_card.dart';
 import 'package:meals_app/features/home/view_model/cubits/food_cubit.dart';
 import 'package:meals_app/features/home/view_model/cubits/food_state.dart';
@@ -70,7 +72,19 @@ class _MenuViewState extends State<MenuView> {
       _isRestaurantClosed = isClosed;
     });
   }
+void _showLoyaltyPointsInfo(BuildContext context) {
+    final user = context.read<UserCubit>().state.user;
+    final int points = user?.loyaltyPoints ?? 0;
 
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (modalContext) => LoyaltyPointsInfoBottomSheet(
+        loyaltyPoints: points,
+      ),
+    );
+  }
   @override
   void dispose() {
     _scrollController.dispose();
@@ -293,7 +307,7 @@ class _MenuViewState extends State<MenuView> {
               final StorageService storageService= StorageService();
               final isAuthenticated = storageService.isAuthenticated();
               return SizedBox(
-                width: 320.w,
+                width: 220.w,
                 child: Text(
                 isAuthenticated?  localization.hello(userName): localization.welcomeToMealsApp,
                   style: TextStyle(
@@ -308,6 +322,50 @@ class _MenuViewState extends State<MenuView> {
           ),
           Row(
             children: [
+                Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50.r),
+                  onTap: () {
+                    _showLoyaltyPointsInfo(context);
+                  },
+                  child: Ink(
+                    width: 90.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.r),
+                      color: ColorsBox.primaryColor.withOpacity(0.1),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          context
+                                  .read<UserCubit>()
+                                  .state
+                                  .user
+                                  ?.loyaltyPoints
+                                  .toString() ??
+                              '0',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: ColorsBox.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                                                    overflow: TextOverflow.ellipsis,
+
+                        ),
+                        Icon(
+                          FontAwesomeIcons.star,
+                          color: ColorsBox.primaryColor,
+                          size: 20.r,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.w),
               Material(
                 color: Colors.transparent,
                 child: InkWell(

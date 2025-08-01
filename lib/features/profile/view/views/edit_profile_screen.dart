@@ -184,11 +184,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       // 2. Delete feedback
       await supabase.from('feedback').delete().eq('user_id', userId);
-      // 4. Delete notification_tokens
+      // 4. Delete notification_token
       await supabase.from('notification_tokens').delete().eq('user_id', userId);
-    
+
       // 3. Delete cart
       await supabase.from('cart').delete().eq('user_id', userId);
+      // s
+      await supabase.from('promo_code_usages').delete().eq('user_id', userId);
 
       // 8. Delete user from your own users table if needed
       await userCubit.deleteUser();

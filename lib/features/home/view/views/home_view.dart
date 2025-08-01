@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meals_app/core/config/colors_box.dart';
 import 'package:meals_app/core/services/storage_service.dart';
@@ -18,6 +19,8 @@ import 'package:meals_app/generated/l10n.dart';
 import 'dart:async';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
+import 'package:meals_app/features/home/view/widgets/loyalty_points_info_bottom_sheet.dart';
+
 
 class HomeView extends StatefulWidget {
   static const String homePath = '/home';
@@ -95,6 +98,20 @@ class _HomeViewState extends State<HomeView> {
     context.read<UserCubit>().loadUser();
   }
 
+  void _showLoyaltyPointsInfo(BuildContext context) {
+    final user = context.read<UserCubit>().state.user;
+    final int points = user?.loyaltyPoints ?? 0;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (modalContext) => LoyaltyPointsInfoBottomSheet(
+        loyaltyPoints: points,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final S localization = S.of(context);
@@ -134,8 +151,6 @@ class _HomeViewState extends State<HomeView> {
                                       previous.offerStatus !=
                                           current.offerStatus,
                               builder: (context, state) {
-                       
-
                                 if (state.offerStatus == FoodStatus.error) {
                                   return CustomErrorWidget(
                                     errorMessage:
@@ -392,12 +407,14 @@ class _HomeViewState extends State<HomeView> {
           BlocBuilder<UserCubit, UserState>(
             builder: (context, state) {
               final userName = state.user?.name ?? '';
-              final StorageService storageService= StorageService();
+              final StorageService storageService = StorageService();
               final isAuthenticated = storageService.isAuthenticated();
               return SizedBox(
-                width: 350.w,
+                width: 250.w,
                 child: Text(
-                    isAuthenticated?   localization.hello(userName):localization.welcomeToMealsApp,
+                  isAuthenticated
+                      ? localization.hello(userName)
+                      : localization.welcomeToMealsApp,
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
@@ -410,6 +427,49 @@ class _HomeViewState extends State<HomeView> {
           ),
           Row(
             children: [
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50.r),
+                  onTap: () {
+                    _showLoyaltyPointsInfo(context);
+                  },
+                  child: Ink(
+                    width: 90.w,
+                    height: 45.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.r),
+                      color: ColorsBox.primaryColor.withOpacity(0.1),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          context
+                                  .read<UserCubit>()
+                                  .state
+                                  .user
+                                  ?.loyaltyPoints
+                                  .toString() ??
+                              '0',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: ColorsBox.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Icon(
+                          FontAwesomeIcons.star,
+                          color: ColorsBox.primaryColor,
+                          size: 20.r,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.w),
               Material(
                 color: Colors.transparent,
                 child: InkWell(

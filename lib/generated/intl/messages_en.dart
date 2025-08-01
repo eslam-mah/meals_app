@@ -145,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "didntReceiveCode":
             MessageLookupByLibrary.simpleMessage("Didn\'t receive the code?"),
         "discount": MessageLookupByLibrary.simpleMessage("Discount"),
+        "discountUpTo": MessageLookupByLibrary.simpleMessage("discount up to"),
         "dontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -202,9 +203,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "faiyum": MessageLookupByLibrary.simpleMessage("Faiyum"),
         "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "feedbackRequestNotificationBody": MessageLookupByLibrary.simpleMessage(
-            "How was your experience? Tap to share your feedback with us."),
+            "We\'d love to hear your thoughts on your recent order. Tap here to leave a review!"),
         "feedbackRequestNotificationTitle":
-            MessageLookupByLibrary.simpleMessage("We Value Your Opinion"),
+            MessageLookupByLibrary.simpleMessage("How was your meal?"),
         "feedbackSubmittedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Feedback submitted successfully!"),
         "foodDescription": MessageLookupByLibrary.simpleMessage(
@@ -234,6 +235,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "How satisfied are you with the speed of the service?"),
         "howSatisfiedWithOverallService": MessageLookupByLibrary.simpleMessage(
             "How satisfied are you with the overall service?"),
+        "howToEarnPointsDescription": MessageLookupByLibrary.simpleMessage(
+            "You earn 1 loyalty point for every 1 EGP you spend on orders. Points are awarded after your order is successfully delivered or picked up."),
+        "howToEarnPointsTitle":
+            MessageLookupByLibrary.simpleMessage("How to Earn Points:"),
+        "howToUsePointsDescription": MessageLookupByLibrary.simpleMessage(
+            "You can use your loyalty points to get discounts on your future orders. Every 100 points can be redeemed for 1 EGP discount. You can choose to apply your available points during checkout."),
+        "howToUsePointsTitle":
+            MessageLookupByLibrary.simpleMessage("How to Use Points:"),
         "invalidOrExpiredPromoCode": MessageLookupByLibrary.simpleMessage(
             "Invalid or expired promo code"),
         "invalidOtp": MessageLookupByLibrary.simpleMessage(
@@ -259,6 +268,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Location permission permanently denied"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "loyaltyDiscount":
+            MessageLookupByLibrary.simpleMessage("Loyalty Discount"),
         "loyaltyPoints": MessageLookupByLibrary.simpleMessage("Loyalty Points"),
         "luxor": MessageLookupByLibrary.simpleMessage("Luxor"),
         "markAsPrimary":
@@ -279,7 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noDataAvailable":
             MessageLookupByLibrary.simpleMessage("No data available"),
         "noDeliveryAddressSelected": MessageLookupByLibrary.simpleMessage(
-            "No delivery address selected"),
+            "Please select a delivery address."),
         "noExtrasAllowed": MessageLookupByLibrary.simpleMessage(
             "No extras are allowed as a special request."),
         "noInternetConnection": MessageLookupByLibrary.simpleMessage(
@@ -294,8 +305,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No orders found"),
         "noOrdersNow": MessageLookupByLibrary.simpleMessage(
             "The restaurant is not accepting orders now"),
-        "noPickupBranchSelected":
-            MessageLookupByLibrary.simpleMessage("No pickup branch selected"),
+        "noPickupBranchSelected": MessageLookupByLibrary.simpleMessage(
+            "Please select a pickup branch."),
         "noRecommendationsAvailable": MessageLookupByLibrary.simpleMessage(
             "No recommendations available"),
         "noSavedAddresses": MessageLookupByLibrary.simpleMessage(
@@ -323,9 +334,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderPlacedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Order Placed Successfully"),
         "orderReadyNotificationBody": MessageLookupByLibrary.simpleMessage(
-            "Your order will be ready in 30 mins"),
+            "Your delicious meal will be ready for pickup or delivery in about 30 minutes. Enjoy!"),
         "orderReadyNotificationTitle":
-            MessageLookupByLibrary.simpleMessage("Order Confirmation"),
+            MessageLookupByLibrary.simpleMessage("Your order is almost ready!"),
         "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
         "orderType": MessageLookupByLibrary.simpleMessage("Order Type"),
         "ordersHistory": MessageLookupByLibrary.simpleMessage("Orders History"),
@@ -351,8 +362,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
         "payment": MessageLookupByLibrary.simpleMessage("Payment"),
         "paymentCancelled":
-            MessageLookupByLibrary.simpleMessage("Payment Cancelled"),
-        "paymentFailed": MessageLookupByLibrary.simpleMessage("Payment Failed"),
+            MessageLookupByLibrary.simpleMessage("Payment cancelled"),
+        "paymentFailed": MessageLookupByLibrary.simpleMessage("Payment failed"),
         "paymentFailedNotificationBody": MessageLookupByLibrary.simpleMessage(
             "Your payment could not be processed. Please try again."),
         "paymentFailedNotificationTitle":
@@ -411,6 +422,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please sign in to access this content"),
         "pleaseWaitForPaymentProcessing": MessageLookupByLibrary.simpleMessage(
             "Please wait while payment is processing"),
+        "points": MessageLookupByLibrary.simpleMessage("Points"),
+        "pointsAvailable":
+            MessageLookupByLibrary.simpleMessage("points available"),
         "portSaid": MessageLookupByLibrary.simpleMessage("Port Said"),
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
@@ -499,6 +513,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAddress": MessageLookupByLibrary.simpleMessage("Update Address"),
         "useCurrentLocation":
             MessageLookupByLibrary.simpleMessage("Use Current Location"),
+        "useLoyaltyPoints":
+            MessageLookupByLibrary.simpleMessage("Use Loyalty Points"),
         "userNotAuthenticated":
             MessageLookupByLibrary.simpleMessage("User not authenticated"),
         "vat": MessageLookupByLibrary.simpleMessage("VAT"),
@@ -510,6 +526,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewCart": MessageLookupByLibrary.simpleMessage("View Cart"),
         "viewOrderItems":
             MessageLookupByLibrary.simpleMessage("View Order Items"),
+        "wantToUseYourLoyaltyPoints": MessageLookupByLibrary.simpleMessage(
+            "Want to use your loyalty points?"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("Welcome to the Meals App"),
         "welcomeToMealsApp":
@@ -521,6 +539,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "You can track your order status in My Orders section"),
         "yourCartIsEmpty":
             MessageLookupByLibrary.simpleMessage("Your cart is empty"),
+        "yourCurrentLoyaltyPoints":
+            MessageLookupByLibrary.simpleMessage("Your Current Loyalty Points"),
         "yourExactCoordinatesWereCaptured":
             MessageLookupByLibrary.simpleMessage(
                 "Your exact coordinates were captured")

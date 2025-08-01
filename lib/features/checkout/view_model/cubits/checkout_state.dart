@@ -26,6 +26,7 @@ class CheckoutState extends Equatable {
   final PromoCodeModel? appliedPromoCode;
   final String? promoCodeError;
   final bool isApplyingPromoCode;
+  final bool useLoyaltyPoints; // New field
 
   const CheckoutState({
     this.status = CheckoutStatus.initial,
@@ -38,6 +39,7 @@ class CheckoutState extends Equatable {
     this.appliedPromoCode,
     this.promoCodeError,
     this.isApplyingPromoCode = false,
+    this.useLoyaltyPoints = false, // Initialize new field
   });
 
   @override
@@ -52,6 +54,7 @@ class CheckoutState extends Equatable {
         appliedPromoCode,
         promoCodeError,
         isApplyingPromoCode,
+        useLoyaltyPoints,
       ];
 
   CheckoutState copyWith({
@@ -65,6 +68,7 @@ class CheckoutState extends Equatable {
     PromoCodeModel? appliedPromoCode,
     String? promoCodeError,
     bool? isApplyingPromoCode,
+    bool? useLoyaltyPoints,
   }) {
     return CheckoutState(
       status: status ?? this.status,
@@ -77,6 +81,7 @@ class CheckoutState extends Equatable {
       appliedPromoCode: appliedPromoCode,
       promoCodeError: promoCodeError,
       isApplyingPromoCode: isApplyingPromoCode ?? this.isApplyingPromoCode,
+      useLoyaltyPoints: useLoyaltyPoints ?? this.useLoyaltyPoints,
     );
   }
 
